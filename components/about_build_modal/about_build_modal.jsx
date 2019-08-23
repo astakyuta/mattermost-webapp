@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present TeamComm, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
@@ -71,9 +71,9 @@ export default class AboutBuildModal extends React.PureComponent {
 
         let learnMore = (
             <div>
-                <FormattedMessage
+                {/* <FormattedMessage
                     id='about.teamEditionLearn'
-                    defaultMessage='Join the Mattermost community at '
+                    defaultMessage='Join the TeamComm community at '
                 />
                 <a
                     target='_blank'
@@ -81,7 +81,7 @@ export default class AboutBuildModal extends React.PureComponent {
                     href='http://www.mattermost.org/'
                 >
                     {'mattermost.org'}
-                </a>
+                </a> */}
             </div>
         );
 
@@ -142,7 +142,8 @@ export default class AboutBuildModal extends React.PureComponent {
                 <a
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={config.TermsOfServiceLink}
+                    // href={config.TermsOfServiceLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage
                         id='about.tos'
@@ -158,7 +159,8 @@ export default class AboutBuildModal extends React.PureComponent {
                 <a
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={config.PrivacyPolicyLink}
+                    // href={config.PrivacyPolicyLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage
                         id='about.privacy'
@@ -211,7 +213,7 @@ export default class AboutBuildModal extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='about.title'
-                            values={{appTitle: config.SiteName || 'Mattermost'}}
+                            values={{appTitle: config.SiteName || 'TeamComm'}}
                             defaultMessage='About {appTitle}'
                         />
                     </Modal.Title>
@@ -222,13 +224,13 @@ export default class AboutBuildModal extends React.PureComponent {
                             <MattermostLogo/>
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
+                            <h3 className='about-modal__title'>{'TeamComm'} {title}</h3>
                             <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
                             <div className='form-group less'>
                                 <div>
                                     <FormattedMessage
                                         id='about.version'
-                                        defaultMessage='Mattermost Version:'
+                                        defaultMessage='TeamComm Version:'
                                     />
                                     <span id='versionString'>{'\u00a0' + mmversion}</span>
                                 </div>
@@ -257,7 +259,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             <div className='about-modal__copyright'>
                                 <FormattedMessage
                                     id='about.copyright'
-                                    defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
+                                    defaultMessage='Copyright 2015 - {currentYear} TeamComm, Inc. All rights reserved'
                                     values={{
                                         currentYear: new Date().getFullYear(),
                                     }}
@@ -274,7 +276,7 @@ export default class AboutBuildModal extends React.PureComponent {
                         <p>
                             <FormattedMarkdownMessage
                                 id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps.'
+                                defaultMessage='TeamComm is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps.'
                             />
                         </p>
                     </div>

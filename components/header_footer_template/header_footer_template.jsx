@@ -39,7 +39,8 @@ export default class NotLoggedIn extends React.PureComponent {
                     className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.AboutLink}
+                    // href={this.props.config.AboutLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage id='web.footer.about'/>
                 </a>
@@ -54,7 +55,8 @@ export default class NotLoggedIn extends React.PureComponent {
                     className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.PrivacyPolicyLink}
+                    // href={this.props.config.PrivacyPolicyLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage id='web.footer.privacy'/>
                 </a>
@@ -69,7 +71,8 @@ export default class NotLoggedIn extends React.PureComponent {
                     className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.TermsOfServiceLink}
+                    // href={this.props.config.TermsOfServiceLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage id='web.footer.terms'/>
                 </a>
@@ -84,7 +87,8 @@ export default class NotLoggedIn extends React.PureComponent {
                     className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.HelpLink}
+                    // href={this.props.config.HelpLink}
+                    href='javascript:void(0)'
                 >
                     <FormattedMessage id='web.footer.help'/>
                 </a>
@@ -106,7 +110,7 @@ export default class NotLoggedIn extends React.PureComponent {
                                 id='company_name'
                                 className='pull-right footer-site-name'
                             >
-                                {'Mattermost'}
+                                {'TeamComm'}
                             </span>
                         </div>
                         <div className='col-xs-12'>
@@ -114,7 +118,7 @@ export default class NotLoggedIn extends React.PureComponent {
                                 id='copyright'
                                 className='pull-right footer-link copyright'
                             >
-                                {`© 2015-${new Date().getFullYear()} Mattermost, Inc.`}
+                                {`© ${new Date().getFullYear()} Valley OBGYN Medical Group Inc.`}
                             </span>
                             <span className='pull-right'>
                                 {content}

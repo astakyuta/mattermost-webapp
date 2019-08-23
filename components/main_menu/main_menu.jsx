@@ -314,38 +314,38 @@ export default class MainMenu extends React.PureComponent {
                     </SystemPermissionGate>
                 </MenuGroup>
                 <MenuGroup>
-                    <MenuItemExternalLink
+                    {/* <MenuItemExternalLink
                         id='helpLink'
                         show={Boolean(this.props.helpLink)}
                         url={this.props.helpLink}
                         text={localizeMessage('navbar_dropdown.help', 'Help')}
                         icon={this.props.mobile && <i className='fa fa-question'/>}
-                    />
+                    /> */}
                     <MenuItemAction
                         id='keyboardShortcuts'
                         show={!this.props.mobile}
                         onClick={this.toggleShortcutsModal}
                         text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
                     />
-                    <MenuItemExternalLink
+                    {/* <MenuItemExternalLink
                         id='reportLink'
                         show={Boolean(this.props.reportAProblemLink)}
                         url={this.props.reportAProblemLink}
                         text={localizeMessage('navbar_dropdown.report', 'Report a Problem')}
                         icon={this.props.mobile && <i className='fa fa-phone'/>}
-                    />
-                    <MenuItemExternalLink
+                    /> */}
+                    {/* <MenuItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
                         url={useSafeUrl(this.props.appDownloadLink)}
                         text={localizeMessage('navbar_dropdown.nativeApps', 'Download Apps')}
                         icon={this.props.mobile && <i className='fa fa-mobile'/>}
-                    />
+                    /> */}
                     <MenuItemToggleModalRedux
                         id='about'
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
+                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'TeamComm'})}
                         icon={this.props.mobile && <i className='fa fa-info'/>}
                     />
                 </MenuGroup>

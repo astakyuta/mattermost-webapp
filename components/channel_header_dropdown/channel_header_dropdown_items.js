@@ -98,7 +98,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         show={isMobile}
                         channel={channel}
                     />
-                    <MenuItemToggleModalRedux
+                    {/* <MenuItemToggleModalRedux
                         id='channelNotificationPreferences'
                         show={channel.type !== Constants.DM_CHANNEL && !isArchived}
                         modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
@@ -108,7 +108,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             currentUser: user,
                         }}
                         text={localizeMessage('navbar.preferences', 'Notification Preferences')}
-                    />
+                    /> */}
                     <MenuItemToggleMuteChannel
                         id='channelToggleMuteChannel'
                         user={user}
