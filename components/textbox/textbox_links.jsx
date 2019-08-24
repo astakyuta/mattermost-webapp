@@ -127,7 +127,7 @@ export default class TextboxLinks extends React.Component {
             <div className={'help__text ' + helpTextClass}>
                 {helpText}
                 {previewLink}
-                <Link
+                {/* <Link
                     id='helpTextLink'
                     target='_blank'
                     rel='noopener noreferrer'
@@ -138,7 +138,7 @@ export default class TextboxLinks extends React.Component {
                         id='textbox.help'
                         defaultMessage='Help'
                     />
-                </Link>
+                </Link> */}
             </div>
         );
     }

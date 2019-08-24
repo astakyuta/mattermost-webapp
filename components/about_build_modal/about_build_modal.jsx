@@ -272,14 +272,14 @@ export default class AboutBuildModal extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-                    <div className='about-modal__notice form-group padding-top x2'>
+                    {/* <div className='about-modal__notice form-group padding-top x2'>
                         <p>
                             <FormattedMarkdownMessage
                                 id='about.notice'
                                 defaultMessage='TeamComm is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps.'
                             />
                         </p>
-                    </div>
+                    </div> */}
                     <div className='about-modal__hash'>
                         <p>
                             <FormattedMessage
