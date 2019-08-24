@@ -253,7 +253,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             {licensee}
                         </div>
                     </div>
-                    <div className='about-modal__footer'>
+                    {/* <div className='about-modal__footer'>
                         {learnMore}
                         <div className='form-group'>
                             <div className='about-modal__copyright'>
@@ -271,7 +271,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                 {privacyPolicy}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className='about-modal__notice form-group padding-top x2'>
                         <p>
                             <FormattedMarkdownMessage
