@@ -313,9 +313,13 @@ export default class Sidebar extends React.PureComponent {
         const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
 
         if (active) {
-            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
-            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
-            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
+            // link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
+            // link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
+            // link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
+
+            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : favicon16x16;
+            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : favicon32x32;
+            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : favicon96x96;
         } else {
             link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
             link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
