@@ -171,7 +171,11 @@ var canDing = true;
 export function ding() {
     if (hasSoundOptions() && canDing) {
         var audio = new Audio(bing);
-        audio.play();
+
+        if(audio !== undefined){
+            audio.play();
+        }
+
         canDing = false;
         setTimeout(() => {
             canDing = true;
