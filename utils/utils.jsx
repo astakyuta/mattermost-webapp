@@ -171,6 +171,7 @@ var canDing = true;
 export function ding() {
     if (hasSoundOptions() && canDing) {
         var audio = new Audio(bing);
+        audio.muted = true;
 
         if(audio !== undefined){
             audio.play();
