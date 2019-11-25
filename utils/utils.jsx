@@ -172,6 +172,7 @@ export function ding() {
     if (hasSoundOptions() && canDing) {
         var audio = new Audio(bing);
         audio.muted = true;
+        audio.autoplay = '';
 
         if(audio !== undefined){
             audio.play();
