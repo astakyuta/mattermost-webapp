@@ -5,6 +5,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import Constants from 'utils/constants.jsx';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
+import {menubar} from 'menubar';
 
 let requestedNotificationPermission = false;
 
@@ -16,7 +17,13 @@ let requestedNotificationPermission = false;
 // choose different semantics for the notifications.
 
 const displayMenuBar = (title) => {
-    console.log('title', title);
+    const mb = menubar();
+    mb.showWindow();
+
+    mb.on('ready', () => {
+        console.log('app is ready');
+        // your app code here
+    });
 }
 
 export async function showNotification({title, body, requireInteraction, silent, onClick} = {}) {
