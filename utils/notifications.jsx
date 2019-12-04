@@ -14,7 +14,13 @@ let requestedNotificationPermission = false;
 // notification. Notifications that do not require interaction will be closed automatically after
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
+
+const displayMenuBar = (title) => {
+    console.log('title', title);
+}
+
 export async function showNotification({title, body, requireInteraction, silent, onClick} = {}) {
+
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
@@ -46,13 +52,15 @@ export async function showNotification({title, body, requireInteraction, silent,
         throw new Error('Notifications not granted');
     }
 
-    const notification = new Notification(title, {
-        body,
-        tag: body,
-        icon,
-        requireInteraction,
-        silent,
-    });
+    // const notification = new Notification(title, {
+    //     body,
+    //     tag: body,
+    //     icon,¨¨
+    //     requireInteraction,
+    //     silent,
+    // });
+
+    displayMenuBar(title);
 
     if (onClick) {
         notification.onclick = onClick;
