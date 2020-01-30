@@ -58,6 +58,8 @@ export async function showNotification({title, body, requireInteraction, silent,
         notification.onclick = onClick;
     }
 
+    sendNativeDesktopNotification(title, body, requireInteraction, silent, onClick)
+
     // Mac desktop app notification dismissal is handled by the OS
     if (!requireInteraction && !UserAgent.isMacApp()) {
         setTimeout(() => {
@@ -68,4 +70,17 @@ export async function showNotification({title, body, requireInteraction, silent,
     return () => {
         notification.close();
     };
+}
+
+function sendNativeDesktopNotification(title, body, requireInteraction, silent) {
+    const payload = {
+        type: 'dispatch-notification',
+        message: {
+            title,
+            body,
+            requireInteraction,
+            silent,
+        }
+    };
+    window.postMessage(payload, '*')
 }
