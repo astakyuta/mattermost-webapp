@@ -302,7 +302,7 @@ export default class MainMenu extends React.PureComponent {
                         text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
                     />
                 </MenuGroup>
-                {/* <MenuGroup>
+                {<MenuGroup>
                     <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
                         <MenuItemLink
                             id='systemConsole'
@@ -312,7 +312,7 @@ export default class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-wrench'/>}
                         />
                     </SystemPermissionGate>
-                </MenuGroup> */}
+                </MenuGroup>}
                 <MenuGroup>
                     {/* <MenuItemExternalLink
                         id='helpLink'

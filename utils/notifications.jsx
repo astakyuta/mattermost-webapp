@@ -5,6 +5,9 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import Constants from 'utils/constants.jsx';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
+import {menubar} from 'menubar';
+
+import {webappConnector} from 'utils/webapp_connector';
 
 let requestedNotificationPermission = false;
 
@@ -14,7 +17,13 @@ let requestedNotificationPermission = false;
 // notification. Notifications that do not require interaction will be closed automatically after
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
+
+const displayMenuBar = (title) => {
+    webappConnector.send('messageCheck');
+}
+
 export async function showNotification({title, body, requireInteraction, silent, onClick} = {}) {
+
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
@@ -46,17 +55,19 @@ export async function showNotification({title, body, requireInteraction, silent,
         throw new Error('Notifications not granted');
     }
 
-    const notification = new Notification(title, {
-        body,
-        tag: body,
-        icon,
-        requireInteraction,
-        silent,
-    });
+    displayMenuBar();
 
-    if (onClick) {
-        notification.onclick = onClick;
-    }
+    // const notification = new Notification(title, {
+    //     body,
+    //     tag: body,
+    //     icon,¨¨
+    //     requireInteraction,
+    //     silent,
+    // });
+    //
+    // if (onClick) {
+    //     notification.onclick = onClick;
+    // }
 
     sendNativeDesktopNotification(title, body, requireInteraction, silent, onClick)
 

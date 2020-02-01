@@ -101,6 +101,7 @@ export default class WebSocketClient {
         };
 
         this.conn.onmessage = (evt) => {
+            console.log('on message event');
             const msg = JSON.parse(evt.data);
             if (msg.seq_reply) {
                 if (msg.error) {
