@@ -85,4 +85,5 @@ function sendNativeDesktopNotification(title, body, requireInteraction, silent) 
         }
     };
     window.postMessage(payload, '*')
+    console.log('something');
 }
