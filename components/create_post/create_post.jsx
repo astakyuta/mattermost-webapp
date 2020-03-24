@@ -36,6 +36,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+import constants from "../gif_picker/utils/constants";
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -302,7 +303,7 @@ export default class CreatePost extends React.Component {
         this.setOrientationListeners();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase // ***
         if (nextProps.currentChannel.id !== this.props.currentChannel.id) {
             const draft = nextProps.draft;
             this.setState({
@@ -387,13 +388,16 @@ export default class CreatePost extends React.Component {
         this.handleEmojiClose();
     }
 
-    doSubmit = async (e) => {
+    doSubmit = async (e) => { // ***
+        console.log("comes under do submit here");
         const channelId = this.props.currentChannel.id;
         if (e) {
+            console.log("1");
             e.preventDefault();
         }
 
         if (this.props.draft.uploadsInProgress.length > 0 || this.state.submitting) {
+            console.log("2");
             return;
         }
 
@@ -402,6 +406,7 @@ export default class CreatePost extends React.Component {
         const serverError = this.state.serverError;
 
         if (serverError && isErrorInvalidSlashCommand(serverError) && serverError.submittedMessage === message) {
+            console.log("3");
             message = serverError.submittedMessage;
             ignoreSlash = true;
         }
@@ -411,10 +416,12 @@ export default class CreatePost extends React.Component {
         post.message = message;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
+            console.log("4");
             return;
         }
 
         if (this.state.postError) {
+            console.log("5");
             this.setState({errorClass: 'animation--highlight'});
             setTimeout(() => {
                 this.setState({errorClass: null});
@@ -428,14 +435,16 @@ export default class CreatePost extends React.Component {
 
         const isReaction = Utils.REACTION_PATTERN.exec(post.message);
         if (post.message.indexOf('/') === 0 && !ignoreSlash) {
+            console.log("6");
             this.setState({message: '', postError: null, enableSendButton: false});
             let args = {};
             args.channel_id = channelId;
             args.team_id = this.props.currentTeamId;
 
-            const hookResult = await this.props.actions.runSlashCommandWillBePostedHooks(post.message, args);
+            const hookResult = await this.props.actions.runSlashCommandWillBePostedHooks(post.message, args); // *** not sure what is this
 
             if (hookResult.error) {
+                console.log("7");
                 this.setState({
                     serverError: {
                         ...hookResult.error,
@@ -444,8 +453,10 @@ export default class CreatePost extends React.Component {
                     message: post.message,
                 });
             } else if (!hookResult.data.message && !hookResult.data.args) {
+                console.log("8");
                 // do nothing with an empty return from a hook
             } else {
+                console.log("9");
                 post.message = hookResult.data.message;
                 args = hookResult.data.args;
 
@@ -453,8 +464,10 @@ export default class CreatePost extends React.Component {
 
                 if (error) {
                     if (error.sendMessage) {
+                        console.log("10");
                         await this.sendMessage(post);
                     } else {
+                        console.log("11");
                         this.setState({
                             serverError: {
                                 ...error,
@@ -466,13 +479,17 @@ export default class CreatePost extends React.Component {
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
+            console.log("12");
             this.sendReaction(isReaction);
 
             this.setState({message: ''});
         } else {
+            console.log('13');
+            console.log('post value from chatWeb: ', post);
             const {error} = await this.sendMessage(post);
 
             if (!error) {
+                console.log("14");
                 this.setState({message: ''});
             }
         }
@@ -521,6 +538,7 @@ export default class CreatePost extends React.Component {
     };
 
     handleSubmit = async (e) => {
+        console.log("comes under handle submit");
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
@@ -531,11 +549,14 @@ export default class CreatePost extends React.Component {
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
+            console.log("h 1");
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
                 if (data) {
+                    console.log("h 2");
                     this.setState({channelTimezoneCount: data.length});
                 } else {
+                    console.log("h 3");
                     this.setState({channelTimezoneCount: 0});
                 }
             }
@@ -545,6 +566,7 @@ export default class CreatePost extends React.Component {
 
         const status = this.getStatusFromSlashCommand();
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
+            console.log("h 4");
             const resetStatusModalData = {
                 ModalId: ModalIdentifiers.RESET_STATUS,
                 dialogType: ResetStatusModal,
@@ -558,6 +580,7 @@ export default class CreatePost extends React.Component {
         }
 
         if (trimRight(this.state.message) === '/header') {
+            console.log("h 5");
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
                 dialogType: EditChannelHeaderModal,
@@ -570,8 +593,12 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        console.log('constants: ', constants);
+        console.log('update channel: ', updateChannel);
+
         const isDirectOrGroup = ((updateChannel.type === Constants.DM_CHANNEL) || (updateChannel.type === Constants.GM_CHANNEL));
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
+            console.log("h 6");
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
                 dialogType: EditChannelPurposeModal,
@@ -585,6 +612,7 @@ export default class CreatePost extends React.Component {
         }
 
         if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
+            console.log("h 7");
             GlobalActions.showChannelNameUpdateModal(updateChannel);
             this.setState({message: ''});
             return;
@@ -593,7 +621,7 @@ export default class CreatePost extends React.Component {
         await this.doSubmit(e);
     }
 
-    sendMessage = async (originalPost) => {
+    sendMessage = async (originalPost) => { // ***
         const {
             actions,
             currentChannel,
@@ -1068,7 +1096,7 @@ export default class CreatePost extends React.Component {
         this.setState({renderScrollbar: height > maxHeight});
     }
 
-    render() {
+    render() { // *** not sure why tis this used
         const {
             currentChannel,
             currentChannelMembersCount,

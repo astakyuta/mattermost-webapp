@@ -139,8 +139,11 @@ export function getTeamRelativeUrl(team) {
 }
 
 export function notifyMe(title, body, channel, teamId, silent) {
+    console.log('comes under notify me');
     showNotification({title,
         body,
+        channel,
+        teamId,
         requireInteraction: false,
         silent,
         onClick: () => {

@@ -15,8 +15,9 @@ let requestedNotificationPermission = false;
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
 
-export async function showNotification({title, body, requireInteraction, silent, onClick} = {}) {
+export async function showNotification({title, body, channel, teamId, requireInteraction, silent, onClick} = {}) {
 
+    console.log('comes under show notification');
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
@@ -60,7 +61,7 @@ export async function showNotification({title, body, requireInteraction, silent,
         notification.onclick = onClick;
     }
 
-    sendNativeDesktopNotification(title, body, requireInteraction, silent, onClick)
+    sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, onClick);
 
     // Mac desktop app notification dismissal is handled by the OS
     if (!requireInteraction && !UserAgent.isMacApp()) {
@@ -74,16 +75,28 @@ export async function showNotification({title, body, requireInteraction, silent,
     };
 }
 
-function sendNativeDesktopNotification(title, body, requireInteraction, silent) {
+function sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent) {
     const payload = {
         type: 'dispatch-notification',
         message: {
             title,
             body,
+            channel,
+            teamId,
             requireInteraction,
             silent,
         }
     };
-    window.postMessage(payload, '*')
-    console.log('something');
+    console.log('channel under dispatch: ', channel);
+    window.postMessage(payload, '*');
+
+    // window.addEventListener('ipc-message', event => {
+    //     console.log('event channel is: ', event.channel);
+    // });
+
+    // window.addEventListener("new-message-reply", function(evt) {
+    //     console.log('notification has arrived');
+    //     console.log('event data: ', evt);
+    // });
+
 }
