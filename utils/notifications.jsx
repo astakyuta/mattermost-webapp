@@ -21,28 +21,59 @@ export async function showNotification({title, body, channel, teamId, requireInt
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
+        console.log('icon is: ', icon);
     }
 
     if (!('Notification' in window)) {
+        console.log('n 1');
         throw new Error('Notification not supported');
     }
 
     if (typeof Notification.requestPermission !== 'function') {
+        console.log('n 2');
         throw new Error('Notification.requestPermission not supported');
     }
 
+    //for passing through notifications
+    var Notification = window.Notification; // || window.mozNotification || window.webkitNotification;
+
+    // var was_questioned = false;
+    // if (Notification.permission == 'default') {
+    //     was_questioned = true;
+    // }
+
+    Notification.requestPermission(function (permission) {
+        if (was_questioned) {
+            console.log("User was asked. New permission is: " + permission);
+        }
+        if ('permissions' in navigator) {
+            navigator.permissions.query({name:'notifications'}).then(function(notificationPerm) {
+                notificationPerm.onchange = function() {
+                    console.log("User decided to change his seettings. New permission: " + notificationPerm.state);
+                };
+            });
+        }
+    });
+
     if (Notification.permission !== 'granted' && requestedNotificationPermission) {
+        console.log('n 3');
+        console.log('notification permission in grant: ', Notification.permission);
+        console.log('requestedNotificationPermission: ', requestedNotificationPermission);
+        console.log('all notification: ', Notification);
         throw new Error('Notifications already requested but not granted');
     }
 
     requestedNotificationPermission = true;
 
     let permission = await Notification.requestPermission();
+    console.log('permission: ', permission);
     if (typeof permission === 'undefined') {
         // Handle browsers that don't support the promise-based syntax.
         permission = await new Promise((resolve) => {
-            Notification.requestPermission(resolve);
+            let aa = Notification.requestPermission(resolve);
+            console.log('aa: ', aa);
         });
+        console.log('permission under undefined: ', permission);
     }
 
     if (permission !== 'granted') {
@@ -57,7 +88,10 @@ export async function showNotification({title, body, channel, teamId, requireInt
         silent,
     });
 
+    console.log('notification is: ', notification);
+
     if (onClick) {
+        console.log("comes under onclick");
         notification.onclick = onClick;
     }
 

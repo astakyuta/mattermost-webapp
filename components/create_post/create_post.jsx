@@ -389,7 +389,8 @@ export default class CreatePost extends React.Component {
     }
 
     doSubmit = async (e) => { // ***
-        console.log("comes under do submit here");
+        console.log('comes under do submit here');
+        console.log('this props under doSubmit: ', this.props);
         const channelId = this.props.currentChannel.id;
         if (e) {
             console.log("1");
