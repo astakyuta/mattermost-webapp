@@ -110,9 +110,9 @@ export function sendDesktopNotification(post, msgProps) {
         });
 
         let strippedMarkdownNotifyText = stripMarkdown(notifyText);
-        if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
-            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
-        }
+        // if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
+        //     strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
+        // }
 
         let body = `@${username}`;
         if (strippedMarkdownNotifyText.length === 0) {
