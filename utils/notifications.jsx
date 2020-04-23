@@ -61,33 +61,36 @@ export async function showNotification({title, body, channel, teamId, requireInt
         throw new Error('Notifications not granted');
     }
 
-    const notification = new Notification(title, {
-        body,
-        tag: body,
-        icon,
-        requireInteraction,
-        silent,
-    });
-
-    console.log('notification is: ', notification);
-
-    if (onClick) {
-        console.log("comes under onclick");
-        notification.onclick = onClick;
-    }
+    // this section is not needed because the for sending notification, postMessage has been used, so that the host machine can take care of the notifications.
+    // const notification = new Notification(title, {
+    //     body,
+    //     tag: body,
+    //     icon,
+    //     requireInteraction,
+    //     silent,
+    // });
+    //
+    // // notification.close();
+    //
+    // console.log('notification is: ', notification);
+    //
+    // if (onClick) {
+    //     console.log("comes under onclick");
+    //     notification.onclick = onClick;
+    // }
 
     sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, onClick);
 
-    // Mac desktop app notification dismissal is handled by the OS
-    if (!requireInteraction && !UserAgent.isMacApp()) {
-        setTimeout(() => {
-            notification.close();
-        }, Constants.DEFAULT_NOTIFICATION_DURATION);
-    }
-
-    return () => {
-        notification.close();
-    };
+    // // Mac desktop app notification dismissal is handled by the OS
+    // if (!requireInteraction && !UserAgent.isMacApp()) {
+    //     setTimeout(() => {
+    //         notification.close();
+    //     }, Constants.DEFAULT_NOTIFICATION_DURATION);
+    // }
+    //
+    // return () => {
+    //     notification.close();
+    // };
 }
 
 function sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent) {

@@ -32,6 +32,7 @@ function getNotificationsStateFromProps(props) {
     if (user.notify_props) {
         if (user.notify_props.desktop) {
             desktop = user.notify_props.desktop;
+            console.log('desktop notification: ', desktop);
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
@@ -44,9 +45,11 @@ function getNotificationsStateFromProps(props) {
         }
         if (user.notify_props.push) {
             pushActivity = user.notify_props.push;
+            console.log('pushActivity notification: ', pushActivity);
         }
         if (user.notify_props.push_status) {
             pushStatus = user.notify_props.push_status;
+            console.log('pushStatus notification: ', pushStatus);
         }
 
         if (user.notify_props.auto_responder_active) {
