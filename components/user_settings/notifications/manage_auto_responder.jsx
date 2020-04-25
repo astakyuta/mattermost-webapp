@@ -13,7 +13,7 @@ const MESSAGE_MAX_LENGTH = 200;
 
 export default class ManageAutoResponder extends React.PureComponent {
     static propTypes = {
-        autoResponderActive: PropTypes.bool.isRequired,
+        autoResponderActive: true,
         autoResponderMessage: PropTypes.string.isRequired,
         updateSection: PropTypes.func.isRequired,
         setParentState: PropTypes.func.isRequired,
@@ -28,6 +28,7 @@ export default class ManageAutoResponder extends React.PureComponent {
 
     onMessageChanged = (e) => {
         this.props.setParentState('autoResponderMessage', e.target.value);
+        console.log('e value: ', e);
     };
 
     render() {

@@ -23,7 +23,7 @@ function getNotificationsStateFromProps(props) {
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
-    let autoResponderActive = false;
+    let autoResponderActive = true;
     let autoResponderMessage = Utils.localizeMessage(
         'user.settings.notifications.autoResponderDefault',
         'Hello, I am out of office and unable to respond to messages.'
@@ -54,10 +54,12 @@ function getNotificationsStateFromProps(props) {
 
         if (user.notify_props.auto_responder_active) {
             autoResponderActive = user.notify_props.auto_responder_active === 'true';
+            console.log('auto response: ', autoResponderMessage);
         }
 
         if (user.notify_props.auto_responder_message) {
             autoResponderMessage = user.notify_props.auto_responder_message;
+            console.log('auto response: ', autoResponderMessage);
         }
     }
 

@@ -8,7 +8,7 @@ import ManageAutoResponder from 'components/user_settings/notifications/manage_a
 
 describe('components/user_settings/notifications/ManageAutoResponder', () => {
     const requiredProps = {
-        autoResponderActive: false,
+        autoResponderActive: true,
         autoResponderMessage: 'Hello World!',
         updateSection: jest.fn(),
         setParentState: jest.fn(),
