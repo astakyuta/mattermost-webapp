@@ -190,6 +190,59 @@ export default class DesktopNotificationSettings extends React.Component {
                         />
                     </div>
                 </fieldset>
+
+                <!-- Auto Response -->
+                <fieldset>
+                    <legend className='form-legend'>
+                        <FormattedMessage
+                            id='user.settings.notifications.autoResponder'
+                            defaultMessage='Send Auto Response'
+                        />
+                    </legend>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='desktopNotificationAllActivity'
+                                type='radio'
+                                name='desktopNotificationLevel'
+                                checked={activityRadio[0]}
+                                data-key={'desktopActivity'}
+                                data-value={NotificationLevels.ALL}
+                                onChange={this.handleOnChange}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.allActivity'
+                                defaultMessage='yes'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='desktopNotificationMentions'
+                                type='radio'
+                                name='desktopNotificationLevel'
+                                checked={activityRadio[1]}
+                                data-key={'desktopActivity'}
+                                data-value={NotificationLevels.MENTION}
+                                onChange={this.handleOnChange}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.onlyMentions'
+                                defaultMessage='No'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='margin-top x3'>
+                        <FormattedMessage
+                            id='user.settings.notifications.info'
+                            defaultMessage='Automated messages will be replied Desktop Apps.'
+                        />
+                    </div>
+                </fieldset>
+
                 <hr/>
                 {soundSection}
             </div>
