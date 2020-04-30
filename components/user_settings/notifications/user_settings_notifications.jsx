@@ -23,7 +23,7 @@ function getNotificationsStateFromProps(props) {
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
-    let autoResponderActive = false;
+    let autoResponderActive = true;
     let autoResponderMessage = Utils.localizeMessage(
         'user.settings.notifications.autoResponderDefault',
         'Hello, I am out of office and unable to respond to messages.'
@@ -54,7 +54,7 @@ function getNotificationsStateFromProps(props) {
 
         if (user.notify_props.auto_responder_active) {
             autoResponderActive = user.notify_props.auto_responder_active === 'true';
-            console.log('auto response: ', autoResponderMessage);
+            console.log('auto response: ', autoResponderActive);
         }
 
         if (user.notify_props.auto_responder_message) {
@@ -183,7 +183,7 @@ export default class NotificationsTab extends React.Component {
 
         this.setState({isSaving: true});
 
-        this.props.actions.updateMe({notify_props: data}).
+        this.props.actions.updateMe({notify_props: data}). // Saving the settings from here
             then(({data: result, error: err}) => {
                 if (result) {
                     this.updateSection('');
@@ -835,51 +835,71 @@ export default class NotificationsTab extends React.Component {
         }
 
         let autoResponderSection;
-        if (this.props.enableAutoResponder) {
-            if (this.props.activeSection === 'auto-responder') {
-                autoResponderSection = (
-                    <div>
-                        <ManageAutoResponder
-                            autoResponderActive={this.state.autoResponderActive}
-                            autoResponderMessage={this.state.autoResponderMessage}
-                            updateSection={this.updateSection}
-                            setParentState={this.setStateValue}
-                            submit={this.handleSubmit}
-                            error={this.state.serverError}
-                            saving={this.state.isSaving}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
-                );
-            } else {
-                const describe = this.state.autoResponderActive ? (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderEnabled'
-                        defaultMessage='Enabled'
-                    />
-                ) : (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderDisabled'
-                        defaultMessage='Disabled'
-                    />
-                );
+        console.log('auto responder section: ', this.props.enableAutoResponder);
+        console.log('auto responder section: ', this.props.activeSection);
 
-                autoResponderSection = (
-                    <SettingItemMin
-                        title={
-                            <FormattedMessage
-                                id='user.settings.notifications.autoResponder'
-                                defaultMessage='Automatic Direct Message Replies'
-                            />
-                        }
-                        width='medium'
-                        describe={describe}
-                        section={'auto-responder'}
+        if (this.props.enableAutoResponder) {
+            autoResponderSection = (
+                <div>
+                    <ManageAutoResponder
+                        autoResponderActive={this.state.autoResponderActive}
+                        autoResponderMessage={this.state.autoResponderMessage}
                         updateSection={this.updateSection}
+                        setParentState={this.setStateValue}
+                        submit={this.handleSubmit}
+                        error={this.state.serverError}
+                        saving={this.state.isSaving}
                     />
-                );
-            }
+                    <div className='divider-dark'/>
+                </div>
+            );
         }
+
+        // if (this.props.enableAutoResponder) {
+        //     if (this.props.activeSection === 'auto-responder') {
+        //         autoResponderSection = (
+        //             <div>
+        //                 <ManageAutoResponder
+        //                     autoResponderActive={this.state.autoResponderActive}
+        //                     autoResponderMessage={this.state.autoResponderMessage}
+        //                     updateSection={this.updateSection}
+        //                     setParentState={this.setStateValue}
+        //                     submit={this.handleSubmit}
+        //                     error={this.state.serverError}
+        //                     saving={this.state.isSaving}
+        //                 />
+        //                 <div className='divider-dark'/>
+        //             </div>
+        //         );
+        //     } else {
+        //         const describe = this.state.autoResponderActive ? (
+        //             <FormattedMessage
+        //                 id='user.settings.notifications.autoResponderEnabled'
+        //                 defaultMessage='Enabled'
+        //             />
+        //         ) : (
+        //             <FormattedMessage
+        //                 id='user.settings.notifications.autoResponderDisabled'
+        //                 defaultMessage='Disabled'
+        //             />
+        //         );
+        //
+        //         autoResponderSection = (
+        //             <SettingItemMin
+        //                 title={
+        //                     <FormattedMessage
+        //                         id='user.settings.notifications.autoResponder'
+        //                         defaultMessage='Automatic Direct Message Replies'
+        //                     />
+        //                 }
+        //                 width='medium'
+        //                 describe={describe}
+        //                 section={'auto-responder'}
+        //                 updateSection={this.updateSection}
+        //             />
+        //         );
+        //     }
+        // }
 
         const pushNotificationSection = this.createPushNotificationSection();
 
