@@ -24,15 +24,16 @@ function getNotificationsStateFromProps(props) {
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
     let autoResponderActive = true;
+    let autoResponderDuration = 5;
     let autoResponderMessage = Utils.localizeMessage(
         'user.settings.notifications.autoResponderDefault',
         'Hello, I am out of office and unable to respond to messages.'
     );
 
     if (user.notify_props) {
+        console.log('user notify props: ', user.notify_props);
         if (user.notify_props.desktop) {
             desktop = user.notify_props.desktop;
-            console.log('desktop notification: ', desktop);
         }
         if (user.notify_props.desktop_sound) {
             sound = user.notify_props.desktop_sound;
@@ -45,11 +46,9 @@ function getNotificationsStateFromProps(props) {
         }
         if (user.notify_props.push) {
             pushActivity = user.notify_props.push;
-            console.log('pushActivity notification: ', pushActivity);
         }
         if (user.notify_props.push_status) {
             pushStatus = user.notify_props.push_status;
-            console.log('pushStatus notification: ', pushStatus);
         }
 
         if (user.notify_props.auto_responder_active) {
@@ -60,6 +59,10 @@ function getNotificationsStateFromProps(props) {
         if (user.notify_props.auto_responder_message) {
             autoResponderMessage = user.notify_props.auto_responder_message;
             console.log('auto response: ', autoResponderMessage);
+        }
+
+        if (user.notify_props.auto_responder_duration) {
+            autoResponderDuration = user.notify_props.auto_responder_duration;
         }
     }
 
@@ -107,6 +110,7 @@ function getNotificationsStateFromProps(props) {
         channelKey,
         autoResponderActive,
         autoResponderMessage,
+        autoResponderDuration,
         notifyCommentsLevel: comments,
         isSaving: false,
     };
@@ -159,12 +163,18 @@ export default class NotificationsTab extends React.Component {
         data.comments = this.state.notifyCommentsLevel;
         data.auto_responder_active = this.state.autoResponderActive.toString();
         data.auto_responder_message = this.state.autoResponderMessage;
+        data.auto_responder_duration = this.state.autoResponderDuration;
+
 
         if (!data.auto_responder_message || data.auto_responder_message === '') {
             data.auto_responder_message = Utils.localizeMessage(
                 'user.settings.notifications.autoResponderDefault',
                 'Hello, I am out of office and unable to respond to messages.'
             );
+        }
+
+        if (!data.auto_responder_duration || data.auto_responder_duration === '') {
+            data.auto_responder_duration = 5;
         }
 
         const mentionKeys = [];
@@ -844,6 +854,7 @@ export default class NotificationsTab extends React.Component {
                     <ManageAutoResponder
                         autoResponderActive={this.state.autoResponderActive}
                         autoResponderMessage={this.state.autoResponderMessage}
+                        autoResponderDuration={this.state.autoResponderDuration}
                         updateSection={this.updateSection}
                         setParentState={this.setStateValue}
                         submit={this.handleSubmit}

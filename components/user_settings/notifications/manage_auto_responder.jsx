@@ -8,6 +8,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import * as Utils from "../../../utils/utils";
 
 const MESSAGE_MAX_LENGTH = 200;
 
@@ -28,16 +29,21 @@ export default class ManageAutoResponder extends React.PureComponent {
 
     onMessageChanged = (e) => {
         this.props.setParentState('autoResponderMessage', e.target.value);
-        console.log('e value: ', e);
+    };
+
+    onAutoResponderDurationChanged = (e) => {
+        this.props.setParentState('autoResponderDuration', e.target.value);
     };
 
     render() {
         const {
             autoResponderActive,
             autoResponderMessage,
+            autoResponderDuration,
         } = this.props;
 
         let serverError;
+
         if (this.props.error) {
             serverError = <label className='has-error'>{this.props.error}</label>;
         }
@@ -45,11 +51,7 @@ export default class ManageAutoResponder extends React.PureComponent {
         const inputs = [];
 
         const activeToggle = (
-            <div
-                id='autoResponderCheckbox'
-                key='autoResponderCheckbox'
-                className='checkbox'
-            >
+            <div id='autoResponderCheckbox' key='autoResponderCheckbox' className='checkbox'>
                 <label>
                     <input
                         id='autoResponderActive'
@@ -66,10 +68,7 @@ export default class ManageAutoResponder extends React.PureComponent {
         );
 
         const message = (
-            <div
-                id='autoResponderMessage'
-                key='autoResponderMessage'
-            >
+            <div id='autoResponderMessage' key='autoResponderMessage'>
                 <div className='padding-top'>
                     <AutosizeTextarea
                         style={{resize: 'none'}}
@@ -86,10 +85,33 @@ export default class ManageAutoResponder extends React.PureComponent {
             </div>
         );
 
+        const respondDuration = (
+            <div key='firstNameSetting' className='form-group padding-top'>
+                <label className='col-sm-6 control-label'>
+                    <FormattedMessage
+                        id='user.settings.notifications.autoRespondDuration'
+                        defaultMessage='Auto Response Duration'
+                    />
+                </label>
+                <div className='col-sm-2'>
+                    <input
+                        id='autoRespondDuration'
+                        autoFocus={true}
+                        className='form-control'
+                        type='text'
+                        onChange={this.onAutoResponderDurationChanged}
+                        value={autoResponderDuration}
+                    />
+                </div>
+            </div>
+        );
+
         inputs.push(activeToggle);
         if (autoResponderActive) {
             inputs.push(message);
+            inputs.push(respondDuration);
         }
+
         inputs.push((
             <div
                 key='autoResponderHint'
