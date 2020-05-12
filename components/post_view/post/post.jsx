@@ -260,6 +260,7 @@ export default class Post extends React.PureComponent {
 
     render() {
         const {post} = this.props;
+        console.log('post value: ', post);
         if (!post.id) {
             return null;
         }
@@ -269,6 +270,15 @@ export default class Post extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
         const fromBot = post && post.props && post.props.from_bot === 'true';
+
+        console.log('fromautoresponder is as follows: ', fromAutoResponder);
+
+        if(fromAutoResponder) {
+            const timer = setTimeout(() => {
+                console.log('Timeout called!');
+            }, 5000);
+            clearTimeout(timer);
+        }
 
         let profilePic;
         const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;

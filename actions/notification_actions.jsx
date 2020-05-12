@@ -132,6 +132,8 @@ export function sendDesktopNotification(post, msgProps) {
         //Play a sound if explicitly set in settings
         const sound = !user.notify_props || user.notify_props.desktop_sound === 'true';
 
+        let notifyPropsOfUser = user.notify_props;
+
         // Notify if you're not looking in the right channel or when
         // the window itself is not active
         const activeChannel = getCurrentChannel(state);
@@ -139,7 +141,7 @@ export function sendDesktopNotification(post, msgProps) {
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
 
         if (notify) {
-            Utils.notifyMe(title, body, channel, teamId, !sound);
+            Utils.notifyMe(title, body, channel, teamId, !sound, notifyPropsOfUser);
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {

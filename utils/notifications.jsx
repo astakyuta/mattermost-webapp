@@ -15,9 +15,10 @@ let requestedNotificationPermission = false;
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
 
-export async function showNotification({title, body, channel, teamId, requireInteraction, silent, onClick} = {}) {
+export async function showNotification({title, body, channel, teamId, requireInteraction, silent, notifyProp, onClick} = {}) {
 
     console.log('comes under show notification');
+    console.log('under show notification props: ', notifyProp);
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
@@ -57,9 +58,9 @@ export async function showNotification({title, body, channel, teamId, requireInt
         console.log('permission under undefined: ', permission);
     }
 
-    if (permission !== 'granted') {
-        throw new Error('Notifications not granted');
-    }
+    // if (permission !== 'granted') {
+    //     throw new Error('Notifications not granted');
+    // }
 
     // this section is not needed because the for sending notification, postMessage has been used, so that the host machine can take care of the notifications.
     // const notification = new Notification(title, {
@@ -79,7 +80,7 @@ export async function showNotification({title, body, channel, teamId, requireInt
     //     notification.onclick = onClick;
     // }
 
-    sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, onClick);
+    sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, notifyProp, onClick);
 
     // // Mac desktop app notification dismissal is handled by the OS
     // if (!requireInteraction && !UserAgent.isMacApp()) {
@@ -93,7 +94,7 @@ export async function showNotification({title, body, channel, teamId, requireInt
     // };
 }
 
-function sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent) {
+function sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, notifyProp, onClick) {
     const payload = {
         type: 'dispatch-notification',
         message: {
@@ -103,9 +104,10 @@ function sendNativeDesktopNotification(title, body, channel, teamId, requireInte
             teamId,
             requireInteraction,
             silent,
+            notifyProp,
         }
     };
-    console.log('channel under dispatch: ', channel);
+    console.log('sendNativeDesktopNotification notifyprops: ', notifyProp);
     window.postMessage(payload, '*');
 
     // window.addEventListener('ipc-message', event => {

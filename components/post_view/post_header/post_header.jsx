@@ -92,6 +92,7 @@ export default class PostHeader extends React.PureComponent {
         let colon;
 
         if (fromWebhook && !this.props.isBot) {
+            console.log('comes under fromwebhook: ', fromWebhook);
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -109,8 +110,11 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
+            console.log('fromWebhook userprofile: ', userProfile);
+
             indicator = (<BotBadge/>);
         } else if (fromAutoResponder) {
+            console.log('fromAutoResponder is: ', fromAutoResponder);
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
@@ -127,6 +131,9 @@ export default class PostHeader extends React.PureComponent {
                     />
                 </Badge>
             );
+
+            console.log('fromAutoResponder userprofile: ', userProfile);
+
         } else if (isSystemMessage && this.props.isBot) {
             userProfile = (
                 <UserProfile
@@ -134,6 +141,9 @@ export default class PostHeader extends React.PureComponent {
                     hideStatus={true}
                 />
             );
+
+            console.log('isSystemMessage and isBot userprofile: ', userProfile);
+
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
@@ -147,6 +157,8 @@ export default class PostHeader extends React.PureComponent {
                     disablePopover={true}
                 />
             );
+
+            console.log('isSystemMessage userprofile: ', userProfile);
         }
 
         if (this.props.compactDisplay) {

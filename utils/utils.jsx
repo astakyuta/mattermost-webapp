@@ -138,14 +138,17 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
-export function notifyMe(title, body, channel, teamId, silent) {
+export function notifyMe(title, body, channel, teamId, silent, notifyProp) {
     console.log('comes under notify me');
+    console.log('comes under notify props: ', notifyProp);
+
     showNotification({title,
         body,
         channel,
         teamId,
         requireInteraction: false,
         silent,
+        notifyProp,
         onClick: () => {
             const state = store.getState();
             window.focus();
