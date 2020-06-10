@@ -194,14 +194,14 @@ export default class NotificationsTab extends React.Component {
         this.setState({isSaving: true});
 
         this.props.actions.updateMe({notify_props: data}). // Saving the settings from here
-            then(({data: result, error: err}) => {
-                if (result) {
-                    this.updateSection('');
-                    this.setState(getNotificationsStateFromProps(this.props));
-                } else if (err) {
-                    this.setState({serverError: err.message, isSaving: false});
-                }
-            });
+        then(({data: result, error: err}) => {
+            if (result) {
+                this.updateSection('');
+                this.setState(getNotificationsStateFromProps(this.props));
+            } else if (err) {
+                this.setState({serverError: err.message, isSaving: false});
+            }
+        });
     }
 
     handleCancel = (e) => {
@@ -848,69 +848,71 @@ export default class NotificationsTab extends React.Component {
         console.log('auto responder section: ', this.props.enableAutoResponder);
         console.log('auto responder section: ', this.props.activeSection);
 
-        if (this.props.enableAutoResponder) {
-            autoResponderSection = (
-                <div>
-                    <ManageAutoResponder
-                        autoResponderActive={this.state.autoResponderActive}
-                        autoResponderMessage={this.state.autoResponderMessage}
-                        autoResponderDuration={this.state.autoResponderDuration}
-                        updateSection={this.updateSection}
-                        setParentState={this.setStateValue}
-                        submit={this.handleSubmit}
-                        error={this.state.serverError}
-                        saving={this.state.isSaving}
-                    />
-                    <div className='divider-dark'/>
-                </div>
-            );
-        }
-
         // if (this.props.enableAutoResponder) {
-        //     if (this.props.activeSection === 'auto-responder') {
-        //         autoResponderSection = (
-        //             <div>
-        //                 <ManageAutoResponder
-        //                     autoResponderActive={this.state.autoResponderActive}
-        //                     autoResponderMessage={this.state.autoResponderMessage}
-        //                     updateSection={this.updateSection}
-        //                     setParentState={this.setStateValue}
-        //                     submit={this.handleSubmit}
-        //                     error={this.state.serverError}
-        //                     saving={this.state.isSaving}
-        //                 />
-        //                 <div className='divider-dark'/>
-        //             </div>
-        //         );
-        //     } else {
-        //         const describe = this.state.autoResponderActive ? (
-        //             <FormattedMessage
-        //                 id='user.settings.notifications.autoResponderEnabled'
-        //                 defaultMessage='Enabled'
-        //             />
-        //         ) : (
-        //             <FormattedMessage
-        //                 id='user.settings.notifications.autoResponderDisabled'
-        //                 defaultMessage='Disabled'
-        //             />
-        //         );
-        //
-        //         autoResponderSection = (
-        //             <SettingItemMin
-        //                 title={
-        //                     <FormattedMessage
-        //                         id='user.settings.notifications.autoResponder'
-        //                         defaultMessage='Automatic Direct Message Replies'
-        //                     />
-        //                 }
-        //                 width='medium'
-        //                 describe={describe}
+        //     autoResponderSection = (
+        //         <div>
+        //             <ManageAutoResponder
+        //                 autoResponderActive={this.state.autoResponderActive}
+        //                 autoResponderMessage={this.state.autoResponderMessage}
+        //                 autoResponderDuration={this.state.autoResponderDuration}
         //                 section={'auto-responder'}
         //                 updateSection={this.updateSection}
+        //                 setParentState={this.setStateValue}
+        //                 submit={this.handleSubmit}
+        //                 error={this.state.serverError}
+        //                 saving={this.state.isSaving}
         //             />
-        //         );
-        //     }
+        //             <div className='divider-dark'/>
+        //         </div>
+        //     );
         // }
+
+        if (this.props.enableAutoResponder) {
+            if (this.props.activeSection === 'auto-responder') {
+                autoResponderSection = (
+                    <div>
+                        <ManageAutoResponder
+                            autoResponderActive={this.state.autoResponderActive}
+                            autoResponderMessage={this.state.autoResponderMessage}
+                            autoResponderDuration={this.state.autoResponderDuration}
+                            updateSection={this.updateSection}
+                            setParentState={this.setStateValue}
+                            submit={this.handleSubmit}
+                            error={this.state.serverError}
+                            saving={this.state.isSaving}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            } else {
+                const describe = this.state.autoResponderActive ? (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderEnabled'
+                        defaultMessage='Enabled'
+                    />
+                ) : (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderDisabled'
+                        defaultMessage='Disabled'
+                    />
+                );
+
+                autoResponderSection = (
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.notifications.autoResponder'
+                                defaultMessage='Automatic Message Replies'
+                            />
+                        }
+                        width='medium'
+                        describe={describe}
+                        section={'auto-responder'}
+                        updateSection={this.updateSection}
+                    />
+                );
+            }
+        }
 
         const pushNotificationSection = this.createPushNotificationSection();
 

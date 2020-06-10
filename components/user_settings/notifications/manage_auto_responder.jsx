@@ -16,6 +16,7 @@ export default class ManageAutoResponder extends React.PureComponent {
     static propTypes = {
         autoResponderActive: PropTypes.bool.isRequired,
         autoResponderMessage: PropTypes.string.isRequired,
+        autoResponderDuration: PropTypes.number.isRequired,
         updateSection: PropTypes.func.isRequired,
         setParentState: PropTypes.func.isRequired,
         submit: PropTypes.func.isRequired,
@@ -86,7 +87,7 @@ export default class ManageAutoResponder extends React.PureComponent {
         );
 
         const respondDuration = (
-            <div key='firstNameSetting' className='form-group padding-top'>
+            <div key='autoRespondDuration' className='form-group padding-top'>
                 <label className='col-sm-6 control-label'>
                     <FormattedMessage
                         id='user.settings.notifications.autoRespondDuration'
@@ -96,7 +97,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 <div className='col-sm-2'>
                     <input
                         id='autoRespondDuration'
-                        autoFocus={true}
+                        // autoFocus={true}
                         className='form-control'
                         type='text'
                         onChange={this.onAutoResponderDurationChanged}
@@ -129,7 +130,7 @@ export default class ManageAutoResponder extends React.PureComponent {
                 title={
                     <FormattedMessage
                         id='user.settings.notifications.autoResponder'
-                        defaultMessage='Automatic Direct Message Replies'
+                        defaultMessage='Automatic Message Replies'
                     />
                 }
                 width='medium'
