@@ -3,7 +3,7 @@
 
     .Menu {
         display: none;
-        opacity: 0;
+        opacity: 1;
         @media screen and (max-width: 768px) {
             display: block;
             opacity: 1;
