@@ -333,25 +333,25 @@ export function areObjectsEqual(x, y) {
         }
 
         switch (typeof (x[p])) {
-        case 'object':
-        case 'function':
+            case 'object':
+            case 'function':
 
-            leftChain.push(x);
-            rightChain.push(y);
+                leftChain.push(x);
+                rightChain.push(y);
 
-            if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
+                if (!areObjectsEqual(x[p], y[p])) {
+                    return false;
+                }
 
-            leftChain.pop();
-            rightChain.pop();
-            break;
+                leftChain.pop();
+                rightChain.pop();
+                break;
 
-        default:
-            if (x[p] !== y[p]) {
-                return false;
-            }
-            break;
+            default:
+                if (x[p] !== y[p]) {
+                    return false;
+                }
+                break;
         }
     }
 
@@ -591,18 +591,18 @@ export function applyTheme(theme) {
         dndIndicator = theme.dndIndicator;
     } else {
         switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
+            case 'Organization':
+                dndIndicator = Constants.THEMES.organization.dndIndicator;
+                break;
+            case 'Mattermost Dark':
+                dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
+                break;
+            case 'Windows Dark':
+                dndIndicator = Constants.THEMES.windows10.dndIndicator;
+                break;
+            default:
+                dndIndicator = Constants.THEMES.default.dndIndicator;
+                break;
         }
     }
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);

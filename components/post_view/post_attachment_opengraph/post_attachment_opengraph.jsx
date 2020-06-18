@@ -147,12 +147,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     truncateText(text) {
-        const maxLength = 300;
-        const ellipsis = '...';
-
-        if (text && text.length > maxLength) {
-            return text.substring(0, maxLength - ellipsis.length) + ellipsis;
-        }
+        // const maxLength = 300;
+        // const ellipsis = '...';
+        //
+        // if (text && text.length > maxLength) {
+        //     return text.substring(0, maxLength - ellipsis.length) + ellipsis;
+        // }
         return text;
     }
 

@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     const sendPushNotifications = config.SendPushNotifications === 'true';
     console.log('config value: ', config);
     console.log('ExperimentalEnableAutomaticReplies: ', config.ExperimentalEnableAutomaticReplies);
-    const enableAutoResponder = true; // this section enables auto responder option on notifications, previous value was: config.ExperimentalEnableAutomaticReplies === 'true';
+    const enableAutoResponder = true; // config.ExperimentalEnableAutomaticReplies === 'true';
 
     return {
         siteName,

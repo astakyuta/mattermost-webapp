@@ -175,7 +175,7 @@
   "scripts": {
     "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
     "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
-    "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
+    "build": "cross-env NODE_ENV=dev webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
     "test": "jest --forceExit --detectOpenHandles",
