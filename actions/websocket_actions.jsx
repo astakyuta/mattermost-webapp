@@ -348,6 +348,10 @@ export function handleEvent(msg) {
         dispatch(handleUserTypingEvent(msg));
         break;
 
+    case 'auto-response-update':
+        dispatch(handleAutoResponseUpdateEvent(msg));
+        break;
+
     case SocketEvents.STATUS_CHANGED:
         handleStatusChangedEvent(msg);
         break;
@@ -795,6 +799,11 @@ function handlePreferencesDeletedEvent(msg) {
 
 function addedNewDmUser(preference) {
     return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
+}
+
+function handleAutoResponseUpdateEvent(msg) {
+    const preferences = JSON.parse(msg.data);
+    dispatch({type: 'auto-response-update', data: preferences});
 }
 
 export function handleUserTypingEvent(msg) {

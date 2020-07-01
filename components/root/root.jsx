@@ -46,6 +46,7 @@ import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
 import loadAuthorize from 'bundle-loader?lazy!components/authorize';
 import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
+import loadDownloadAppLinkPage from 'bundle-loader?lazy!components/download_app_link_page';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
@@ -70,6 +71,7 @@ const GetAndroidApp = makeAsyncComponent(loadGetAndroidApp);
 const SelectTeam = makeAsyncComponent(loadSelectTeam);
 const Authorize = makeAsyncComponent(loadAuthorize);
 const Mfa = makeAsyncComponent(loadMfa);
+const DownloadAppLinkPage = makeAsyncComponent(loadDownloadAppLinkPage);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -334,6 +336,10 @@ export default class Root extends React.Component {
                     <LoggedInRoute
                         path={'/mfa'}
                         component={Mfa}
+                    />
+                    <LoggedInRoute
+                        path={'/download_app_link'}
+                        component={DownloadAppLinkPage}
                     />
                     <LoggedInRoute
                         path={['/_redirect/integrations', '/_redirect/pl/:postid']}

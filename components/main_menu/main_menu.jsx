@@ -296,37 +296,37 @@ export default class MainMenu extends React.PureComponent {
                 <MenuGroup>
                     {pluginItems}
                 </MenuGroup>
-                <MenuGroup>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
-                    >
-                        <MenuItemLink
-                            id='integrations'
-                            show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
-                            to={'/' + this.props.teamName + '/integrations'}
-                            text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
-                        />
-                    </TeamPermissionGate>
-                    <MenuItemLink
-                        id='customEmojis'
-                        show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
-                        to={'/' + this.props.teamName + '/emoji'}
-                        text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
-                    />
-                </MenuGroup>
-                {<MenuGroup>
-                    <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
-                        <MenuItemLink
-                            id='systemConsole'
-                            show={!this.props.mobile}
-                            to='/admin_console'
-                            text={localizeMessage('navbar_dropdown.console', 'System Console')}
-                            icon={this.props.mobile && <i className='fa fa-wrench'/>}
-                        />
-                    </SystemPermissionGate>
-                </MenuGroup>}
-                <MenuGroup>
+                {/*<MenuGroup>*/}
+                {/*    <TeamPermissionGate*/}
+                {/*        teamId={this.props.teamId}*/}
+                {/*        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}*/}
+                {/*    >*/}
+                {/*        <MenuItemLink*/}
+                {/*            id='integrations'*/}
+                {/*            show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}*/}
+                {/*            to={'/' + this.props.teamName + '/integrations'}*/}
+                {/*            text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}*/}
+                {/*        />*/}
+                {/*    </TeamPermissionGate>*/}
+                {/*    <MenuItemLink*/}
+                {/*        id='customEmojis'*/}
+                {/*        show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}*/}
+                {/*        to={'/' + this.props.teamName + '/emoji'}*/}
+                {/*        text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}*/}
+                {/*    />*/}
+                {/*</MenuGroup>*/}
+                {/*{<MenuGroup>*/}
+                {/*    <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>*/}
+                {/*        <MenuItemLink*/}
+                {/*            id='systemConsole'*/}
+                {/*            show={!this.props.mobile}*/}
+                {/*            to='/admin_console'*/}
+                {/*            text={localizeMessage('navbar_dropdown.console', 'System Console')}*/}
+                {/*            icon={this.props.mobile && <i className='fa fa-wrench'/>}*/}
+                {/*        />*/}
+                {/*    </SystemPermissionGate>*/}
+                {/*</MenuGroup>}*/}
+                {/*<MenuGroup>*/}
                     {/* <MenuItemExternalLink
                         id='helpLink'
                         show={Boolean(this.props.helpLink)}
@@ -334,12 +334,12 @@ export default class MainMenu extends React.PureComponent {
                         text={localizeMessage('navbar_dropdown.help', 'Help')}
                         icon={this.props.mobile && <i className='fa fa-question'/>}
                     /> */}
-                    <MenuItemAction
-                        id='keyboardShortcuts'
-                        show={!this.props.mobile}
-                        onClick={this.toggleShortcutsModal}
-                        text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
-                    />
+                    {/*<MenuItemAction*/}
+                    {/*    id='keyboardShortcuts'*/}
+                    {/*    show={!this.props.mobile}*/}
+                    {/*    onClick={this.toggleShortcutsModal}*/}
+                    {/*    text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}*/}
+                    {/*/>*/}
                     {/* <MenuItemExternalLink
                         id='reportLink'
                         show={Boolean(this.props.reportAProblemLink)}
@@ -354,14 +354,14 @@ export default class MainMenu extends React.PureComponent {
                         text={localizeMessage('navbar_dropdown.nativeApps', 'Download Apps')}
                         icon={this.props.mobile && <i className='fa fa-mobile'/>}
                     /> */}
-                    <MenuItemToggleModalRedux
-                        id='about'
-                        modalId={ModalIdentifiers.ABOUT}
-                        dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'TeamComm'})}
-                        icon={this.props.mobile && <i className='fa fa-info'/>}
-                    />
-                </MenuGroup>
+                    {/*<MenuItemToggleModalRedux*/}
+                    {/*    id='about'*/}
+                    {/*    modalId={ModalIdentifiers.ABOUT}*/}
+                    {/*    dialogType={AboutBuildModal}*/}
+                    {/*    text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'TeamComm'})}*/}
+                    {/*    icon={this.props.mobile && <i className='fa fa-info'/>}*/}
+                    {/*/>*/}
+                {/*</MenuGroup>*/}
                 <MenuGroup>
                     <MenuItemAction
                         id='logout'

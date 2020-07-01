@@ -53,11 +53,14 @@ export default class AutoResponderModal extends React.PureComponent {
                                 team: teamDisplayName,
                             }}
                         />
+                        <h5> [ Please wait 5 minutes to see the change ]</h5>
                     </Modal.Title>
+
                 </Modal.Header>
                 <Modal.Body>
                     <AutoResponseMemberListTeam
                         teamId={this.props.currentTeam.id}
+                        onHide={this.onHide}
                     />
                 </Modal.Body>
             </Modal>

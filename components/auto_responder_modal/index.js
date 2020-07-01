@@ -7,7 +7,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
-import AutoResponderModal from './team_members_modal.jsx';
+import AutoResponderModal from './auto_responder_modal.jsx';
 
 function mapStateToProps(state) {
     const modalId = ModalIdentifiers.TEAM_MEMBERS;

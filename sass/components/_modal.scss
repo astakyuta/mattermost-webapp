@@ -790,6 +790,11 @@
     top: 15px;
 }
 
+.auto-responder-user-list-scroll {
+    max-height: 200px !important;
+    overflow-y: scroll !important;
+}
+
 .filtered-user-list {
     display: flex;
     flex-direction: column;

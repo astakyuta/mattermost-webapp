@@ -15,7 +15,7 @@ import {
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
@@ -34,6 +34,8 @@ import BrowserStore from 'stores/browser_store.jsx';
 import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
+
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
@@ -272,6 +274,7 @@ export function emitBrowserFocus(focus) {
 
 export async function redirectUserToDefaultTeam() {
     let state = getState();
+    console.log('redirectUserToDefaultTeam state 1: ', state);
 
     // Assume we need to load the user if they don't have any team memberships loaded
     const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state));
@@ -281,15 +284,36 @@ export async function redirectUserToDefaultTeam() {
     }
 
     state = getState();
+    console.log('redirectUserToDefaultTeam state 2: ', state);
 
     const userId = getCurrentUserId(state);
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
 
+    const currentUser = getUser(state, userId);
+    const currentUserRole = currentUser.roles;
+    console.log('get user: ', currentUser);
+
+    if (currentUserRole === 'system_user') {
+        console.log('this is a member');
+    } else if (currentUserRole === 'system_admin') {
+        console.log('this is a system admin');
+    } else {
+        console.log('role is: ', currentUserRole);
+    }
+
+
+    console.log('redirectUserToDefaultTeam userId: ', userId);
+    console.log('redirectUserToDefaultTeam locale: ', locale);
+    console.log('redirectUserToDefaultTeam teamId: ', teamId);
+
+
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
+    console.log('my members: ', myMember);
 
     if (!team || !myMember || !myMember.team_id) {
+        console.log('redirectUserToDefaultTeam no team or member: ', 1);
         team = null;
         let myTeams = getMyTeams(state);
 
@@ -304,18 +328,67 @@ export async function redirectUserToDefaultTeam() {
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
+
+        console.log('redirectUserToDefaultTeam channel name: ', channelName);
+        console.log('redirectUserToDefaultTeam channel: ', channel);
+
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
+
+            console.log('channel && channel.team_id: ', channelName);
         } else {
+            console.log('channel && channel.team_id: ', channelName);
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
             if (data) {
+                console.log('channel && channel.team_id inside if: ', data);
                 dispatch(selectChannel(data.id));
             }
         }
 
-        browserHistory.push(`/${team.name}/channels/${channelName}`);
+        // browserHistory.push(`/${team.name}/channels/${channelName}`);
+
+        // if (currentUserRole === 'system_admin') {
+
+        let myMemberArray = Object.keys(myMember);
+        console.log('myMemberArray: ', myMemberArray);
+
+        if( (currentUserRole === 'system_admin') ) {
+            browserHistory.push(`/${team.name}/channels/${channelName}`);
+        } else if (myMemberArray.length > 0 && myMember.roles != '') {
+            if(myMember.roles.includes('team_admin')) {
+                browserHistory.push(`/${team.name}/channels/${channelName}`);
+            } else {
+                browserHistory.push('/download_app_link');
+            }
+        } else {
+            if(isElectron()){
+                browserHistory.push(`/${team.name}/channels/${channelName}`);
+            }else{
+                browserHistory.push('/download_app_link');
+            }
+        }
+
     } else if (userId) {
         browserHistory.push('/select_team');
     }
+}
+
+function isElectron() {
+    // Renderer process
+    if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+        return true;
+    }
+
+    // Main process
+    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+        return true;
+    }
+
+    // Detect the user agent when the `nodeIntegration` option is set to true
+    if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+        return true;
+    }
+
+    return false;
 }

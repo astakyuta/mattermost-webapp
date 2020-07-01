@@ -102,6 +102,7 @@ export default class WebSocketClient {
 
         this.conn.onmessage = (evt) => {
             console.log('on message event');
+            console.log('evt is: ', evt);
             const msg = JSON.parse(evt.data);
             if (msg.seq_reply) {
                 if (msg.error) {
@@ -165,13 +166,17 @@ export default class WebSocketClient {
             data,
         };
 
+        console.log('message: ', msg);
+
         if (responseCallback) {
             this.responseCallbacks[msg.seq] = responseCallback;
         }
 
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
+            console.log('comes under if');
             this.conn.send(JSON.stringify(msg));
         } else if (!this.conn || this.conn.readyState === WebSocket.CLOSED) {
+            console.log('comes under else');
             this.conn = null;
             this.initialize();
         }
@@ -181,8 +186,15 @@ export default class WebSocketClient {
         const data = {};
         data.channel_id = channelId;
         data.parent_id = parentId;
-
+        console.log('user typing is fired ');
         this.sendMessage('user_typing', data, callback);
+    }
+
+    autoResponseUpdate(udata) {
+        const data = {};
+        data.channel_id = "919tqmpbqif1iq16n5kzu45ufo";
+
+        this.sendMessage('auto-response-update', data);
     }
 
     userUpdateActiveStatus(userIsActive, manual, callback) {
