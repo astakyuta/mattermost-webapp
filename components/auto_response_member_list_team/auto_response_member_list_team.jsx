@@ -8,8 +8,10 @@ import {localizeMessage} from 'utils/utils.jsx';
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import SaveButton from 'components/save_button.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
+import * as WebsocketActions from 'actions/websocket_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import {Constants, SocketEvents } from 'utils/constants.jsx';
+// import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
@@ -183,12 +185,31 @@ export default class AutoResponseMemberListTeam extends React.Component {
     saveAutoResponseData = (e) => {
 
         this.setState({saving: true});
-        let url = 'http://teamcomm.ga/api/v4/users/auto_response/save';
+        let url = 'https://teamcomm.ga/api/v4/users/auto_response/save';
         let autoResponseData = {
             status: this.statusObject, // {"4bw1u1dbgibpfkwhj4qugjepmc": "true", "8fif14yoxb81fcnufbswxek8iw": "false"},
             message: this.state.autoResponderMessage,
             duration: this.state.autoResponderDuration,
         };
+
+        // this.setState({
+        //     saving: false,
+        // });
+        //
+        // this.sendAutoResponseUpdateToChannels(autoResponseData);
+        //
+        // this.props.onHide();
+        //
+        // localStorage.removeItem('auto_responder_message');
+        // localStorage.removeItem('auto_responder_duration');
+        // localStorage.removeItem('auto_responder_active');
+        //
+        //
+        // localStorage.setItem('auto_responder_message', this.state.autoResponderMessage);
+        // localStorage.setItem('auto_responder_duration', this.state.autoResponderDuration);
+        // localStorage.setItem('auto_responder_active', JSON.stringify(this.statusObject));
+        //
+        // return;
 
         fetch(url, {
             method: 'PUT',
@@ -220,7 +241,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
                 // autoResponderDuration: '',
             });
 
-            this.sendAutoResponseUpdateToChannels(autoResponseData);
+            // this.sendAutoResponseUpdateToChannels(autoResponseData);
 
             this.props.onHide();
 
@@ -242,7 +263,38 @@ export default class AutoResponseMemberListTeam extends React.Component {
 
     sendAutoResponseUpdateToChannels = (autoResponseData) => {
         console.log('auto response update: ', autoResponseData);
-        WebSocketClient.autoResponseUpdate(autoResponseData);
+        // WebSocketClient.autoResponseUpdate(autoResponseData);
+
+        const us = this.props.users;
+        console.log('us are: ', us);
+        for (let i = 0; i < us.length; i++) {
+            let user = us[i];
+
+            user.notify_props.auto_responder_active = "true";
+            user.notify_props.auto_responder_message = autoResponseData.message;
+            user.notify_props.auto_responder_duration = autoResponseData.duration;
+
+            let msg = {
+                event: SocketEvents.USER_UPDATED, // USER_UPDATED,
+                data: {
+                    user: user,
+                },
+                broadcast: {
+                    omit_users: null,
+                    user_id: user.id,
+                    "channel_id": "",
+                    "team_id": ""
+                },
+                "seq": i,
+            };
+
+            // WebsocketActions.handleEvent(msg);
+            console.log('user no: ', msg);
+        }
+
+
+
+
         // const payload = {
         //     type: 'auto-response-update',
         //     message: {

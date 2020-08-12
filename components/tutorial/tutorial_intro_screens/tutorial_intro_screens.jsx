@@ -227,10 +227,10 @@ export default class TutorialIntroScreens extends React.Component {
                     modalId={ModalIdentifiers.INVITATION}
                     dialogType={InvitationModal}
                 >
-                    <FormattedMessage
-                        id='tutorial_intro.invite'
-                        defaultMessage='Invite teammates'
-                    />
+                    {/*<FormattedMessage*/}
+                    {/*    id='tutorial_intro.invite'*/}
+                    {/*    defaultMessage='Invite teammates'*/}
+                    {/*/>*/}
                 </ModalToggleButtonRedux>
             );
 
@@ -275,7 +275,7 @@ export default class TutorialIntroScreens extends React.Component {
                         defaultMessage={'You\'re all set'}
                     />
                 </h3>
-                {inviteText}
+                {/*{inviteText}*/}
                 {/*{supportInfo}*/}
                 {/*<FormattedMessage*/}
                 {/*    id='tutorial_intro.end'*/}

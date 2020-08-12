@@ -29,6 +29,11 @@ import store from 'stores/redux_store.jsx';
 import {showNotification} from 'utils/notifications.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
+// import 'rc-notification/assets/index.css';
+// import Notification from 'rc-notification';
+// let notification = null;
+// Notification.newInstance({}, (n) => notification = n);
+
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -138,6 +143,52 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
+window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
+    if (origin !== window.location.origin) {
+        return;
+    }
+    switch (type) {
+
+        case 'redirect-channel': {
+            console.log('redirect-channel: ', message);
+            const channel = message.channel;
+            const teamId = message.teamId;
+
+            const state = store.getState();
+            window.focus();
+            if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+                browserHistory.push(getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name);
+            } else if (channel) {
+                const team = getTeam(state, teamId);
+                browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
+            } else if (teamId) {
+                const team = getTeam(state, teamId);
+                const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
+                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${redirectChannel}`);
+            } else {
+                const currentTeamId = getCurrentTeamId(state);
+                const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
+            }
+
+            break;
+        }
+
+        // case 'auto-response-alert': {
+        //     console.log('messages are: ', message);
+        //     alert(JSON.stringify(message.message));
+        //
+        //     // notification.notice({
+        //     //     content: <span>simple show</span>,
+        //     //     onClose() {
+        //     //         console.log('simple close');
+        //     //     },
+        //     // });
+        // }
+
+    }
+});
+
 export function notifyMe(title, body, channel, teamId, silent, notifyProp) {
     console.log('comes under notify me');
     console.log('comes under notify props: ', notifyProp);
@@ -167,7 +218,8 @@ export function notifyMe(title, body, channel, teamId, silent, notifyProp) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
             }
         },
-    }).catch(() => {
+    }).catch((e) => {
+        console.log('onclick rejected: ', e);
         // Ignore the failure to display the notification.
     });
 }

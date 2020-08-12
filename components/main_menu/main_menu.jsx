@@ -25,6 +25,7 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import AutoResponderModal from 'components/auto_responder_modal';
+import AppQuitModal from 'components/app_quit_modal';
 
 import Menu from 'components/widgets/menu/menu.jsx';
 import MenuGroup from 'components/widgets/menu/menu_group.jsx';
@@ -118,6 +119,17 @@ export default class MainMenu extends React.PureComponent {
         }
     }
 
+    quitFromApp = () => {
+        let status = true;
+        const payload = {
+            type: 'quit-app',
+            message: {
+                status,
+            }
+        };
+        window.postMessage(payload, '*');
+    }
+
     render() {
         const {currentUser, teamIsGroupConstrained} = this.props;
 
@@ -126,6 +138,13 @@ export default class MainMenu extends React.PureComponent {
         }
 
         const {formatMessage} = this.context.intl;
+
+        let isApp = GlobalActions.isElectron();
+        if(isApp === true) {
+            console.log('isApp true: ', isApp);
+        } else {
+            console.log('isApp false: ', isApp);
+        }
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
@@ -188,18 +207,18 @@ export default class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='invitePeople'
-                            modalId={ModalIdentifiers.INVITATION}
-                            dialogType={InvitationModal}
-                            text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
-                    </TeamPermissionGate>
+                    {/*<TeamPermissionGate*/}
+                    {/*    teamId={this.props.teamId}*/}
+                    {/*    permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}*/}
+                    {/*>*/}
+                    {/*    <MenuItemToggleModalRedux*/}
+                    {/*        id='invitePeople'*/}
+                    {/*        modalId={ModalIdentifiers.INVITATION}*/}
+                    {/*        dialogType={InvitationModal}*/}
+                    {/*        text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}*/}
+                    {/*        icon={this.props.mobile && <i className='fa fa-user-plus'/>}*/}
+                    {/*    />*/}
+                    {/*</TeamPermissionGate>*/}
                 </MenuGroup>
                 <MenuGroup>
                     <TeamPermissionGate
@@ -242,6 +261,22 @@ export default class MainMenu extends React.PureComponent {
                             icon={this.props.mobile && <i className='fa fa-users'/>}
                         />
                     </TeamPermissionGate>
+
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
+                    >
+                        <MenuItemLink
+                            id='AddMemberIntoTeam'
+                            to='/signup_email'
+                            text={localizeMessage('', 'Add member into team')}
+                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                        />
+                    </TeamPermissionGate>
+
+
+
+
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
@@ -268,31 +303,31 @@ export default class MainMenu extends React.PureComponent {
                         />
                     </TeamPermissionGate>
                 </MenuGroup>
-                <MenuGroup>
-                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
-                        <MenuItemLink
-                            id='createTeam'
-                            to='/create_team'
-                            text={localizeMessage('navbar_dropdown.create', 'Create a New Team')}
-                            icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                        />
-                    </SystemPermissionGate>
-                    <MenuItemLink
-                        id='joinTeam'
-                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
-                        to='/select_team'
-                        text={localizeMessage('navbar_dropdown.join', 'Join Another Team')}
-                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                    />
-                    <MenuItemToggleModalRedux
-                        id='leaveTeam'
-                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
-                        modalId={ModalIdentifiers.LEAVE_TEAM}
-                        dialogType={LeaveTeamModal}
-                        text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
-                        icon={this.props.mobile && <LeaveTeamIcon/>}
-                    />
-                </MenuGroup>
+                {/*<MenuGroup>*/}
+                {/*    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>*/}
+                {/*        <MenuItemLink*/}
+                {/*            id='createTeam'*/}
+                {/*            to='/create_team'*/}
+                {/*            text={localizeMessage('navbar_dropdown.create', 'Create a New Team')}*/}
+                {/*            icon={this.props.mobile && <i className='fa fa-plus-square'/>}*/}
+                {/*        />*/}
+                {/*    </SystemPermissionGate>*/}
+                {/*    <MenuItemLink*/}
+                {/*        id='joinTeam'*/}
+                {/*        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}*/}
+                {/*        to='/select_team'*/}
+                {/*        text={localizeMessage('navbar_dropdown.join', 'Join Another Team')}*/}
+                {/*        icon={this.props.mobile && <i className='fa fa-plus-square'/>}*/}
+                {/*    />*/}
+                {/*    <MenuItemToggleModalRedux*/}
+                {/*        id='leaveTeam'*/}
+                {/*        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}*/}
+                {/*        modalId={ModalIdentifiers.LEAVE_TEAM}*/}
+                {/*        dialogType={LeaveTeamModal}*/}
+                {/*        text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}*/}
+                {/*        icon={this.props.mobile && <LeaveTeamIcon/>}*/}
+                {/*    />*/}
+                {/*</MenuGroup>*/}
                 <MenuGroup>
                     {pluginItems}
                 </MenuGroup>
@@ -363,6 +398,19 @@ export default class MainMenu extends React.PureComponent {
                     {/*/>*/}
                 {/*</MenuGroup>*/}
                 <MenuGroup>
+                    {(isApp === true) && (
+
+                        <MenuItemToggleModalRedux
+                            id='leaveTeam'
+                            // show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
+                            modalId={ModalIdentifiers.LEAVE_TEAM}
+                            dialogType={AppQuitModal}
+                            text={localizeMessage('quitApp', 'Quit App')}
+                            icon={this.props.mobile && <LeaveTeamIcon/>}
+                        />
+
+                    )}
+
                     <MenuItemAction
                         id='logout'
                         onClick={this.handleEmitUserLoggedOutEvent}

@@ -1,6 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// import React from "react";
+// import { render } from "react-dom";
+// import { positions, Provider } from "react-alert";
+// import AlertTemplate from "react-alert-template-basic";
+
 import {batchActions} from 'redux-batched-actions';
 
 import {
@@ -14,9 +19,22 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentTeamId,
+    getTeam,
+    getMyTeams,
+    getMyTeamMember,
+    getTeamMemberships,
+    getCurrentRelativeTeamUrl
+} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getCurrentChannelStats,
+    getCurrentChannelId,
+    getChannelByName,
+    getMyChannelMember as selectMyChannelMember,
+    getRedirectChannelNameForTeam
+} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -40,9 +58,12 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getTeamRelativeUrl} from "utils/utils";
 
 const dispatch = store.dispatch;
 const getState = store.getState;
+let autoLogoutTimerInstance = '';
 
 export function emitChannelClickEvent(channel) {
     async function userVisitedFakeChannel(chan, success, fail) {
@@ -240,6 +261,15 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         LocalStorageStore.setWasLoggedIn(false);
     }
 
+    let status = true;
+    const payload = {
+        type: 'logout-button-clicked',
+        message: {
+            status,
+        }
+    };
+    window.postMessage(payload, '*');
+
     dispatch(logout()).then(() => {
         if (shouldSignalLogout) {
             BrowserStore.signalLogout();
@@ -272,9 +302,32 @@ export function emitBrowserFocus(focus) {
     });
 }
 
+// export function manageAutoLogout(duration) {
+//     clearInterval(autoLogoutTimerInstance);
+//     emitUserLoggedOutEvent('/login');
+//     return null;
+// }
+
+// function manageAutoLogout(() => {
+//     const interval = setInterval(() => {
+//         console.log('This will run every second!');
+//     }, 1000);
+//     return () => clearInterval(interval);
+// }, []);
+
 export async function redirectUserToDefaultTeam() {
     let state = getState();
     console.log('redirectUserToDefaultTeam state 1: ', state);
+
+    let status = true;
+    const payload = {
+        type: 'login-status',
+        message: {
+            status,
+        }
+    };
+    console.log('payloads under redirectUserToDefaultTeam: ', payload);
+    window.postMessage(payload, '*');
 
     // Assume we need to load the user if they don't have any team memberships loaded
     const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state));
@@ -294,13 +347,32 @@ export async function redirectUserToDefaultTeam() {
     const currentUserRole = currentUser.roles;
     console.log('get user: ', currentUser);
 
-    if (currentUserRole === 'system_user') {
-        console.log('this is a member');
-    } else if (currentUserRole === 'system_admin') {
-        console.log('this is a system admin');
-    } else {
-        console.log('role is: ', currentUserRole);
+
+    // if(currentUser.notify_props.auto_logout_duration !== 'undefined') {
+
+    if (typeof currentUser.notify_props.auto_logout_duration !== "undefined" && currentUser.notify_props.auto_logout_duration !== '0') {
+        // console.log('currentUser.notify_props.auto_logout_duration: ', currentUser.notify_props.auto_logout_duration);
+        // return;
+        if(currentUser.notify_props.auto_logout_duration !== '') {
+            console.log('currentUser.notify_props.auto_logout_duration: ', currentUser.notify_props.auto_logout_duration);
+            let durationInSeconds = currentUser.notify_props.auto_logout_duration * 60;
+            console.log('duration in seconds: ', durationInSeconds);
+
+            let logoutTimer = setTimeout(() => {
+                emitUserLoggedOutEvent('/login');
+            }, (durationInSeconds * 1000));
+            // return () => clearTimeout(logoutTimer);
+        }
+
     }
+
+    // if (currentUserRole === 'system_user') {
+    //     console.log('this is a member');
+    // } else if (currentUserRole === 'system_admin') {
+    //     console.log('this is a system admin');
+    // } else {
+    //     console.log('role is: ', currentUserRole);
+    // }
 
 
     console.log('redirectUserToDefaultTeam userId: ', userId);
@@ -359,13 +431,20 @@ export async function redirectUserToDefaultTeam() {
             if(myMember.roles.includes('team_admin')) {
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
             } else {
-                browserHistory.push('/download_app_link');
+                // browserHistory.push('/download_app_link');
+                if(isElectron()){
+                    browserHistory.push(`/${team.name}/channels/${channelName}`);
+                }else{
+                    browserHistory.push(`/${team.name}/channels/${channelName}`);
+                    // browserHistory.push('/download_app_link');
+                }
             }
         } else {
             if(isElectron()){
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
             }else{
-                browserHistory.push('/download_app_link');
+                browserHistory.push(`/${team.name}/channels/${channelName}`);
+                // browserHistory.push('/download_app_link');
             }
         }
 
@@ -374,7 +453,135 @@ export async function redirectUserToDefaultTeam() {
     }
 }
 
-function isElectron() {
+export function loginButtonClicked() {
+    let status = true;
+    const payload = {
+        type: 'login-button-clicked',
+        message: {
+            status,
+        }
+    };
+    window.postMessage(payload, '*');
+}
+
+export async function back() {
+    let state = getState();
+    const userId = getCurrentUserId(state);
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+
+    let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
+
+    let team = getTeam(state, teamId);
+
+    browserHistory.push(`/${team.name}/channels/${channelName}`);
+}
+
+export function getOpenedChannel() {
+    let state = getState();
+    const userId = getCurrentUserId(state);
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+
+    let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
+    return channelName;
+}
+
+export function redirectToChannel(channel, teamId) {
+    // const channel = message.channel;
+    // const teamId = message.teamId;
+    console.log('comes under redirectToChannel');
+
+    const state = store.getState();
+    window.focus();
+
+
+    if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+        browserHistory.push(getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name);
+    } else if (channel) {
+        const team = getTeam(state, teamId);
+        browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
+    } else if (teamId) {
+        const team = getTeam(state, teamId);
+        const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
+        browserHistory.push(getTeamRelativeUrl(team) + `/channels/${redirectChannel}`);
+    } else {
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
+    }
+}
+
+export function sendAutoResponseToChannel(channelId) {
+    console.log('comes under sendAutoResponseToChannel');
+
+    const obj = {channel_ids: [channelId]};
+    let url = 'https://teamcomm.ga/api/v4/posts/auto_response';
+    fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'Authorization': token,
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify(obj), // body data type must match "Content-Type" header
+        // body: JSON.stringify(this.messageDetails),
+    })
+        .then((response) => {
+            console.log(response);
+            // return response.json();
+        })
+        .then((data) => {
+            console.log('returned data: ', data);
+            // this.removeTab(this.state.tabIndex);
+        }).catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
+export async function assignDefaultTeamToNewUser(newUser) {
+    let state = getState();
+
+    const userId = getCurrentUserId(state);
+    const locale = getCurrentLocale(state);
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+
+    const currentUser = getUser(state, userId);
+    // const currentUserRole = currentUser.roles;
+    let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
+    const channel = getChannelByName(state, channelName);
+
+    let team = getTeam(state, teamId);
+
+    // if (!team) {
+    //     console.log('redirectUserToDefaultTeam no team or member: ', 1);
+    //     team = null;
+    //     let myTeams = getMyTeams(state);
+    //
+    //     if (myTeams.length > 0) {
+    //         myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
+    //         if (myTeams && myTeams[0]) {
+    //             team = myTeams[0];
+    //         }
+    //     }
+    // }
+
+    console.log('newuser in global_actions: ', newUser);
+    console.log('teamId in global_actions: ', teamId);
+
+    const {data: member, error} =  await dispatch(TeamActions.addUserToTeam(teamId, newUser.id)); // await TeamActions.addUserToTeam(teamId, newUser.id);
+
+    if (member) {
+        browserHistory.push(`/${team.name}/channels/${channelName}`);
+    } else if (error) {
+        let errorMsg = error.message;
+        console.log('some error occured during team addition: ', error);
+        console.log('error message: ', errorMsg);
+    }
+
+}
+
+export function isElectron() {
     // Renderer process
     if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
         return true;

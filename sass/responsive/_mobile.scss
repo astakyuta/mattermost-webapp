@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+
+    .d-none {
+        display: none !important;
+    }
     .MenuWrapper {
         .Menu {
             &.dropdown-menu {
@@ -1842,6 +1846,15 @@
 }
 
 @media screen and (max-width: 480px) {
+
+    #sidebarItem_town-square.sidebar-item {
+        display: none !important;
+    }
+
+    #sidebarItem_town-square {
+        display: none !important;
+    }
+
     #user-profile-popover {
         left: 50px !important;
     }

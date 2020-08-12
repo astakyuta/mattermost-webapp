@@ -47,22 +47,24 @@ export async function showNotification({title, body, channel, teamId, requireInt
 
     requestedNotificationPermission = true;
 
-    let permission = await Notification.requestPermission();
-    console.log('permission: ', permission);
-    if (typeof permission === 'undefined') {
-        // Handle browsers that don't support the promise-based syntax.
-        permission = await new Promise((resolve) => {
-            let aa = Notification.requestPermission(resolve);
-            console.log('aa: ', aa);
-        });
-        console.log('permission under undefined: ', permission);
-    }
+    // let permission = await Notification.requestPermission();
+    // console.log('permission: ', permission);
+    // // if (typeof permission === 'undefined') {
+    //     // Handle browsers that don't support the promise-based syntax.
+    //     permission = await new Promise((resolve) => {
+    //         let aa = Notification.requestPermission(resolve);
+    //         console.log('aa: ', aa);
+    //     });
+    //     console.log('permission under undefined: ', permission);
+    // }
 
     // if (permission !== 'granted') {
     //     throw new Error('Notifications not granted');
     // }
 
-    // this section is not needed because the for sending notification, postMessage has been used, so that the host machine can take care of the notifications.
+    sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, notifyProp, onClick);
+
+    // this section is needed for sending notification to the host machine.
     // const notification = new Notification(title, {
     //     body,
     //     tag: body,
@@ -79,9 +81,7 @@ export async function showNotification({title, body, channel, teamId, requireInt
     //     console.log("comes under onclick");
     //     notification.onclick = onClick;
     // }
-
-    sendNativeDesktopNotification(title, body, channel, teamId, requireInteraction, silent, notifyProp, onClick);
-
+    //
     // // Mac desktop app notification dismissal is handled by the OS
     // if (!requireInteraction && !UserAgent.isMacApp()) {
     //     setTimeout(() => {
@@ -109,6 +109,9 @@ function sendNativeDesktopNotification(title, body, channel, teamId, requireInte
     };
     console.log('sendNativeDesktopNotification notifyprops: ', notifyProp);
     window.postMessage(payload, '*');
+
+
+
 
     // window.addEventListener('ipc-message', event => {
     //     console.log('event channel is: ', event.channel);

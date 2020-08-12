@@ -596,7 +596,12 @@ export default class Sidebar extends React.PureComponent {
                         const sectionId = `${section.type}Channel`;
                         const ariaLabel = section.name.toLowerCase();
 
+                        if(sectionId === 'publicChannel' || sectionId === 'privateChannel') {
+                            return null;
+                        }
+
                         return (
+                            // {(sectionId !== 'publicChannel' || sectionId !== 'privateChannel') && (}
                             <ul
                                 key={section.type}
                                 aria-label={ariaLabel}
@@ -635,6 +640,7 @@ export default class Sidebar extends React.PureComponent {
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                 />
                             </ul>
+                            // )}
                         );
                     })}
                 </div>

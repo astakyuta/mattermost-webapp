@@ -104,6 +104,20 @@ export default class WebSocketClient {
             console.log('on message event');
             console.log('evt is: ', evt);
             const msg = JSON.parse(evt.data);
+            console.log('evt data is: ', msg);
+
+            if(msg.event === 'auto_response_update') {
+                const payload = {
+                    type: 'auto_response_update',
+                    message: {
+                        data: msg.data,
+                    }
+                };
+
+                window.postMessage(payload, '*');
+            }
+
+
             if (msg.seq_reply) {
                 if (msg.error) {
                     console.log(msg); //eslint-disable-line no-console
@@ -190,12 +204,12 @@ export default class WebSocketClient {
         this.sendMessage('user_typing', data, callback);
     }
 
-    autoResponseUpdate(udata) {
-        const data = {};
-        data.channel_id = "919tqmpbqif1iq16n5kzu45ufo";
-
-        this.sendMessage('auto-response-update', data);
-    }
+    // autoResponseUpdate(udata) {
+    //     const data = {};
+    //     data.channel_id = "919tqmpbqif1iq16n5kzu45ufo";
+    //
+    //     this.sendMessage('auto-response-update', data);
+    // }
 
     userUpdateActiveStatus(userIsActive, manual, callback) {
         const data = {

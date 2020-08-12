@@ -422,3 +422,18 @@
         outline: none;
     }
 }
+
+#sidebarItem_town-square {
+    display: none !important;
+}
+
+#sidebarItem_town-square.sidebar-item {
+    display: none !important;
+}
+
+
+//@media screen and (max-width: 768px) {
+//    #sidebarItem_town-square.sidebar-item {
+//        display: none !important;
+//    }
+//}

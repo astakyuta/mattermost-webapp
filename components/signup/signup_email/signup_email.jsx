@@ -21,6 +21,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import LogoutIcon from "../../icon/logout_icon";
 
 export default class SignupEmail extends React.Component {
     static propTypes = {
@@ -54,6 +55,10 @@ export default class SignupEmail extends React.Component {
                 loading: true,
                 inviteId,
             };
+        }
+
+        this.state = {
+            accountCreated: false,
         }
     }
 
@@ -111,6 +116,11 @@ export default class SignupEmail extends React.Component {
         }
     }
 
+    handleBack = (e) => {
+        e.preventDefault();
+        GlobalActions.back();
+    };
+
     handleSignupSuccess = (user, data) => {
         trackEvent('signup', 'signup_user_02_complete');
 
@@ -129,13 +139,16 @@ export default class SignupEmail extends React.Component {
             }
 
             if (this.state.token > 0) {
+                console.log('user logged in and token is being set', 1);
                 this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
             }
 
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
             if (redirectTo) {
+                console.log('comes under redirect if statement', 1);
                 browserHistory.push(redirectTo);
             } else {
+                console.log('comes under redirect else statement', 2);
                 GlobalActions.redirectUserToDefaultTeam();
             }
         });
@@ -249,7 +262,15 @@ export default class SignupEmail extends React.Component {
                     return;
                 }
 
-                this.handleSignupSuccess(user, result.data);
+                this.setState({accountCreated: true});
+
+                const timer = setTimeout(() => {
+                    GlobalActions.assignDefaultTeamToNewUser(result.data);
+                }, 1000);
+                return () => clearTimeout(timer);
+
+                // GlobalActions.assignDefaultTeamToNewUser(result.data);
+                // this.handleSignupSuccess(user, result.data);
             });
         }
     }
@@ -327,7 +348,7 @@ export default class SignupEmail extends React.Component {
                             <strong>
                                 <FormattedMessage
                                     id='signup_user_completed.whatis'
-                                    defaultMessage="What's your email address?"
+                                    defaultMessage="Enter member's email address"
                                 />
                             </strong>
                         </h5>
@@ -354,7 +375,7 @@ export default class SignupEmail extends React.Component {
                             <strong>
                                 <FormattedMessage
                                     id='signup_user_completed.chooseUser'
-                                    defaultMessage='Choose your username'
+                                    defaultMessage='Choose username for member'
                                 />
                             </strong>
                         </h5>
@@ -378,7 +399,7 @@ export default class SignupEmail extends React.Component {
                             <strong>
                                 <FormattedMessage
                                     id='signup_user_completed.choosePwd'
-                                    defaultMessage='Choose your password'
+                                    defaultMessage='Enter the password'
                                 />
                             </strong>
                         </h5>
@@ -447,6 +468,11 @@ export default class SignupEmail extends React.Component {
             return null;
         }
 
+        let accountCreated = null;
+        if (this.state.accountCreated) {
+            accountCreated = <label className='control-label' style={{color: 'red'}}><b>User Has been Created & Added to the team.</b></label>;
+        }
+
         let terms = null;
         if (!this.state.noOpenServerError && emailSignup) {
             terms = (
@@ -468,9 +494,27 @@ export default class SignupEmail extends React.Component {
             emailSignup = null;
         }
 
+        let headerButton;
+        headerButton = (
+            <div className='signup-header'>
+                <a
+                    href='#'
+                    id='logout'
+                    onClick={this.handleBack}
+                >
+                    <LogoutIcon/>
+                    <FormattedMessage
+                        id='back'
+                        defaultMessage='Back'
+                    />
+                </a>
+            </div>
+        );
+
         return (
             <div>
                 <BackButton/>
+                {headerButton}
                 <div
                     id='signup_email_section'
                     className='col-sm-12'
@@ -482,40 +526,41 @@ export default class SignupEmail extends React.Component {
                             src={logoImage}
                         />
                         <SiteNameAndDescription
-                            customDescriptionText={customDescriptionText}
-                            siteName={siteName}
+                            customDescriptionText= 'Add new user into the team' // {customDescriptionText}
+                            siteName= 'Create Account'
                         />
-                        <h4
-                            id='create_account'
-                            className='color--light'
-                        >
-                            <FormattedMessage
-                                id='signup_user_completed.lets'
-                                defaultMessage="Let's create your account"
-                            />
-                        </h4>
-                        <span
-                            id='signin_account'
-                            className='color--light'
-                        >
-                            <FormattedMessage
-                                id='signup_user_completed.haveAccount'
-                                defaultMessage='Already have an account?'
-                            />
-                            {' '}
-                            <Link
-                                id='signin_account_link'
-                                to={'/login' + location.search}
-                            >
-                                <FormattedMessage
-                                    id='signup_user_completed.signIn'
-                                    defaultMessage='Click here to sign in.'
-                                />
-                            </Link>
-                        </span>
+                        {/*<h4*/}
+                        {/*    id='create_account'*/}
+                        {/*    className='color--light'*/}
+                        {/*>*/}
+                        {/*    <FormattedMessage*/}
+                        {/*        id='signup_user_completed.lets'*/}
+                        {/*        defaultMessage="Let's create your account"*/}
+                        {/*    />*/}
+                        {/*</h4>*/}
+                        {/*<span*/}
+                        {/*    id='signin_account'*/}
+                        {/*    className='color--light'*/}
+                        {/*>*/}
+                        {/*    <FormattedMessage*/}
+                        {/*        id='signup_user_completed.haveAccount'*/}
+                        {/*        defaultMessage='Already have an account?'*/}
+                        {/*    />*/}
+                        {/*    {' '}*/}
+                        {/*    <Link*/}
+                        {/*        id='signin_account_link'*/}
+                        {/*        to={'/login' + location.search}*/}
+                        {/*    >*/}
+                        {/*        <FormattedMessage*/}
+                        {/*            id='signup_user_completed.signIn'*/}
+                        {/*            defaultMessage='Click here to sign in.'*/}
+                        {/*        />*/}
+                        {/*    </Link>*/}
+                        {/*</span>*/}
                         {emailSignup}
+                        {accountCreated}
                         {serverError}
-                        {terms}
+                        {/*{terms}*/}
                     </div>
                 </div>
             </div>

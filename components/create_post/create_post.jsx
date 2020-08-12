@@ -1273,6 +1273,7 @@ export default class CreatePost extends React.Component {
                 ref='topDiv'
                 className={centerClass}
                 onSubmit={this.handleSubmit}
+                style={{display: (currentChannel.display_name === 'Town Square') ? 'none' : 'block'}}
             >
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>

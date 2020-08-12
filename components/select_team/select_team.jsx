@@ -80,6 +80,7 @@ export default class SelectTeam extends React.Component {
         const {data, error} = await this.props.actions.addUserToTeam(team.id, this.props.currentUserId);
         if (data) {
             this.props.history.push(`/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+            // this.props.history.push(`/welcome`);
         } else if (error) {
             let errorMsg = error.message;
 

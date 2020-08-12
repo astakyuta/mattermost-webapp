@@ -13,6 +13,8 @@ import DropdownIcon from 'components/icon/dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import {localizeMessage} from "utils/utils";
+import MenuItemLink from "../widgets/menu/menu_items/menu_item_link";
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -270,6 +272,18 @@ export default class TeamMembersDropdown extends React.Component {
                             show={showMakeMember}
                             onClick={this.handleMakeMember}
                             text={Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Member')}
+                        />
+                        <MenuItemLink
+                            id='createTeam'
+                            to={`/user/${user.id}/password/update`}
+                            text={localizeMessage('', 'Manage Password')}
+                            icon={this.props.mobile && <i className='fa fa-key'/>}
+                        />
+                        <MenuItemLink
+                            id='createTeam'
+                            to={`/user/${user.id}/auto_logout/update`}
+                            text={localizeMessage('', 'Manage Auto Logout')}
+                            icon={this.props.mobile && <i className='fa fa-key'/>}
                         />
                     </Menu>
                     {makeDemoteModal}

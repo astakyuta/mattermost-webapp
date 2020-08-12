@@ -136,17 +136,17 @@ export function sendDesktopNotification(post, msgProps) {
 
         // Notify if you're not looking in the right channel or when
         // the window itself is not active
-        const activeChannel = getCurrentChannel(state);
-        const channelId = channel ? channel.id : null;
-        const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+        // const activeChannel = getCurrentChannel(state);
+        // const channelId = channel ? channel.id : null;
+        // const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
 
-        if (notify) {
+        // if (notify) {
             Utils.notifyMe(title, body, channel, teamId, !sound, notifyPropsOfUser);
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
                 Utils.ding();
             }
-        }
+        // }
     };
 }

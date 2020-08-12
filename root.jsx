@@ -43,9 +43,11 @@ function preRenderSetup(callwhendone) {
     callwhendone();
 }
 
+
+
 function renderRootComponent() {
     ReactDOM.render((
-        <App/>
+            <App/>
     ),
     document.getElementById('root'));
 }

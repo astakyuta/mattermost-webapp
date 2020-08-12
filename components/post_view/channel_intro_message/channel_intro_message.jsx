@@ -317,17 +317,17 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
     return (
         <div
             id='channelIntro'
-            className={'channel-intro ' + centeredIntro}
+            className={'channel-intro welcome-text-pb text-center ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
-                <FormattedMessage
-                    id='intro_messages.beginning'
-                    defaultMessage='Beginning of {name}'
-                    values={{
-                        name: channel.display_name,
-                    }}
-                />
-            </h4>
+            {/*<h4 className='channel-intro__title'>*/}
+            {/*    <FormattedMessage*/}
+            {/*        id='intro_messages.beginning'*/}
+            {/*        defaultMessage='Beginning of {name}'*/}
+            {/*        values={{*/}
+            {/*            name: channel.display_name,*/}
+            {/*        }}*/}
+            {/*    />*/}
+            {/*</h4>*/}
             <p className='channel-intro__content'>
                 {!isReadOnly &&
                     <FormattedMarkdownMessage
@@ -348,8 +348,8 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     />
                 }
             </p>
-            {teamInviteLink}
-            {setHeaderButton}
+            {/*{teamInviteLink}*/}
+            {/*{setHeaderButton}*/}
             <br/>
         </div>
     );
@@ -559,6 +559,8 @@ function createSetHeaderButton(channel) {
     if (channelIsArchived) {
         return null;
     }
+
+    console.log('channel in intro message: ', channel);
 
     return (
         <FormattedMessage

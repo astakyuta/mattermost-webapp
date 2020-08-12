@@ -13,6 +13,7 @@ import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {browserHistory} from "../../../../utils/browser_history";
 
 export default class TeamUrl extends React.PureComponent {
     static propTypes = {
@@ -141,6 +142,8 @@ export default class TeamUrl extends React.PureComponent {
         if (data) {
             this.props.history.push('/' + data.name + '/channels/' + Constants.DEFAULT_CHANNEL);
             trackEvent('signup', 'signup_team_03_complete');
+            // this.props.history.push('/welcome');
+            // browserHistory.push('/welcome');
         } else if (error) {
             this.setState({nameError: error.message});
             this.setState({isLoading: false});

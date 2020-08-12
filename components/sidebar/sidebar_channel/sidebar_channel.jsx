@@ -284,11 +284,13 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         return (
+
             <li
                 key={this.props.channelName}
                 ref={'channel'}
                 className={linkClass}
             >
+                {(this.props.channelName !== 'town-square') && (
                 <SidebarChannelButtonOrLink
                     link={link}
                     rowClass={rowClass}
@@ -309,8 +311,10 @@ export default class SidebarChannel extends React.PureComponent {
                     teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
                 />
+                )}
                 {tutorialTip}
             </li>
+
         );
     }
 }

@@ -348,9 +348,9 @@ export function handleEvent(msg) {
         dispatch(handleUserTypingEvent(msg));
         break;
 
-    case 'auto-response-update':
-        dispatch(handleAutoResponseUpdateEvent(msg));
-        break;
+    // case 'auto-response-update':
+    //     dispatch(handleAutoResponseUpdateEvent(msg));
+    //     break;
 
     case SocketEvents.STATUS_CHANGED:
         handleStatusChangedEvent(msg);
@@ -708,14 +708,17 @@ export function handleUserRemovedEvent(msg) {
 function handleUserUpdatedEvent(msg) {
     const currentUser = getCurrentUser(getState());
     const user = msg.data.user;
+    console.log('comes under handleUserUpdatedEvent part: ', user);
 
     if (currentUser.id === user.id) {
+        console.log('handleUserUpdatedEvent if part: ', 2);
         if (user.update_at > currentUser.update_at) {
             // Need to request me to make sure we don't override with sanitized fields from the
             // websocket event
             getMe()(dispatch, getState);
         }
     } else {
+        console.log('handleUserUpdatedEvent else part: ', 3);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE,
             data: user,
@@ -801,10 +804,10 @@ function addedNewDmUser(preference) {
     return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
 }
 
-function handleAutoResponseUpdateEvent(msg) {
-    const preferences = JSON.parse(msg.data);
-    dispatch({type: 'auto-response-update', data: preferences});
-}
+// function handleAutoResponseUpdateEvent(msg) {
+//     const preferences = JSON.parse(msg.data);
+//     dispatch({type: 'auto-response-update', data: preferences});
+// }
 
 export function handleUserTypingEvent(msg) {
     return (doDispatch, doGetState) => {

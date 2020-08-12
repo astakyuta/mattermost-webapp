@@ -621,6 +621,7 @@ export default class ChannelHeader extends React.PureComponent {
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
                 data-a11y-sort-order='7'
+                style={{display: (`${channel.display_name}` === 'Town Square') ? 'none' : 'block'}}
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>

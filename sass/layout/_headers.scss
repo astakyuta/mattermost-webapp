@@ -435,6 +435,16 @@
     }
 }
 
+.welcome-text-pb {
+    padding-bottom: 20em !important;
+}
+
+@media screen and (max-width: 768px) {
+    .welcome-text-pb {
+        padding-bottom: 1em !important;
+    }
+}
+
 .channel-intro {
     margin: 0 auto 10px;
     padding: 110px 15px 0;

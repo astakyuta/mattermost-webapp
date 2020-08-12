@@ -54,10 +54,13 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                 <StatusIcon status={teammateStatus}/>
             );
         }
+        console.log('this getChannelTitle', this.getChannelTitle());
 
         return (
-            <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}>
-                <a>
+            <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}
+                // className='d-none'
+            >
+                <a className={ (this.getChannelTitle() === 'Town Square') ? 'd-none' : '' }>
                     <span className='heading'>
                         {dmHeaderIconStatus}
                         {this.getChannelTitle()}

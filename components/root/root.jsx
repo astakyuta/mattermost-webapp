@@ -47,6 +47,8 @@ import loadAuthorize from 'bundle-loader?lazy!components/authorize';
 import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import loadDownloadAppLinkPage from 'bundle-loader?lazy!components/download_app_link_page';
+import loadUpdatePasswordByAdmin from 'bundle-loader?lazy!components/update_password_by_admin';
+import loadUpdateAutoLogoutUser from 'bundle-loader?lazy!components/update_auto_logout_user';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
@@ -72,6 +74,8 @@ const SelectTeam = makeAsyncComponent(loadSelectTeam);
 const Authorize = makeAsyncComponent(loadAuthorize);
 const Mfa = makeAsyncComponent(loadMfa);
 const DownloadAppLinkPage = makeAsyncComponent(loadDownloadAppLinkPage);
+const UpdatePasswordByAdmin = makeAsyncComponent(loadUpdatePasswordByAdmin);
+const UpdateAutoLogoutUser = makeAsyncComponent(loadUpdateAutoLogoutUser);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -341,6 +345,19 @@ export default class Root extends React.Component {
                         path={'/download_app_link'}
                         component={DownloadAppLinkPage}
                     />
+                    <LoggedInRoute
+                        path={'/user/:userid/password/update'}
+                        component={UpdatePasswordByAdmin}
+                    />
+                    <LoggedInRoute
+                        path={'/user/:userid/auto_logout/update'}
+                        component={UpdateAutoLogoutUser}
+                    />
+
+                    {/*<LoggedInRoute*/}
+                    {/*    path={'/welcome'}*/}
+                    {/*    component={WelcomePage}*/}
+                    {/*/>*/}
                     <LoggedInRoute
                         path={['/_redirect/integrations', '/_redirect/pl/:postid']}
                         component={PermalinkRedirector}

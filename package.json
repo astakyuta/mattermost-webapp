@@ -38,6 +38,7 @@
     "popmotion": "8.7.0",
     "popper.js": "1.15.0",
     "prop-types": "15.7.2",
+    "rc-notification": "^4.4.0",
     "react": "16.8.6",
     "react-addons-pure-render-mixin": "15.6.2",
     "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
