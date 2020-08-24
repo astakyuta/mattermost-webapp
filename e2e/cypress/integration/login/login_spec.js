@@ -42,7 +42,7 @@ describe('Login page', () => {
         // * Check elements in the body
         cy.get('#login_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
+        cy.get('#site_description').should('contain', 'Instant on Demand Collaboration');
         cy.get('#loginId').should('be.visible');
         cy.get('#loginId').
             should('be.visible').

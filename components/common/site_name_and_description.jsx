@@ -22,19 +22,29 @@ export default class SiteNameAndDescription extends React.PureComponent {
         } = this.props;
         let description = null;
         if (customDescriptionText) {
-            description = customDescriptionText;
+            // description = customDescriptionText;
+            description = (
+                <FormattedMessage
+                    id='web.root.signup_info'
+                    // defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    defaultMessage='Instant on Demand Collaboration'
+                />
+            );
         } else {
             description = (
                 <FormattedMessage
                     id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    // defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    defaultMessage='Instant on Demand Collaboration'
                 />
             );
         }
 
         return (
             <React.Fragment>
-                <h1 id='site_name'>{siteName}</h1>
+                {/*<h1 id='site_name'>{siteName}</h1>*/}
+                <h3>Valley OBGYN</h3>
+                <h1 id='site_name'>TeamComm</h1>
                 <h4
                     id='site_description'
                     className='color--light'

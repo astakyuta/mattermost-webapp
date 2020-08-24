@@ -1440,9 +1440,9 @@ export default {
                         label: t('admin.team.brandDescriptionTitle'),
                         label_default: 'Site Description: ',
                         help_text: t('admin.team.brandDescriptionHelp'),
-                        help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
+                        help_text_default: 'Description of service shown in login screens and UI. When not specified, "Instant on Demand Collaboration" is displayed.',
                         placeholder: t('web.root.signup_info'),
-                        placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        placeholder_default: 'Instant on Demand Collaboration',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

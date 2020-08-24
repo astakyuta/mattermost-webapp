@@ -120,9 +120,9 @@ export default class NotLoggedIn extends React.PureComponent {
                             >
                                 {`© ${new Date().getFullYear()} Valley OBGYN Medical Group Inc.`}
                             </span>
-                            <span className='pull-right'>
-                                {content}
-                            </span>
+                            {/*<span className='pull-right'>*/}
+                            {/*    {content}*/}
+                            {/*</span>*/}
                         </div>
                     </div>
                 </div>

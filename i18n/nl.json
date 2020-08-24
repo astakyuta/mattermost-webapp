@@ -1359,7 +1359,7 @@
   "admin.system_users.system_admin": "Systeem beheerder",
   "admin.system_users.title": "{siteName} Users",
   "admin.team.brandDesc": "Aanzetten van aangepast logo om een afbeelding naar keuze te tonen, hieronder geüpload, en tekst, hieronder ingevuld, om te tonen op de inlog pagina.",
-  "admin.team.brandDescriptionHelp": "Description of service shown in login screens and UI. When not specified, \"All team communication in one place, searchable and accessible anywhere\" is displayed.",
+  "admin.team.brandDescriptionHelp": "Description of service shown in login screens and UI. When not specified, \"Instant on Demand Collaboration\" is displayed.",
   "admin.team.brandDescriptionTitle": "Site Omschrijving: ",
   "admin.team.brandImageTitle": "Aangepast Logo Afbeelding:",
   "admin.team.brandTextDescription": "Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.",
