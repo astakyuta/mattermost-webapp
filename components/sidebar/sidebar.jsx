@@ -797,7 +797,7 @@ export default class Sidebar extends React.PureComponent {
 
                     {this.renderOrderedChannels()}
                 </div>
-                {quickSwitchText}
+                {/*{quickSwitchText}*/}
             </div>
         );
     }

@@ -26,7 +26,7 @@ export default function GetAndroidApp({androidAppDownloadLink, history, location
             <h1 className='get-app__header'>
                 <FormattedMessage
                     id='get_app.androidHeader'
-                    defaultMessage='TeamComm works best if you switch to our Android app'
+                    defaultMessage='TeamCom works best if you switch to our Android app'
                 />
             </h1>
             <hr/>
@@ -40,13 +40,13 @@ export default function GetAndroidApp({androidAppDownloadLink, history, location
                     <span className='get-android-app__app-name'>
                         <FormattedMessage
                             id='get_app.androidAppName'
-                            defaultMessage='TeamComm for Android'
+                            defaultMessage='TeamCom for Android'
                         />
                     </span>
                     <span className='get-android-app__app-creator'>
                         <FormattedMessage
                             id='get_app.TeamCommInc'
-                            defaultMessage='TeamComm, Inc'
+                            defaultMessage='TeamCom, Inc'
                         />
                     </span>
                 </div>

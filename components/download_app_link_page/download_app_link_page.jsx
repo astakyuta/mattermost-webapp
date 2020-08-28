@@ -72,7 +72,7 @@ export default class SelectTeam extends React.Component {
         //
         // actions.loadRolesIfNeeded(currentUserRoles.split(' '));
     }
-    
+
 
     handleLogoutClick = (e) => {
         e.preventDefault();
@@ -131,7 +131,7 @@ export default class SelectTeam extends React.Component {
                         {/*/>*/}
                         <SiteNameAndDescription
                             customDescriptionText="Please use the link below to download the app!" // {customDescriptionText}
-                            siteName="TeamComm"    // {siteName}
+                            siteName="TeamCom"    // {siteName}
                         />
                         <p>For MacOs: </p>
                         <a href="https://teamcommapp.s3.amazonaws.com/mattermost-desktop-4.3.0-develop-mac.dmg" target="_blank">

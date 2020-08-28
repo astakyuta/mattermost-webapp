@@ -26,7 +26,7 @@ export default function GetIosApp({iosAppDownloadLink, history, location}) {
             <h1 className='get-app__header'>
                 <FormattedMessage
                     id='get_app.iosHeader'
-                    defaultMessage='TeamComm works best if you switch to our iPhone app'
+                    defaultMessage='TeamCom works best if you switch to our iPhone app'
                 />
             </h1>
             <hr/>
@@ -57,7 +57,7 @@ export default function GetIosApp({iosAppDownloadLink, history, location}) {
             >
                 <FormattedMessage
                     id='get_app.openTeamComm'
-                    defaultMessage='Open TeamComm'
+                    defaultMessage='Open TeamCom'
                 />
             </a>
             <span className='get-app__continue-with-browser'>

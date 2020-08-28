@@ -130,70 +130,70 @@ export default class InvitationModalMembersStep extends React.Component {
                 <h1>
                     <FormattedMarkdownMessage
                         id='invitation_modal.members.title'
-                        defaultMessage='Invite **Members**'
+                        defaultMessage='Add **Members**'
                     />
                 </h1>
-                <div className='share-link'>
-                    <h2>
-                        <FormattedMessage
-                            id='invitation_modal.members.share_link.title'
-                            defaultMessage='Share This Link'
-                        />
-                    </h2>
-                    <div className='share-link-input-block'>
-                        <input
-                            ref={this.inviteLinkRef}
-                            className='share-link-input'
-                            type='text'
-                            readOnly={true}
-                            value={inviteUrl}
-                        />
-                        <button
-                            className='share-link-input-button'
-                            onClick={this.copyLink}
-                        >
-                            <LinkIcon/>
-                            {!this.state.copiedLink &&
-                                <FormattedMessage
-                                    id='invitation_modal.members.share_link.copy_button'
-                                    defaultMessage='Copy Link'
-                                />
-                            }
-                            {this.state.copiedLink &&
-                                <FormattedMessage
-                                    id='invitation_modal.members.share_link.link_copied'
-                                    defaultMessage='Link Copied'
-                                />
-                            }
-                        </button>
-                    </div>
-                    <div className='help-text'>
-                        <FormattedMessage
-                            id='invitation_modal.members.share_link.description'
-                            defaultMessage='Share this link to grant member access to this team.'
-                        />
-                    </div>
-                </div>
-                <div className='invitation-modal-or'>
-                    <hr/>
-                    <div>
-                        <FormattedMessage
-                            id='invitation_modal.members.or'
-                            defaultMessage='OR'
-                        />
-                    </div>
-                </div>
+                {/*<div className='share-link'>*/}
+                {/*    <h2>*/}
+                {/*        <FormattedMessage*/}
+                {/*            id='invitation_modal.members.share_link.title'*/}
+                {/*            defaultMessage='Share This Link'*/}
+                {/*        />*/}
+                {/*    </h2>*/}
+                {/*    <div className='share-link-input-block'>*/}
+                {/*        <input*/}
+                {/*            ref={this.inviteLinkRef}*/}
+                {/*            className='share-link-input'*/}
+                {/*            type='text'*/}
+                {/*            readOnly={true}*/}
+                {/*            value={inviteUrl}*/}
+                {/*        />*/}
+                {/*        <button*/}
+                {/*            className='share-link-input-button'*/}
+                {/*            onClick={this.copyLink}*/}
+                {/*        >*/}
+                {/*            <LinkIcon/>*/}
+                {/*            {!this.state.copiedLink &&*/}
+                {/*                <FormattedMessage*/}
+                {/*                    id='invitation_modal.members.share_link.copy_button'*/}
+                {/*                    defaultMessage='Copy Link'*/}
+                {/*                />*/}
+                {/*            }*/}
+                {/*            {this.state.copiedLink &&*/}
+                {/*                <FormattedMessage*/}
+                {/*                    id='invitation_modal.members.share_link.link_copied'*/}
+                {/*                    defaultMessage='Link Copied'*/}
+                {/*                />*/}
+                {/*            }*/}
+                {/*        </button>*/}
+                {/*    </div>*/}
+                {/*    <div className='help-text'>*/}
+                {/*        <FormattedMessage*/}
+                {/*            id='invitation_modal.members.share_link.description'*/}
+                {/*            defaultMessage='Share this link to grant member access to this team.'*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                {/*<div className='invitation-modal-or'>*/}
+                {/*    <hr/>*/}
+                {/*    <div>*/}
+                {/*        <FormattedMessage*/}
+                {/*            id='invitation_modal.members.or'*/}
+                {/*            defaultMessage='OR'*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className='search-and-add'>
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
-                            defaultMessage='Invite People'
+                            defaultMessage='Add People'
                         />
                     </h2>
                     <div data-testid='inputPlaceholder'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.placeholder'
-                            defaultMessage='Add members or email addresses'
+                            defaultMessage='Enter email addresses'
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
@@ -226,7 +226,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     >
                         <FormattedMessage
                             id='invitation_modal.members.invite_button'
-                            defaultMessage='Invite Members'
+                            defaultMessage='Add Members'
                         />
                     </button>
                 </div>

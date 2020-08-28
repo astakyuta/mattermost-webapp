@@ -283,6 +283,10 @@ export default class SidebarChannel extends React.PureComponent {
             displayName = this.props.channelDisplayName;
         }
 
+        console.log('prop 32', this.props)
+        console.log('display name', displayName)
+        console.log('display name', displayName)
+
         return (
 
             <li

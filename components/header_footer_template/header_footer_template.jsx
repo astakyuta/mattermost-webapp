@@ -110,7 +110,7 @@ export default class NotLoggedIn extends React.PureComponent {
                                 id='company_name'
                                 className='pull-right footer-site-name'
                             >
-                                {'TeamComm'}
+                                {'TeamCom'}
                             </span>
                         </div>
                         <div className='col-xs-12'>

@@ -15,6 +15,7 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
+import * as Utils from "../../../utils/utils";
 
 export default class SidebarChannelButtonOrLink extends React.PureComponent {
     static propTypes = {
@@ -71,6 +72,12 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
+
+        const user = Utils.getUserByUsername(this.props.displayName)
+        const userFullName = Utils.getFullName(user)
+
+        const displayName = userFullName ? userFullName : this.props.displayName;
+
         const content = (
             <React.Fragment>
                 <SidebarChannelButtonOrLinkIcon
@@ -84,7 +91,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     teammateIsBot={this.props.teammateIsBot}
                 />
                 <span className='sidebar-item__name'>
-                    <span>{this.props.displayName}</span>
+                    <span>{displayName}</span>
                 </span>
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton

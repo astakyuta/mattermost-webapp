@@ -1326,11 +1326,11 @@ export function changeColor(colourIn, amt) {
 
 export function getFullName(user) {
     if (user.first_name && user.last_name) {
-        return user.first_name + ' ' + user.last_name;
+        return (user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)) + ' ' + (user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1));
     } else if (user.first_name) {
-        return user.first_name;
+        return (user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1));
     } else if (user.last_name) {
-        return user.last_name;
+        return (user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1));
     }
 
     return '';
@@ -1374,7 +1374,8 @@ export function getLongDisplayNameParts(user) {
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
 export function getDisplayNameByUserId(userId) {
-    return getDisplayNameByUser(getUser(store.getState(), userId));
+    // return getDisplayNameByUser(getUser(store.getState(), userId));
+    return getFullName(getUser(store.getState(), userId));
 }
 
 /**
@@ -1441,25 +1442,25 @@ export function displayEntireNameForUser(user) {
     if (fullName && user.nickname) {
         displayName = (
             <span>
-                {'@' + user.username}
-                {' - '}
                 <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+                {' - '}
+                {'@' + user.username}
             </span>
         );
     } else if (fullName) {
         displayName = (
             <span>
-                {'@' + user.username}
-                {' - '}
                 <span className='light'>{fullName}</span>
+                {' - '}
+                {'@' + user.username}
             </span>
         );
     } else if (user.nickname) {
         displayName = (
             <span>
-                {'@' + user.username}
+                 <span className='light'>{'(' + user.nickname + ')'}</span>
                 {' - '}
-                <span className='light'>{'(' + user.nickname + ')'}</span>
+                {'@' + user.username}
             </span>
         );
     }
@@ -1640,7 +1641,7 @@ export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function getPasswordConfig(config) {
     return {
-        minimumLength: parseInt(config.PasswordMinimumLength, 10),
+        minimumLength: parseInt(config.PasswordMinimumLength, 8),
         requireLowercase: config.PasswordRequireLowercase === 'true',
         requireUppercase: config.PasswordRequireUppercase === 'true',
         requireNumber: config.PasswordRequireNumber === 'true',

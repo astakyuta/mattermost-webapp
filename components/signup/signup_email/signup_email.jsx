@@ -22,6 +22,9 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LogoutIcon from "../../icon/logout_icon";
+import ModalToggleButtonRedux from "../../toggle_modal_button_redux";
+import {ModalIdentifiers} from "utils/constants";
+import InvitationModal from "../../invitation_modal";
 
 export default class SignupEmail extends React.Component {
     static propTypes = {
@@ -160,6 +163,8 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: '',
                 emailError: (<FormattedMessage id='signup_user_completed.required'/>),
+                firstNameError: '',
+                lastNameError: '',
                 passwordError: '',
                 serverError: '',
             });
@@ -170,6 +175,34 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: '',
                 emailError: (<FormattedMessage id='signup_user_completed.validEmail'/>),
+                firstNameError: '',
+                lastNameError: '',
+                passwordError: '',
+                serverError: '',
+            });
+            return false;
+        }
+
+        const providedFirstName = this.refs.firstName.value.trim().toLowerCase();
+        if (!providedFirstName) {
+            this.setState({
+                nameError: '',
+                emailError: '',
+                firstNameError: (<FormattedMessage id='signup_user_completed.required'/>),
+                lastNameError: '',
+                passwordError: '',
+                serverError: '',
+            });
+            return false;
+        }
+
+        const providedLastName = this.refs.lastName.value.trim().toLowerCase();
+        if (!providedLastName) {
+            this.setState({
+                nameError: '',
+                emailError: '',
+                firstNameError: '',
+                lastNameError: (<FormattedMessage id='signup_user_completed.required'/>),
                 passwordError: '',
                 serverError: '',
             });
@@ -181,6 +214,8 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.required'/>),
                 emailError: '',
+                firstNameError: '',
+                lastNameError: '',
                 passwordError: '',
                 serverError: '',
             });
@@ -192,6 +227,8 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),
                 emailError: '',
+                firstNameError: '',
+                lastNameError: '',
                 passwordError: '',
                 serverError: '',
             });
@@ -237,10 +274,16 @@ export default class SignupEmail extends React.Component {
             return;
         }
 
+        this.isUserValid();
+
+        console.log('thi state', this.state);
+
         if (this.isUserValid()) {
             this.setState({
                 nameError: '',
                 emailError: '',
+                firstNameError: '',
+                lastNameError: '',
                 passwordError: '',
                 serverError: '',
                 isSubmitting: true,
@@ -250,6 +293,8 @@ export default class SignupEmail extends React.Component {
                 email: this.refs.email.value.trim(),
                 username: this.refs.name.value.trim().toLowerCase(),
                 password: this.refs.password.value,
+                first_name: this.refs.firstName.value,
+                last_name : this.refs.lastName.value,
                 allow_marketing: true,
             };
 
@@ -261,6 +306,8 @@ export default class SignupEmail extends React.Component {
                     });
                     return;
                 }
+
+                console.log('results', result.data)
 
                 this.setState({accountCreated: true});
 
@@ -321,6 +368,21 @@ export default class SignupEmail extends React.Component {
             passwordDivStyle += ' has-error';
         }
 
+        let firstNameError = null;
+        let lastNameError = null;
+
+        let firstNameDivStyle = 'form-group';
+        if (this.state.firstNameError) {
+            firstNameError = <label className='control-label'>{this.state.firstNameError}</label>;
+            firstNameDivStyle += ' has-error';
+        }
+
+        let lastNameDivStyle = 'form-group';
+        if (this.state.lastNameError) {
+            lastNameError = <label className='control-label'>{this.state.lastNameError}</label>;
+            firstNameDivStyle += ' has-error';
+        }
+
         let yourEmailIs = null;
         if (this.state.email) {
             yourEmailIs = (
@@ -370,6 +432,50 @@ export default class SignupEmail extends React.Component {
                         </div>
                     </div>
                     {yourEmailIs}
+                    <div className='margin--extra'>
+                        <h5 id='name_label'>
+                            <strong>
+                                <FormattedMessage
+                                    id='signup_user_completed.firstname'
+                                    defaultMessage='First Name'
+                                />
+                            </strong>
+                        </h5>
+                        <div className={firstNameDivStyle}>
+                            <input
+                                id='name'
+                                type='text'
+                                ref='firstName'
+                                className='form-control'
+                                placeholder=''
+                                spellCheck='false'
+                                autoCapitalize='off'
+                            />
+                            {firstNameError}
+                        </div>
+                    </div>
+                    <div className='margin--extra'>
+                        <h5 id='name_label'>
+                            <strong>
+                                <FormattedMessage
+                                    id='signup_user_completed.lastname'
+                                    defaultMessage='Last Name'
+                                />
+                            </strong>
+                        </h5>
+                        <div className={lastNameDivStyle}>
+                            <input
+                                id='name'
+                                type='text'
+                                ref='lastName'
+                                className='form-control'
+                                placeholder=''
+                                spellCheck='false'
+                                autoCapitalize='off'
+                            />
+                            {lastNameError}
+                        </div>
+                    </div>
                     <div className='margin--extra'>
                         <h5 id='name_label'>
                             <strong>
@@ -445,6 +551,27 @@ export default class SignupEmail extends React.Component {
             termsOfServiceLink,
         } = this.props;
 
+        const inviteModalLink = (
+            <ModalToggleButtonRedux
+                accessibilityLabel='Invite teammates'
+                id='invitePeople'
+                className='intro-links color--link style--none'
+                modalId={ModalIdentifiers.INVITATION}
+                dialogType={InvitationModal}
+            >
+                <a
+                    href='#'
+                    id='logout'
+                    onClick={this.handleBack}
+                >
+                    <FormattedMessage
+                        id='back'
+                        defaultMessage='Add Member'
+                    />
+                </a>
+            </ModalToggleButtonRedux>
+        );
+
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
@@ -452,7 +579,7 @@ export default class SignupEmail extends React.Component {
                     id='existingEmailErrorContainer'
                     className={'form-group has-error'}
                 >
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className='control-label'>{this.state.serverError} Please follow this link to {inviteModalLink}</label>
                 </div>
             );
         }

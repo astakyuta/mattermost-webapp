@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present TeamComm, Inc. All Rights Reserved.
+// Copyright (c) 2015-present TeamCom, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
@@ -73,7 +73,7 @@ export default class AboutBuildModal extends React.PureComponent {
             <div>
                 {/* <FormattedMessage
                     id='about.teamEditionLearn'
-                    defaultMessage='Join the TeamComm community at '
+                    defaultMessage='Join the TeamCom community at '
                 />
                 <a
                     target='_blank'
@@ -213,7 +213,7 @@ export default class AboutBuildModal extends React.PureComponent {
                     >
                         <FormattedMessage
                             id='about.title'
-                            values={{appTitle: config.SiteName || 'TeamComm'}}
+                            values={{appTitle: config.SiteName || 'TeamCom'}}
                             defaultMessage='About {appTitle}'
                         />
                     </Modal.Title>
@@ -224,13 +224,13 @@ export default class AboutBuildModal extends React.PureComponent {
                             <MattermostLogo/>
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'TeamComm'} {title}</h3>
+                            <h3 className='about-modal__title'>{'TeamCom'} {title}</h3>
                             <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
                             <div className='form-group less'>
                                 <div>
                                     <FormattedMessage
                                         id='about.version'
-                                        defaultMessage='TeamComm Version:'
+                                        defaultMessage='TeamCom Version:'
                                     />
                                     <span id='versionString'>{'\u00a0' + mmversion}</span>
                                 </div>
