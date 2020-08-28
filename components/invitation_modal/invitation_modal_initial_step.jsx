@@ -28,7 +28,7 @@ export default class InvitationModalInitialStep extends React.Component {
                 <h1>
                     <FormattedMarkdownMessage
                         id='invitation_modal.title'
-                        defaultMessage='Invite people to **{teamName}**'
+                        defaultMessage='Add people to **{teamName}**'
                         values={{teamName}}
                     />
                 </h1>
@@ -40,7 +40,7 @@ export default class InvitationModalInitialStep extends React.Component {
                         <h2>
                             <FormattedMarkdownMessage
                                 id='invitation_modal.invite_members.title'
-                                defaultMessage='Invite **Members**'
+                                defaultMessage='Add **Members**'
                             />
                         </h2>
                         <FormattedMessage

@@ -1374,8 +1374,11 @@ export function getLongDisplayNameParts(user) {
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
 export function getDisplayNameByUserId(userId) {
-    // return getDisplayNameByUser(getUser(store.getState(), userId));
-    return getFullName(getUser(store.getState(), userId));
+    const user = getUser(store.getState(), userId)
+    if(user){
+        return getFullName(getUser(store.getState(), userId));
+    }
+    return getDisplayNameByUser(user);
 }
 
 /**

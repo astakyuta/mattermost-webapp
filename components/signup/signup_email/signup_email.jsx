@@ -566,7 +566,7 @@ export default class SignupEmail extends React.Component {
                 >
                     <FormattedMessage
                         id='back'
-                        defaultMessage='Add Member'
+                        defaultMessage='Clik here'
                     />
                 </a>
             </ModalToggleButtonRedux>
@@ -579,7 +579,7 @@ export default class SignupEmail extends React.Component {
                     id='existingEmailErrorContainer'
                     className={'form-group has-error'}
                 >
-                    <label className='control-label'>{this.state.serverError} Please follow this link to {inviteModalLink}</label>
+                    <label className='control-label'>{this.state.serverError} {inviteModalLink} to add this existing user in your team.</label>
                 </div>
             );
         }
