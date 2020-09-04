@@ -136,7 +136,9 @@ export default class SelectTeam extends React.Component {
                             siteName="TeamCom"    // {siteName}
                         />
                         <h3>TeamCom is Available on Mac and Windows</h3>
-                        <p>Please use the link below to download the app!</p>
+                        <p>Please use the link below to download the app! Use these details after successfull installation.</p>
+                        <p>Server Name: <b>TeamCom</b></p>
+                        <p>Server Url: <b>https://teamcom.me</b></p>
                         <a href="/static/downloads/myallchat-5.1.0-mac.dmg" className='download-app-btn' target="_blank">
                             <img
                                 alt={'Mac OS'}
