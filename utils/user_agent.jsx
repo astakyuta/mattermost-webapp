@@ -127,6 +127,10 @@ export function isMacApp() {
     return isDesktopApp() && userAgent.indexOf('Macintosh') !== -1;
 }
 
+export function isWeb() {
+    return !isMacApp() && !isWindowsApp() && !isDesktopApp() && !isMobileApp();
+}
+
 export function isWindows7() {
     const appVersion = navigator.appVersion;
 

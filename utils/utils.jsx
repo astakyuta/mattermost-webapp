@@ -1375,7 +1375,7 @@ export function getLongDisplayNameParts(user) {
  */
 export function getDisplayNameByUserId(userId) {
     const user = getUser(store.getState(), userId)
-    if(user){
+    if(user && user.first_name.length > 0 && user.last_name.length > 0){
         return getFullName(getUser(store.getState(), userId));
     }
     return getDisplayNameByUser(user);

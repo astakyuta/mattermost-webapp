@@ -33,6 +33,7 @@ import WarningIcon from 'components/icon/warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import LoginMfa from '../login_mfa.jsx';
+import {isWeb} from "../../../utils/user_agent";
 
 class LoginController extends React.Component {
     static propTypes = {
@@ -328,16 +329,24 @@ class LoginController extends React.Component {
 
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
-        LocalStorageStore.setWasLoggedIn(true);
-        if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-            browserHistory.push(redirectTo);
-        } else if (team) {
-            browserHistory.push(`/${team.name}`);
-        } else if (experimentalPrimaryTeam) {
-            browserHistory.push(`/${experimentalPrimaryTeam}`);
-        } else {
-            GlobalActions.redirectUserToDefaultTeam();
+
+        if(!isWeb()){
+            LocalStorageStore.setWasLoggedIn(true);
+            if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
+                browserHistory.push(redirectTo);
+            } else if (team) {
+                browserHistory.push(`/${team.name}`);
+            } else if (experimentalPrimaryTeam) {
+                browserHistory.push(`/${experimentalPrimaryTeam}`);
+            } else {
+                GlobalActions.redirectUserToDefaultTeam();
+            }
         }
+        else{
+            // redirect to app download page
+            browserHistory.push('/download_app_link');
+        }
+
     }
 
     handleLoginIdChange = (e) => {
@@ -827,7 +836,7 @@ class LoginController extends React.Component {
                         <div className='signup__content'>
                             <SiteNameAndDescription
                                 customDescriptionText={customDescriptionText}
-                                siteName={siteName}
+                                siteName={'TeamCom'}
                             />
                             {content}
                         </div>

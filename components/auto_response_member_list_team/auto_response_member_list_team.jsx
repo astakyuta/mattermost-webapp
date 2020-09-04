@@ -43,12 +43,12 @@ export default class AutoResponseMemberListTeam extends React.Component {
 
         this.searchTimeoutId = 0;
         this.statusObject = {};
-        
+
         this.state = {
             loading: true,
             saving: false,
-            autoResponderMessage: '', 
-            autoResponderDuration: '', 
+            autoResponderMessage: '',
+            autoResponderDuration: '',
         };
     }
 
@@ -159,7 +159,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
     search = (term) => {
         this.props.actions.setModalSearchTerm(term);
     }
-    
+
     onStatusUpdate = (user, status) => {
         this.statusObject[user.id]= status.toString();
         console.log('checkbox clicked: ', this.statusObject);
@@ -185,7 +185,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
     saveAutoResponseData = (e) => {
 
         this.setState({saving: true});
-        let url = 'https://teamcomm.ga/api/v4/users/auto_response/save';
+        let url = '/api/v4/users/auto_response/save';
         let autoResponseData = {
             status: this.statusObject, // {"4bw1u1dbgibpfkwhj4qugjepmc": "true", "8fif14yoxb81fcnufbswxek8iw": "false"},
             message: this.state.autoResponderMessage,
@@ -225,7 +225,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
         })
         .then((data) => {
             console.log(data);
-            
+
             // for (let i = 0; i < this.props.users; i++) {
             //     this.props.users[i].notify_props.auto_responder_duration = this.state.autoResponderDuration;
             //     this.props.users[i].notify_props.auto_responder_message = this.state.autoResponderMessage;
@@ -302,7 +302,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
         //     }
         // };
         // window.postMessage(payload, '*');
-        
+
         console.log('window is: ', window);
 
     }
@@ -343,7 +343,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
 
         return (
             <div>
-                
+
                 <div className='auto-responder-user-list-scroll'>
                     <SearchableUserList
                         users={usersToDisplay}
@@ -407,7 +407,7 @@ export default class AutoResponseMemberListTeam extends React.Component {
                         onClick={this.saveAutoResponseData}
                     />
                 </div>
-                
+
             </div>
         );
     }

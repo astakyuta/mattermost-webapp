@@ -91,19 +91,19 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
                 id={channelIntroId}
                 className={'channel-intro ' + centeredIntro}
             >
-                <div className='post-profile-img__container channel-intro-img'>
-                    {pictures}
-                </div>
-                <p className='channel-intro-text'>
-                    <FormattedMarkdownMessage
-                        id='intro_messages.GM'
-                        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'
-                        values={{
-                            names: channel.display_name,
-                        }}
-                    />
-                </p>
-                {createSetHeaderButton(channel)}
+                {/*<div className='post-profile-img__container channel-intro-img'>*/}
+                {/*    {pictures}*/}
+                {/*</div>*/}
+                {/*<p className='channel-intro-text'>*/}
+                {/*    <FormattedMarkdownMessage*/}
+                {/*        id='intro_messages.GM'*/}
+                {/*        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'*/}
+                {/*        values={{*/}
+                {/*            names: channel.display_name,*/}
+                {/*        }}*/}
+                {/*    />*/}
+                {/*</p>*/}
+                {/*{createSetHeaderButton(channel)}*/}
             </div>
         );
     }
@@ -138,33 +138,33 @@ function createDMIntroMessage(channel, centeredIntro) {
                 id={channelIntroId}
                 className={'channel-intro ' + centeredIntro}
             >
-                <div className='post-profile-img__container channel-intro-img'>
-                    <ProfilePicture
-                        src={Utils.imageURLForUser(teammate)}
-                        width='50'
-                        height='50'
-                        userId={teammate.id}
-                        username={teammate.username}
-                        hasMention={true}
-                    />
-                </div>
-                <div className='channel-intro-profile d-flex'>
-                    <UserProfile
-                        userId={teammate.id}
-                        disablePopover={false}
-                        hasMention={true}
-                    />
-                </div>
-                <p className='channel-intro-text'>
-                    <FormattedMarkdownMessage
-                        id='intro_messages.DM'
-                        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'
-                        values={{
-                            teammate: teammateName,
-                        }}
-                    />
-                </p>
-                {teammate.is_bot ? null : createSetHeaderButton(channel)}
+                {/*<div className='post-profile-img__container channel-intro-img'>*/}
+                {/*    <ProfilePicture*/}
+                {/*        src={Utils.imageURLForUser(teammate)}*/}
+                {/*        width='50'*/}
+                {/*        height='50'*/}
+                {/*        userId={teammate.id}*/}
+                {/*        username={teammate.username}*/}
+                {/*        hasMention={true}*/}
+                {/*    />*/}
+                {/*</div>*/}
+                {/*<div className='channel-intro-profile d-flex'>*/}
+                {/*    <UserProfile*/}
+                {/*        userId={teammate.id}*/}
+                {/*        disablePopover={false}*/}
+                {/*        hasMention={true}*/}
+                {/*    />*/}
+                {/*</div>*/}
+                {/*<p className='channel-intro-text'>*/}
+                {/*    <FormattedMarkdownMessage*/}
+                {/*        id='intro_messages.DM'*/}
+                {/*        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'*/}
+                {/*        values={{*/}
+                {/*            teammate: teammateName,*/}
+                {/*        }}*/}
+                {/*    />*/}
+                {/*</p>*/}
+                {/*{teammate.is_bot ? null : createSetHeaderButton(channel)}*/}
             </div>
         );
     }
@@ -174,12 +174,12 @@ function createDMIntroMessage(channel, centeredIntro) {
             id={channelIntroId}
             className={'channel-intro ' + centeredIntro}
         >
-            <p className='channel-intro-text'>
-                <FormattedMessage
-                    id='intro_messages.teammate'
-                    defaultMessage='This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.'
-                />
-            </p>
+            {/*<p className='channel-intro-text'>*/}
+            {/*    <FormattedMessage*/}
+            {/*        id='intro_messages.teammate'*/}
+            {/*        defaultMessage='This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.'*/}
+            {/*    />*/}
+            {/*</p>*/}
         </div>
     );
 }
@@ -207,26 +207,26 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
-                <FormattedMessage
-                    id='intro_messages.beginning'
-                    defaultMessage='Beginning of {name}'
-                    values={{
-                        name: channel.display_name,
-                    }}
-                />
-            </h4>
-            <p className='channel-intro__content'>
-                <FormattedMessage
-                    id='intro_messages.offTopic'
-                    defaultMessage='This is the start of {display_name}, a channel for non-work-related conversations.'
-                    values={{
-                        display_name: channel.display_name,
-                    }}
-                />
-            </p>
-            {channelInviteButton}
-            {setHeaderButton}
+            {/*<h4 className='channel-intro__title'>*/}
+            {/*    <FormattedMessage*/}
+            {/*        id='intro_messages.beginning'*/}
+            {/*        defaultMessage='Beginning of {name}'*/}
+            {/*        values={{*/}
+            {/*            name: channel.display_name,*/}
+            {/*        }}*/}
+            {/*    />*/}
+            {/*</h4>*/}
+            {/*<p className='channel-intro__content'>*/}
+            {/*    <FormattedMessage*/}
+            {/*        id='intro_messages.offTopic'*/}
+            {/*        defaultMessage='This is the start of {display_name}, a channel for non-work-related conversations.'*/}
+            {/*        values={{*/}
+            {/*            display_name: channel.display_name,*/}
+            {/*        }}*/}
+            {/*    />*/}
+            {/*</p>*/}
+            {/*{channelInviteButton}*/}
+            {/*{setHeaderButton}*/}
         </div>
     );
 }

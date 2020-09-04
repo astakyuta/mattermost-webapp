@@ -131,7 +131,7 @@ export default class UpdateAutoLogoutUser extends React.Component {
         // console.log('const returnedTarget: ', returnedTarget);
         // return;
 
-        let url = 'https://teamcomm.ga/api/v4/users/'+ this.userId +'/auto_logout';
+        let url = '/api/v4/users/'+ this.userId +'/auto_logout';
         let putData = {
             auto_logout_duration: this.state.autoLogoutDuration,
             //user: this.user.data, // {"4bw1u1dbgibpfkwhj4qugjepmc": "true", "8fif14yoxb81fcnufbswxek8iw": "false"},

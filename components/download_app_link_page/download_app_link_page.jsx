@@ -14,6 +14,8 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import Constants from 'utils/constants.jsx';
 
 import logoImage from 'images/logo.png';
+import macOSAppIcon from 'images/icons/mac-icon.png';
+import windowsAppIcon from 'images/icons/windows.png';
 
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
@@ -133,14 +135,23 @@ export default class SelectTeam extends React.Component {
                             customDescriptionText="Please use the link below to download the app!" // {customDescriptionText}
                             siteName="TeamCom"    // {siteName}
                         />
-                        <p>For MacOs: </p>
-                        <a href="https://teamcommapp.s3.amazonaws.com/mattermost-desktop-4.3.0-develop-mac.dmg" target="_blank">
-                            https://teamcommapp.s3.amazonaws.com/mattermost-desktop-4.3.0-develop-mac.dmg
+                        <h3>TeamCom is Available on Mac and Windows</h3>
+                        <p>Please use the link below to download the app!</p>
+                        <a href="/static/downloads/myallchat-5.1.0-mac.dmg" className='download-app-btn' target="_blank">
+                            <img
+                                alt={'Mac OS'}
+                                className='download-logo'
+                                src={macOSAppIcon}
+                            />
+                            Mac App
                         </a>
-                        <p></p>
-                        <p>For Windows: </p>
-                        <a href="https://teamcommapp.s3.amazonaws.com/mattermost-desktop-setup-4.3.0-develop-win.exe" target="_blank">
-                            https://teamcommapp.s3.amazonaws.com/mattermost-desktop-setup-4.3.0-develop-win.exe
+                        <a href="/static/downloads/myallchat-setup-5.1.0-win.exe" className='download-app-btn' target="_blank">
+                            <img
+                                alt={'Windows OS'}
+                                className='download-logo'
+                                src={windowsAppIcon}
+                            />
+                            Windows App
                         </a>
 
 

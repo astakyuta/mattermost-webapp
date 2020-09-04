@@ -248,7 +248,9 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
+        console.log('componenet did mount check')
         this.props.actions.loadMeAndConfig().then((response) => {
+            console.log('cres', response)
             if (this.props.location.pathname === '/' && response[2] && response[2].data) {
                 GlobalActions.redirectUserToDefaultTeam();
             }

@@ -74,7 +74,10 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
 
 
         const user = Utils.getUserByUsername(this.props.displayName)
-        const userFullName = Utils.getFullName(user)
+        let userFullName = '';
+        if(user && user.first_name.length > 0 && user.last_name.length > 0){
+            userFullName = Utils.getFullName(user)
+        }
 
         const displayName = userFullName ? userFullName : this.props.displayName;
 

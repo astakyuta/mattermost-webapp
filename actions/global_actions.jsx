@@ -514,7 +514,7 @@ export function sendAutoResponseToChannel(channelId) {
     console.log('comes under sendAutoResponseToChannel');
 
     const obj = {channel_ids: [channelId]};
-    let url = 'https://teamcomm.ga/api/v4/posts/auto_response';
+    let url = '/api/v4/posts/auto_response';
     fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
