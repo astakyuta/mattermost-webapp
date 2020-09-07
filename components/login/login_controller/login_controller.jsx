@@ -263,6 +263,9 @@ class LoginController extends React.Component {
         this.setState({serverError: null, loading: true});
 
         this.props.actions.login(loginId, password, token).then(async ({error}) => {
+            console.log('cehcking for login');
+            console.log('login error', error);
+            console.log('state',  this.state);
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
@@ -305,6 +308,7 @@ class LoginController extends React.Component {
 
             if (inviteId || inviteToken) {
                 const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+                console.log('check team ', team);
                 if (team) {
                     this.finishSignin(team);
                 } else {
@@ -330,21 +334,15 @@ class LoginController extends React.Component {
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
 
-        if(!isWeb()){
-            LocalStorageStore.setWasLoggedIn(true);
-            if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
-                browserHistory.push(redirectTo);
-            } else if (team) {
-                browserHistory.push(`/${team.name}`);
-            } else if (experimentalPrimaryTeam) {
-                browserHistory.push(`/${experimentalPrimaryTeam}`);
-            } else {
-                GlobalActions.redirectUserToDefaultTeam();
-            }
-        }
-        else{
-            // redirect to app download page
-            browserHistory.push('/download_app_link');
+        LocalStorageStore.setWasLoggedIn(true);
+        if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
+            browserHistory.push(redirectTo);
+        } else if (team) {
+            browserHistory.push(`/${team.name}`);
+        } else if (experimentalPrimaryTeam) {
+            browserHistory.push(`/${experimentalPrimaryTeam}`);
+        } else {
+            GlobalActions.redirectUserToDefaultTeam();
         }
 
     }

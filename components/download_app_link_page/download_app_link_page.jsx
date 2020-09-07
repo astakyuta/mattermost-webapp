@@ -139,7 +139,7 @@ export default class SelectTeam extends React.Component {
                         <p>Please use the link below to download the app! Use these details after successfull installation.</p>
                         <p>Server Name: <b>TeamCom</b></p>
                         <p>Server Url: <b>https://teamcom.me</b></p>
-                        <a href="/static/downloads/myallchat-5.1.0-mac.dmg" className='download-app-btn' target="_blank">
+                        <a href="/static/downloads/TeamCom-5.1.1-mac.dmg" className='download-app-btn' target="_blank">
                             <img
                                 alt={'Mac OS'}
                                 className='download-logo'
@@ -147,7 +147,7 @@ export default class SelectTeam extends React.Component {
                             />
                             Mac App
                         </a>
-                        <a href="/static/downloads/myallchat-setup-5.1.0-win.exe" className='download-app-btn' target="_blank">
+                        <a href="/static/downloads/TeamCom-setup-5.1.1-win.exe" className='download-app-btn' target="_blank">
                             <img
                                 alt={'Windows OS'}
                                 className='download-logo'

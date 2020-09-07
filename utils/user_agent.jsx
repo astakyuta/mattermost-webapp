@@ -116,7 +116,7 @@ export function isEdge() {
 }
 
 export function isDesktopApp() {
-    return userAgent.indexOf('Myallchat') !== -1 && userAgent.indexOf('Electron') !== -1;
+    return userAgent.indexOf('TeamCom') !== -1 && userAgent.indexOf('Electron') !== -1;
 }
 
 export function isWindowsApp() {

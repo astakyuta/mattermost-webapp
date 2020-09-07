@@ -60,6 +60,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamRelativeUrl} from "utils/utils";
+import {isWeb} from "../utils/user_agent";
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -317,7 +318,6 @@ export function emitBrowserFocus(focus) {
 
 export async function redirectUserToDefaultTeam() {
     let state = getState();
-    console.log('redirectUserToDefaultTeam state 1: ', state);
 
     let status = true;
     const payload = {
@@ -337,7 +337,6 @@ export async function redirectUserToDefaultTeam() {
     }
 
     state = getState();
-    console.log('redirectUserToDefaultTeam state 2: ', state);
 
     const userId = getCurrentUserId(state);
     const locale = getCurrentLocale(state);
@@ -345,8 +344,6 @@ export async function redirectUserToDefaultTeam() {
 
     const currentUser = getUser(state, userId);
     const currentUserRole = currentUser.roles;
-    console.log('get user: ', currentUser);
-
 
     // if(currentUser.notify_props.auto_logout_duration !== 'undefined') {
 
@@ -374,18 +371,10 @@ export async function redirectUserToDefaultTeam() {
     //     console.log('role is: ', currentUserRole);
     // }
 
-
-    console.log('redirectUserToDefaultTeam userId: ', userId);
-    console.log('redirectUserToDefaultTeam locale: ', locale);
-    console.log('redirectUserToDefaultTeam teamId: ', teamId);
-
-
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
-    console.log('my members: ', myMember);
 
     if (!team || !myMember || !myMember.team_id) {
-        console.log('redirectUserToDefaultTeam no team or member: ', 1);
         team = null;
         let myTeams = getMyTeams(state);
 
@@ -397,23 +386,19 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
+    const myMember2 = getMyTeamMember(state, team.id);
+
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
-
-        console.log('redirectUserToDefaultTeam channel name: ', channelName);
-        console.log('redirectUserToDefaultTeam channel: ', channel);
+        console.log('channel check', channel);
 
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
-
-            console.log('channel && channel.team_id: ', channelName);
         } else {
-            console.log('channel && channel.team_id: ', channelName);
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
             if (data) {
-                console.log('channel && channel.team_id inside if: ', data);
                 dispatch(selectChannel(data.id));
             }
         }
@@ -423,28 +408,33 @@ export async function redirectUserToDefaultTeam() {
         // if (currentUserRole === 'system_admin') {
 
         let myMemberArray = Object.keys(myMember);
-        console.log('myMemberArray: ', myMemberArray);
 
         if( (currentUserRole === 'system_admin') ) {
+            console.log('check 1');
             browserHistory.push(`/${team.name}/channels/${channelName}`);
         } else if (myMemberArray.length > 0 && myMember.roles != '') {
+            console.log('check 2');
             if(myMember.roles.includes('team_admin')) {
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
             } else {
-                // browserHistory.push('/download_app_link');
-                if(isElectron()){
-                    browserHistory.push(`/${team.name}/channels/${channelName}`);
+                if(isWeb()){
+                    browserHistory.push('/download_app_link');
                 }else{
                     browserHistory.push(`/${team.name}/channels/${channelName}`);
-                    // browserHistory.push('/download_app_link');
                 }
             }
         } else {
-            if(isElectron()){
+            console.log('check 3');
+            if(myMember2.roles != '' && Utils.isAdmin(myMember2.roles)){
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
-            }else{
-                browserHistory.push(`/${team.name}/channels/${channelName}`);
-                // browserHistory.push('/download_app_link');
+            }
+            else{
+                if(isWeb()){
+                    browserHistory.push('/download_app_link');
+                }
+                else{
+                    browserHistory.push(`/${team.name}/channels/${channelName}`);
+                }
             }
         }
 
