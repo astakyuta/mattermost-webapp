@@ -263,9 +263,6 @@ class LoginController extends React.Component {
         this.setState({serverError: null, loading: true});
 
         this.props.actions.login(loginId, password, token).then(async ({error}) => {
-            console.log('cehcking for login');
-            console.log('login error', error);
-            console.log('state',  this.state);
             if (error) {
                 if (error.server_error_id === 'api.user.login.not_verified.app_error') {
                     browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));

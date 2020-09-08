@@ -381,37 +381,37 @@ class ProfilePopover extends React.PureComponent {
                 </div>
             );
 
-            if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
-                const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
-                dataContent.push(
-                    <div
-                        data-toggle='tooltip'
-                        className='popover__row first'
-                        key='user-popover-add-to-channel'
-                    >
-                        <a
-                            href='#'
-                            className='text-nowrap'
-                        >
-                            <ToggleModalButtonRedux
-                                accessibilityLabel={addToChannelMessage}
-                                ref='addUserToChannelModalButton'
-                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                                role='menuitem'
-                                dialogType={AddUserToChannelModal}
-                                dialogProps={{user: this.props.user}}
-                                onClick={this.props.hide}
-                            >
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
-                                />
-                                {addToChannelMessage}
-                            </ToggleModalButtonRedux>
-                        </a>
-                    </div>
-                );
-            }
+            // if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
+            //     const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
+            //     dataContent.push(
+            //         <div
+            //             data-toggle='tooltip'
+            //             className='popover__row first'
+            //             key='user-popover-add-to-channel'
+            //         >
+            //             <a
+            //                 href='#'
+            //                 className='text-nowrap'
+            //             >
+            //                 <ToggleModalButtonRedux
+            //                     accessibilityLabel={addToChannelMessage}
+            //                     ref='addUserToChannelModalButton'
+            //                     modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+            //                     role='menuitem'
+            //                     dialogType={AddUserToChannelModal}
+            //                     dialogProps={{user: this.props.user}}
+            //                     onClick={this.props.hide}
+            //                 >
+            //                     <i
+            //                         className='fa fa-user-plus'
+            //                         title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
+            //                     />
+            //                     {addToChannelMessage}
+            //                 </ToggleModalButtonRedux>
+            //             </a>
+            //         </div>
+            //     );
+            // }
         }
 
         dataContent.push(

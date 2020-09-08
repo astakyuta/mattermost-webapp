@@ -386,8 +386,6 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    const myMember2 = getMyTeamMember(state, team.id);
-
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
@@ -424,7 +422,7 @@ export async function redirectUserToDefaultTeam() {
                 }
             }
         } else {
-            console.log('check 3');
+            const myMember2 = getMyTeamMember(state, team.id);
             if(myMember2.roles != '' && Utils.isAdmin(myMember2.roles)){
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
             }
