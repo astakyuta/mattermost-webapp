@@ -44,7 +44,8 @@ export default class SidebarHeader extends React.PureComponent {
                 <div
                     className='d-flex'
                 >
-                    {!this.state.isMobile && <StatusDropdown/>}
+                    {/*{!this.state.isMobile && <StatusDropdown/>}*/}
+                    {<StatusDropdown/>}
                     <SidebarHeaderDropdown/>
                 </div>
             </div>

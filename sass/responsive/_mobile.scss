@@ -31,6 +31,9 @@
             }
         }
     }
+    .sidebar--left .team__header .d-flex .MenuWrapper:first-child{
+        margin-top: 15px;
+    }
 
     .mobile-main-menu {
         .Menu {
@@ -393,7 +396,7 @@
 
     .sidebar--left .team__header .user__picture,
     .sidebar--menu .team__header .user__picture {
-        display: none;
+        //display: none;
     }
 
     .date-separator.hovered--before:after,
