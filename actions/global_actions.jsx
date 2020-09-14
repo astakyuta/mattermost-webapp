@@ -61,6 +61,7 @@ import * as Utils from 'utils/utils.jsx';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamRelativeUrl} from "utils/utils";
 import {isWeb} from "../utils/user_agent";
+import {getChannels} from "mattermost-redux/src/actions/channels";
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -326,7 +327,6 @@ export async function redirectUserToDefaultTeam() {
             status,
         }
     };
-    console.log('payloads under redirectUserToDefaultTeam: ', payload);
     window.postMessage(payload, '*');
 
     // Assume we need to load the user if they don't have any team memberships loaded
@@ -389,7 +389,9 @@ export async function redirectUserToDefaultTeam() {
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
-        console.log('channel check', channel);
+        console.log('teamcheck', team);
+        // const channels = getAllChannels(state);
+        // console.log('all channels', channels);
 
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
@@ -408,10 +410,8 @@ export async function redirectUserToDefaultTeam() {
         let myMemberArray = Object.keys(myMember);
 
         if( (currentUserRole === 'system_admin') ) {
-            console.log('check 1');
             browserHistory.push(`/${team.name}/channels/${channelName}`);
         } else if (myMemberArray.length > 0 && myMember.roles != '') {
-            console.log('check 2');
             if(myMember.roles.includes('team_admin')) {
                 browserHistory.push(`/${team.name}/channels/${channelName}`);
             } else {

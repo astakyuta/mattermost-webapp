@@ -145,7 +145,7 @@ export default class SelectTeam extends React.Component {
                             />
                             Mac App
                         </a>
-                        <a href="/static/downloads/TeamCom-setup-5.1.1-win.exe" className='download-app-btn' target="_blank">
+                        <a href="/static/downloads/TeamCom-setup-5.1.2-win.exe" className='download-app-btn' target="_blank">
                             <img
                                 alt={'Windows OS'}
                                 className='download-logo'
