@@ -16,6 +16,7 @@ import {
     markChannelAsRead,
     markChannelAsViewed,
     selectChannel,
+    fetchMyChannelsAndMembers
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -61,7 +62,6 @@ import * as Utils from 'utils/utils.jsx';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamRelativeUrl} from "utils/utils";
 import {isWeb} from "../utils/user_agent";
-import {getChannels} from "mattermost-redux/src/actions/channels";
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -389,17 +389,30 @@ export async function redirectUserToDefaultTeam() {
     if (userId && team) {
         let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
         const channel = getChannelByName(state, channelName);
-        console.log('teamcheck', team);
-        // const channels = getAllChannels(state);
-        // console.log('all channels', channels);
+        const currentChannels = await dispatch(fetchMyChannelsAndMembers(team.id));
+        let allChannels = currentChannels.data.channels;
+        allChannels = allChannels.filter(function(channel){
+            return channel.name !== "town-square" && channel.name !== "off-topic"
+        })
+        const firstChannel = allChannels.length > 0 ? allChannels[0] : [];
 
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
         } else {
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
+
             if (data) {
-                dispatch(selectChannel(data.id));
+                const selectedChannelName = data.name;
+                if(selectedChannelName === 'town-square' || selectedChannelName === 'off-topic'){
+                    if(firstChannel && firstChannel.name){
+                        channelName = firstChannel.name;
+                        dispatch(selectChannel(firstChannel.id));
+                    }
+                }
+                else{
+                    dispatch(selectChannel(data.id));
+                }
             }
         }
 

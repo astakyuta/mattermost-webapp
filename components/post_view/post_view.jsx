@@ -54,6 +54,7 @@ export default class PostView extends React.PureComponent {
     }
 
     render() {
+
         if (this.props.channelLoading || this.state.loaderForChangeOfPostsChunk) {
             return (
                 <div id='post-list'>

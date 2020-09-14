@@ -28,6 +28,11 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import 'rc-notification/assets/index.css';
 import Notification from 'rc-notification';
+import {Client4} from "mattermost-redux/client";
+import ProfilePicture from "../profile_picture";
+const getState = store.getState;
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
 let notification = null;
 Notification.newInstance({}, (n) => notification = n);
 
@@ -52,6 +57,7 @@ export default class ChannelView extends React.PureComponent {
         this.createDeferredPostView();
         this.channelQueue = [];
         this.currentInQueueChannel = '';
+        this.channelName = '';
 
         // this.state = {
         //     counterDuration: '',
@@ -310,6 +316,13 @@ export default class ChannelView extends React.PureComponent {
             }
         }
 
+        // const state = store.getState();
+        // const {data} = await
+        // console.log('all q', userChannel.channe);
+        // allChannels = allChannels.filter(function(channel){
+        //     return channel.name !== "off-topic" || channel.name !== "town-square";
+        // })
+
         // window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
         //     if (origin !== window.location.origin) {
         //         return;
@@ -328,7 +341,6 @@ export default class ChannelView extends React.PureComponent {
         //     }
         // });
 
-
     }
 
 
@@ -336,6 +348,8 @@ export default class ChannelView extends React.PureComponent {
 
     render() {
 
+        const state = getState();
+        const currentUser = getCurrentUser(state);
         // window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
         //     if (origin !== window.location.origin) {
         //         return;
@@ -415,7 +429,47 @@ export default class ChannelView extends React.PureComponent {
 
         const DeferredPostView = this.deferredPostView;
 
-        return (
+        const profilePicture = (
+            <img
+                alt={''}
+                className='user__picture'
+                src={Client4.getProfilePictureUrl(currentUser.id, currentUser.last_picture_update)}
+            />
+        );
+
+
+        const introPost = (
+            <div
+                ref='channelView'
+                id='app-content'
+                className='app__content'
+            >
+                <div className='conversation_message_container'>
+                    <div className='conversation_message_wrapper'>
+                        {profilePicture}
+                        <h1 className='start_conversation_title'>
+                            <FormattedMessage
+                                id='startConversationTitle'
+                                defaultMessage='Welcome {currentUserName},'
+                                values={{
+                                    currentUserName: currentUser.first_name
+                                }}
+                            />
+                        </h1>
+
+                        <p>
+                            <FormattedMessage
+                                id='startConversationDescription'
+                                defaultMessage='To Start a new conversation select someone from the sidebar list or click on + icon'
+                            />
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        )
+
+        const postContent = (
             <div
                 ref='channelView'
                 id='app-content'
@@ -430,6 +484,12 @@ export default class ChannelView extends React.PureComponent {
                 />
                 {createPost}
             </div>
+        )
+
+        return (
+            (this.props.channelId === 'pyox9f8ne3rxbf6wpg8sy4s6mo' || this.props.channelId === 'yshhqhes5br1bxqka4ye8r9jma')
+                ? introPost
+                : postContent
         );
     }
 }

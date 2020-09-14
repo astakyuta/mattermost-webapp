@@ -2165,3 +2165,18 @@
         margin-top: -1em;
     }
 }
+
+.conversation_message_container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .conversation_message_wrapper {
+        text-align: center;
+    }
+    .start_conversation_title {
+       margin: 20px 0;
+    }
+}
