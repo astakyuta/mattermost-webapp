@@ -62,6 +62,7 @@ export default class SignupEmail extends React.Component {
 
         this.state = {
             accountCreated: false,
+            name: '',
         }
     }
 
@@ -74,6 +75,10 @@ export default class SignupEmail extends React.Component {
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
         }
+
+        this.setState({
+            name: 'user' + Math.floor((Math.random() * 1000000) + 1)
+        })
     }
 
     componentDidUpdate() {
@@ -142,16 +147,13 @@ export default class SignupEmail extends React.Component {
             }
 
             if (this.state.token > 0) {
-                console.log('user logged in and token is being set', 1);
                 this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
             }
 
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
             if (redirectTo) {
-                console.log('comes under redirect if statement', 1);
                 browserHistory.push(redirectTo);
             } else {
-                console.log('comes under redirect else statement', 2);
                 GlobalActions.redirectUserToDefaultTeam();
             }
         });
@@ -163,8 +165,7 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: '',
                 emailError: (<FormattedMessage id='signup_user_completed.required'/>),
-                firstNameError: '',
-                lastNameError: '',
+                fullNameError: '',
                 passwordError: '',
                 serverError: '',
             });
@@ -175,34 +176,19 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: '',
                 emailError: (<FormattedMessage id='signup_user_completed.validEmail'/>),
-                firstNameError: '',
-                lastNameError: '',
+                fullNameError: '',
                 passwordError: '',
                 serverError: '',
             });
             return false;
         }
 
-        const providedFirstName = this.refs.firstName.value.trim().toLowerCase();
-        if (!providedFirstName) {
+        const providedFullName = this.refs.fullName.value.trim().toLowerCase();
+        if (!providedFullName) {
             this.setState({
                 nameError: '',
                 emailError: '',
-                firstNameError: (<FormattedMessage id='signup_user_completed.required'/>),
-                lastNameError: '',
-                passwordError: '',
-                serverError: '',
-            });
-            return false;
-        }
-
-        const providedLastName = this.refs.lastName.value.trim().toLowerCase();
-        if (!providedLastName) {
-            this.setState({
-                nameError: '',
-                emailError: '',
-                firstNameError: '',
-                lastNameError: (<FormattedMessage id='signup_user_completed.required'/>),
+                fullNameError: (<FormattedMessage id='signup_user_completed.required'/>),
                 passwordError: '',
                 serverError: '',
             });
@@ -214,7 +200,7 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.required'/>),
                 emailError: '',
-                firstNameError: '',
+                fullNameError: '',
                 lastNameError: '',
                 passwordError: '',
                 serverError: '',
@@ -227,7 +213,7 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),
                 emailError: '',
-                firstNameError: '',
+                fullNameError: '',
                 lastNameError: '',
                 passwordError: '',
                 serverError: '',
@@ -244,6 +230,7 @@ export default class SignupEmail extends React.Component {
                         }}
                     />
                 ),
+                fullNameError: '',
                 emailError: '',
                 passwordError: '',
                 serverError: '',
@@ -255,6 +242,7 @@ export default class SignupEmail extends React.Component {
         const {valid, error} = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
         if (!valid && error) {
             this.setState({
+                fullNameError: '',
                 nameError: '',
                 emailError: '',
                 passwordError: error,
@@ -276,25 +264,24 @@ export default class SignupEmail extends React.Component {
 
         this.isUserValid();
 
-        console.log('thi state', this.state);
-
         if (this.isUserValid()) {
             this.setState({
                 nameError: '',
                 emailError: '',
-                firstNameError: '',
-                lastNameError: '',
+                fullNameError: '',
                 passwordError: '',
                 serverError: '',
                 isSubmitting: true,
             });
 
+            const fullNameString = (this.refs.fullName.value).split(" ");
+
             const user = {
                 email: this.refs.email.value.trim(),
                 username: this.refs.name.value.trim().toLowerCase(),
                 password: this.refs.password.value,
-                first_name: this.refs.firstName.value,
-                last_name : this.refs.lastName.value,
+                first_name: fullNameString.length > 0 ? fullNameString[0] : '',
+                last_name : fullNameString.length > 0 ? fullNameString[1] : '',
                 allow_marketing: true,
             };
 
@@ -306,8 +293,6 @@ export default class SignupEmail extends React.Component {
                     });
                     return;
                 }
-
-                console.log('results', result.data)
 
                 this.setState({accountCreated: true});
 
@@ -368,19 +353,12 @@ export default class SignupEmail extends React.Component {
             passwordDivStyle += ' has-error';
         }
 
-        let firstNameError = null;
-        let lastNameError = null;
+        let fullNameError = null;
 
-        let firstNameDivStyle = 'form-group';
-        if (this.state.firstNameError) {
-            firstNameError = <label className='control-label'>{this.state.firstNameError}</label>;
-            firstNameDivStyle += ' has-error';
-        }
-
-        let lastNameDivStyle = 'form-group';
-        if (this.state.lastNameError) {
-            lastNameError = <label className='control-label'>{this.state.lastNameError}</label>;
-            firstNameDivStyle += ' has-error';
+        let fullNameDivStyle = 'form-group';
+        if (this.state.fullNameError) {
+            fullNameError = <label className='control-label'>{this.state.fullNameError}</label>;
+            fullNameDivStyle += ' has-error';
         }
 
         let yourEmailIs = null;
@@ -436,47 +414,25 @@ export default class SignupEmail extends React.Component {
                         <h5 id='name_label'>
                             <strong>
                                 <FormattedMessage
-                                    id='signup_user_completed.firstname'
-                                    defaultMessage='First Name'
+                                    id='signup_user_completed.fullName'
+                                    defaultMessage='Name'
                                 />
                             </strong>
                         </h5>
-                        <div className={firstNameDivStyle}>
+                        <div className={fullNameDivStyle}>
                             <input
                                 id='name'
                                 type='text'
-                                ref='firstName'
+                                ref='fullName'
                                 className='form-control'
                                 placeholder=''
                                 spellCheck='false'
                                 autoCapitalize='off'
                             />
-                            {firstNameError}
+                            {fullNameError}
                         </div>
                     </div>
-                    <div className='margin--extra'>
-                        <h5 id='name_label'>
-                            <strong>
-                                <FormattedMessage
-                                    id='signup_user_completed.lastname'
-                                    defaultMessage='Last Name'
-                                />
-                            </strong>
-                        </h5>
-                        <div className={lastNameDivStyle}>
-                            <input
-                                id='name'
-                                type='text'
-                                ref='lastName'
-                                className='form-control'
-                                placeholder=''
-                                spellCheck='false'
-                                autoCapitalize='off'
-                            />
-                            {lastNameError}
-                        </div>
-                    </div>
-                    <div className='margin--extra'>
+                    <div className='margin--extra d-none'>
                         <h5 id='name_label'>
                             <strong>
                                 <FormattedMessage
@@ -495,6 +451,7 @@ export default class SignupEmail extends React.Component {
                                 maxLength={Constants.MAX_USERNAME_LENGTH}
                                 spellCheck='false'
                                 autoCapitalize='off'
+                                defaultValue={this.state.name}
                             />
                             {nameError}
                             {nameHelpText}

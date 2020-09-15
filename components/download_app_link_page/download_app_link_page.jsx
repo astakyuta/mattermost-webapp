@@ -125,39 +125,42 @@ export default class SelectTeam extends React.Component {
                 <AnnouncementBar/>
                 {headerButton}
                 <div className='col-sm-12'>
-                    <div className={'signup-team__container'}>
-                        {/*<img*/}
-                        {/*    alt={'signup team logo'}*/}
-                        {/*    className='signup-team-logo'*/}
-                        {/*    src={logoImage}*/}
-                        {/*/>*/}
-                        <SiteNameAndDescription
-                            customDescriptionText="Please use the link below to download the app!" // {customDescriptionText}
-                            siteName="TeamCom"    // {siteName}
-                        />
-                        <h3>TeamCom is Available on Mac and Windows</h3>
-                        <p>Please use the link below to download the app! Use these details after successfull installation.</p>
-                        <a href="/static/downloads/TeamCom-5.1.1-mac.dmg" className='download-app-btn' target="_blank">
-                            <img
-                                alt={'Mac OS'}
-                                className='download-logo'
-                                src={macOSAppIcon}
+                    <div className={'signup-team__container centered_container'}>
+                        <div>
+                            {/*<img*/}
+                            {/*    alt={'signup team logo'}*/}
+                            {/*    className='signup-team-logo'*/}
+                            {/*    src={logoImage}*/}
+                            {/*/>*/}
+                            <SiteNameAndDescription
+                                customDescriptionText="Please use the link below to download the app!" // {customDescriptionText}
+                                siteName="TeamCom"    // {siteName}
                             />
-                            Mac App
-                        </a>
-                        <a href="/static/downloads/TeamCom-setup-5.1.2-win.exe" className='download-app-btn' target="_blank">
-                            <img
-                                alt={'Windows OS'}
-                                className='download-logo'
-                                src={windowsAppIcon}
-                            />
-                            Windows App
-                        </a>
+                            <h3>TeamCom is Available on Mac and Windows</h3>
+                            <h4>NOTE: Ignore warnings and continue installation</h4>
+                            <p>Please use the link below to download and install the app.</p>
+                            <a href="/static/downloads/TeamCom-5.1.1-mac.dmg" className='download-app-btn' target="_blank">
+                                <img
+                                    alt={'Mac OS'}
+                                    className='download-logo'
+                                    src={macOSAppIcon}
+                                />
+                                Mac App
+                            </a>
+                            <a href="/static/downloads/TeamCom-setup-5.1.2-win.exe" className='download-app-btn' target="_blank">
+                                <img
+                                    alt={'Windows OS'}
+                                    className='download-logo'
+                                    src={windowsAppIcon}
+                                />
+                                Windows App
+                            </a>
 
 
-                        {/*{openContent}*/}
-                        {/*{teamSignUp}*/}
-                        {/*{adminConsoleLink}*/}
+                            {/*{openContent}*/}
+                            {/*{teamSignUp}*/}
+                            {/*{adminConsoleLink}*/}
+                        </div>
                     </div>
                 </div>
             </div>

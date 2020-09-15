@@ -27,11 +27,23 @@ body {
     display: none !important;
 }
 
+.d-none{
+    display: none !important;
+}
+
 .signup-team__container {
     margin: 0 auto;
     max-width: 400px;
     padding: 100px 0 50px;
     position: relative;
+
+    &.centered_container{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        height: calc(100vh - 50px);
+        width: 100vw;
+    }
 
     .medium-center {
         width: 70%;
