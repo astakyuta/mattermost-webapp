@@ -31,9 +31,6 @@
             }
         }
     }
-    .sidebar--left .team__header .d-flex .MenuWrapper:first-child{
-        margin-top: 15px;
-    }
 
     .mobile-main-menu {
         .Menu {
@@ -1308,9 +1305,9 @@
             @include clearfix;
             pointer-events: none;
 
-            //.user__name {
-            //    display: none;
-            //}
+            .user__name {
+                display: none;
+            }
 
             .team__name {
                 margin: 10px 0;
