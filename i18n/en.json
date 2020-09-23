@@ -1813,7 +1813,7 @@
   "channel_header.recentMentions": "Recent Mentions",
   "channel_header.rename": "Rename Channel",
   "channel_header.search": "Search",
-  "channel_header.setHeader": "Edit Channel Header",
+  "channel_header.setHeader": "Edit Header",
   "channel_header.setPurpose": "Edit Channel Purpose",
   "channel_header.unmute": "Unmute Channel",
   "channel_header.viewMembers": "View Members",

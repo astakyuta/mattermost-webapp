@@ -202,7 +202,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
-                        text={localizeMessage('channel_header.setHeader', 'Edit Channel Header')}
+                        text={localizeMessage('channel_header.setHeader', 'Edit Header')}
                     />
                     <ChannelPermissionGate
                         channelId={channel.id}
