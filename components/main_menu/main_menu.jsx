@@ -398,18 +398,18 @@ export default class MainMenu extends React.PureComponent {
                     {/*/>*/}
                 {/*</MenuGroup>*/}
                 <MenuGroup>
-                    {(isApp === true) && (
+                    {/*{(isApp === true) && (*/}
 
-                        <MenuItemToggleModalRedux
-                            id='leaveTeam'
-                            // show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
-                            modalId={ModalIdentifiers.LEAVE_TEAM}
-                            dialogType={AppQuitModal}
-                            text={localizeMessage('quitApp', 'Quit App')}
-                            icon={this.props.mobile && <LeaveTeamIcon/>}
-                        />
+                    {/*    <MenuItemToggleModalRedux*/}
+                    {/*        id='leaveTeam'*/}
+                    {/*        // show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}*/}
+                    {/*        modalId={ModalIdentifiers.LEAVE_TEAM}*/}
+                    {/*        dialogType={AppQuitModal}*/}
+                    {/*        text={localizeMessage('quitApp', 'Quit App')}*/}
+                    {/*        icon={this.props.mobile && <LeaveTeamIcon/>}*/}
+                    {/*    />*/}
 
-                    )}
+                    {/*)}*/}
 
                     <MenuItemAction
                         id='logout'

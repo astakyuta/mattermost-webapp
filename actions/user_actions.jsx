@@ -21,6 +21,7 @@ import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/s
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
+import {Client4} from 'mattermost-redux/client';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -331,4 +332,8 @@ export function autoResetStatus() {
 
         return userStatus;
     };
+}
+
+export async function updateUser(userProfile) {
+    return Client4.updateUser(userProfile);
 }

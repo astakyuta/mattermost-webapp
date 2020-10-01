@@ -53,6 +53,7 @@ import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
+import UpdateProfileByAdmin from "../update_profile_by_admin";
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -350,6 +351,10 @@ export default class Root extends React.Component {
                     <LoggedInRoute
                         path={'/user/:userid/password/update'}
                         component={UpdatePasswordByAdmin}
+                    />
+                    <LoggedInRoute
+                        path={'/user/:userid/profile/update'}
+                        component={UpdateProfileByAdmin}
                     />
                     <LoggedInRoute
                         path={'/user/:userid/auto_logout/update'}

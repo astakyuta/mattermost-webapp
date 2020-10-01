@@ -281,6 +281,12 @@ export default class TeamMembersDropdown extends React.Component {
                         />
                         <MenuItemLink
                             id='createTeam'
+                            to={`/user/${user.id}/name/update`}
+                            text={localizeMessage('', 'Change Name')}
+                            icon={this.props.mobile && <i className='fa fa-key'/>}
+                        />
+                        <MenuItemLink
+                            id='createTeam'
                             to={`/user/${user.id}/auto_logout/update`}
                             text={localizeMessage('', 'Manage Auto Logout')}
                             icon={this.props.mobile && <i className='fa fa-key'/>}

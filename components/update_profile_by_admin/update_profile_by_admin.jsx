@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import {updateUser} from "actions/user_actions";
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import Constants from 'utils/constants.jsx';
@@ -35,7 +34,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 // const TEAMS_PER_PAGE = 200;
 // const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
-export default class UpdateNameByAdmin extends React.Component {
+export default class UpdateProfileByAdmin extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         // currentUserRoles: PropTypes.string,
@@ -149,42 +148,38 @@ export default class UpdateNameByAdmin extends React.Component {
 
         this.setState({savingName: true});
 
-        const data = await updateUser(updatedUser);
+        const {data, error: err} = await this.props.actions.patchUser(
+            updatedUser
+        );
+        if (data) {
+            console.log('data is: ', data);
 
-        console.log('data 53333', data);
+            const defaultState = Object.assign(this.getDefaultState(), {nameUpdated: true});
+            this.setState(defaultState);
 
-        // const {data, error: err} = await this.props.actions.patchUser(
-        //     updatedUser
-        // );
-        // if (data) {
-        //     console.log('data is: ', data);
-        //
-        //     const defaultState = Object.assign(this.getDefaultState(), {nameUpdated: true});
-        //     this.setState(defaultState);
-        //
-        //     const timer = setTimeout(() => {
-        //         GlobalActions.back();
-        //     }, 1000);
-        //     return () => clearTimeout(timer);
-        //
-        //
-        //     // const teamId = LocalStorageStore.getPreviousTeamId(this.props.currentUserId);
-        //     // let channelName = LocalStorageStore.getPreviousChannelName(this.props.currentUserId, teamId);
-        //
-        //     // this.props.updateSection('');
-        //     // this.props.actions.getMe();
-        //     // this.setState(this.getDefaultState());
-        // } else if (err) {
-        //     console.log('error is: ', err);
-        //     const state = this.getDefaultState();
-        //     if (err.message) {
-        //         state.serverError = err.message;
-        //     } else {
-        //         state.serverError = err;
-        //     }
-        //     state.nameError = '';
-        //     this.setState(state);
-        // }
+            const timer = setTimeout(() => {
+                GlobalActions.back();
+            }, 1000);
+            return () => clearTimeout(timer);
+
+
+            // const teamId = LocalStorageStore.getPreviousTeamId(this.props.currentUserId);
+            // let channelName = LocalStorageStore.getPreviousChannelName(this.props.currentUserId, teamId);
+
+            // this.props.updateSection('');
+            // this.props.actions.getMe();
+            // this.setState(this.getDefaultState());
+        } else if (err) {
+            console.log('error is: ', err);
+            const state = this.getDefaultState();
+            if (err.message) {
+                state.serverError = err.message;
+            } else {
+                state.serverError = err;
+            }
+            state.nameError = '';
+            this.setState(state);
+        }
     }
 
     // updateCurrentPassword = (e) => {

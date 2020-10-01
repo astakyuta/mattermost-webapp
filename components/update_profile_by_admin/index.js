@@ -19,7 +19,7 @@ import {isGuest} from 'utils/utils';
 import {updateMe, getUser, patchUser} from 'mattermost-redux/actions/users';
 
 
-import UpdateNameByAdmin from './update_name_by_admin.jsx';
+import UpdateProfileByAdmin from './update_profile_by_admin.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -54,4 +54,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdateNameByAdmin));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdateProfileByAdmin));
