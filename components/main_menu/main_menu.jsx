@@ -8,7 +8,7 @@ import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
-import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
+import {cmdOrCtrlPressed, isAdmin, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import InvitationModal from 'components/invitation_modal';
@@ -34,6 +34,9 @@ import MenuItemExternalLink from 'components/widgets/menu/menu_items/menu_item_e
 import MenuItemLink from 'components/widgets/menu/menu_items/menu_item_link.jsx';
 import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux.jsx';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
+import {getMyTeamMember} from "mattermost-redux/selectors/entities/teams";
+import store from "../../stores/redux_store";
+import * as Utils from "../../utils/utils";
 
 export default class MainMenu extends React.PureComponent {
     static propTypes = {
@@ -162,6 +165,10 @@ export default class MainMenu extends React.PureComponent {
             );
         });
 
+        const state = store.getState();
+        const myMember = getMyTeamMember(state, this.props.teamId);
+        const isAdmin = Utils.isAdmin(myMember.roles);
+
         return (
             <Menu
                 mobile={this.props.mobile}
@@ -184,15 +191,18 @@ export default class MainMenu extends React.PureComponent {
                         text={localizeMessage('sidebar_right_menu.flagged', 'Flagged Posts')}
                     />
                 </MenuGroup>
-                <MenuGroup>
-                    <MenuItemToggleModalRedux
-                        id='accountSettings'
-                        modalId={ModalIdentifiers.USER_SETTINGS}
-                        dialogType={UserSettingsModal}
-                        text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
-                        icon={this.props.mobile && <i className='fa fa-cog'/>}
-                    />
-                </MenuGroup>
+                {isAdmin
+                    ? <MenuGroup>
+                        <MenuItemToggleModalRedux
+                            id='accountSettings'
+                            modalId={ModalIdentifiers.USER_SETTINGS}
+                            dialogType={UserSettingsModal}
+                            text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
+                            icon={this.props.mobile && <i className='fa fa-cog'/>}
+                        />
+                    </MenuGroup>
+                    : null
+                }
                 <MenuGroup>
                     <TeamPermissionGate
                         teamId={this.props.teamId}
@@ -277,7 +287,7 @@ export default class MainMenu extends React.PureComponent {
 
 
 
-                    <TeamPermissionGate
+                    {isAdmin ? <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
                         invert={true}
@@ -289,7 +299,8 @@ export default class MainMenu extends React.PureComponent {
                             text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
                             icon={this.props.mobile && <i className='fa fa-users'/>}
                         />
-                    </TeamPermissionGate>
+                    </TeamPermissionGate> : null}
+
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}

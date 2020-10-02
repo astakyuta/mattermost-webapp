@@ -48,12 +48,12 @@ import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import loadDownloadAppLinkPage from 'bundle-loader?lazy!components/download_app_link_page';
 import loadUpdatePasswordByAdmin from 'bundle-loader?lazy!components/update_password_by_admin';
+import loadUpdateProfileByAdmin from 'bundle-loader?lazy!components/update_profile_by_admin';
 import loadUpdateAutoLogoutUser from 'bundle-loader?lazy!components/update_auto_logout_user';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
-import UpdateProfileByAdmin from "../update_profile_by_admin";
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);
@@ -76,6 +76,7 @@ const Authorize = makeAsyncComponent(loadAuthorize);
 const Mfa = makeAsyncComponent(loadMfa);
 const DownloadAppLinkPage = makeAsyncComponent(loadDownloadAppLinkPage);
 const UpdatePasswordByAdmin = makeAsyncComponent(loadUpdatePasswordByAdmin);
+const UpdateProfileByAdmin = makeAsyncComponent(loadUpdateProfileByAdmin);
 const UpdateAutoLogoutUser = makeAsyncComponent(loadUpdateAutoLogoutUser);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (

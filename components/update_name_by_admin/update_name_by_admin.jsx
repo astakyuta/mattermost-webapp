@@ -34,7 +34,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 // const TEAMS_PER_PAGE = 200;
 // const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
-export default class UpdateProfileByAdmin extends React.Component {
+export default class UpdateNameByAdmin extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         // currentUserRoles: PropTypes.string,
@@ -57,7 +57,7 @@ export default class UpdateProfileByAdmin extends React.Component {
 
         actions: PropTypes.shape({
             // getMe: PropTypes.func.isRequired,
-            // updateMe: PropTypes.func.isRequired,
+            updateMe: PropTypes.func.isRequired,
             getUser: PropTypes.func.isRequired,
             patchUser: PropTypes.func.isRequired,
             // getAuthorizedOAuthApps: PropTypes.func.isRequired,
@@ -84,17 +84,11 @@ export default class UpdateProfileByAdmin extends React.Component {
             serverError: '',
             tokenError: '',
             // authService: this.props.user.auth_service,
-            savingProfile: false,
-            profileUpdated: '',
+            savingName: false,
+            nameUpdated: '',
             passwordsNull: '',
             username: '',
-            currentUser: '',
-            fullName: '',
-            email: '',
-            nameError: '',
-            nameErrorNull: '',
-            emailError: '',
-            emailErrorNull: ''
+            currentUser: ''
         };
     }
 
@@ -112,18 +106,19 @@ export default class UpdateProfileByAdmin extends React.Component {
         // actions.loadRolesIfNeeded(currentUserRoles.split(' '));
     }
 
-    updateProfile = async (e) => {
+    submitName = async (e) => {
         e.preventDefault();
 
+        console.log('props userdata: ', this.props);
         const user = this.state.currentUser;
-        const fullNameString = (this.state.fullName).split(" ");
         const currentPassword = 'Admin'; // this.state.currentPassword;
-        const firstName = fullNameString[0];
-        const lastName = fullNameString[1];
-        const email = this.state.email;
+        const firstName = this.state.firstName;
+        const lastName = this.state.lastName;
         const userId = this.userId;
+        console.log('current user 1', user);
 
-        const updatedUser = {...user, first_name: firstName, last_name: lastName, email: email};
+        const updatedUser = {...user, first_name: firstName, last_name: lastName, password: '@max10@f'};
+        console.log('updated user', updatedUser);
 
         // if (currentPassword === '') {
         //     this.setState({passwordError: Utils.localizeMessage('user.settings.security.currentPasswordError', 'Please enter your current password.'), serverError: ''});
@@ -140,16 +135,8 @@ export default class UpdateProfileByAdmin extends React.Component {
         // }
 
         if(lastName === '' || firstName === '') {
-            this.setState({
-                nameErrorNull: true
-            })
-            return;
-        }
-
-        if(email === '') {
-            this.setState({
-                emailErrorNull: true
-            })
+            const defaultState = Object.assign(this.getDefaultState(), {passwordsNull: true});
+            this.setState(defaultState);
             return;
         }
 
@@ -159,12 +146,14 @@ export default class UpdateProfileByAdmin extends React.Component {
         //     return;
         // }
 
-        this.setState({savingProfile: true});
+        this.setState({savingName: true});
 
         const {data, error: err} = await this.props.actions.patchUser(
             updatedUser
         );
         if (data) {
+            console.log('data is: ', data);
+
             const defaultState = Object.assign(this.getDefaultState(), {nameUpdated: true});
             this.setState(defaultState);
 
@@ -189,7 +178,6 @@ export default class UpdateProfileByAdmin extends React.Component {
                 state.serverError = err;
             }
             state.nameError = '';
-            state.emailError = '';
             this.setState(state);
         }
     }
@@ -198,12 +186,12 @@ export default class UpdateProfileByAdmin extends React.Component {
     //     this.setState({currentPassword: e.target.value});
     // }
 
-    updateName = (e) => {
-        this.setState({fullName: e.target.value, nameError: false});
+    updateFirstName = (e) => {
+        this.setState({firstName: e.target.value, nameError: false});
     }
 
-    updateEmail = (e) => {
-        this.setState({email: e.target.value, emailError: false});
+    updateLastName = (e) => {
+        this.setState({lastName: e.target.value, nameError: false});
     }
 
 
@@ -217,9 +205,7 @@ export default class UpdateProfileByAdmin extends React.Component {
 
         this.setState({
             username: this.user.data.username,
-            currentUser: this.user.data,
-            fullName: this.user.data ? (this.user.data.first_name + ' ' + this.user.data.last_name) : '',
-            email: this.user.data.email
+            currentUser: this.user.data
         });
     }
 
@@ -236,31 +222,20 @@ export default class UpdateProfileByAdmin extends React.Component {
         //     canJoinPrivateTeams,
         // } = this.props;
 
-        let profileUpdated = null;
-        if (this.state.profileUpdated) {
-            profileUpdated = <label className='control-label' style={{color: 'red'}}><b>Profile has been updated.</b></label>;
-        }
-
         let nameError = null;
         if (this.state.nameError) {
             nameError = <label className='control-label' style={{color: 'red'}}>{this.state.nameError}</label>;
             // passwordDivStyle += ' has-error';
         }
 
+        let nameUpdated = null;
+        if (this.state.nameUpdated) {
+            nameUpdated = <label className='control-label' style={{color: 'red'}}><b>Name has been updated.</b></label>;
+        }
+
         let nameErrorNull = null;
         if (this.state.nameErrorNull) {
-            nameErrorNull = <label className='control-label' style={{color: 'red'}}><b>The Name field cannot be empty.</b></label>;
-        }
-
-        let emailError = null;
-        if (this.state.emailError) {
-            emailError = <label className='control-label' style={{color: 'red'}}>{this.state.emailError}</label>;
-            // passwordDivStyle += ' has-error';
-        }
-
-        let emailErrorNull = null;
-        if (this.state.emailErrorNull) {
-            emailErrorNull = <label className='control-label' style={{color: 'red'}}><b>The Email field cannot be empty.</b></label>;
+            nameErrorNull = <label className='control-label' style={{color: 'red'}}><b>The First Name and Last Name fields cannot be empty.</b></label>;
         }
 
         let headerButton;
@@ -299,23 +274,47 @@ export default class UpdateProfileByAdmin extends React.Component {
                         <form>
                             <div className='inner__content'>
                                 <div className='margin--extra'>
-                                    <h5 id='name_label'>
+                                    <h5 id='email_label'>
                                         <strong>
                                             <FormattedMessage
-                                                id='user.settings.security.fullName'
-                                                defaultMessage='Name'
+                                                id='user.settings.security.firstName'
+                                                defaultMessage='First Name'
                                             />
                                         </strong>
                                     </h5>
                                     <div className='form-group'>
                                         <input
-                                            id='fullName'
+                                            id='firstName'
                                             className='form-control'
                                             type='text'
-                                            onChange={this.updateName}
-                                            value={this.state.fullName}
-                                            aria-label={Utils.localizeMessage('user.settings.security.fullName', 'Name')}
+                                            onChange={this.updateFirstName}
+                                            value={this.state.firstName}
+                                            aria-label={Utils.localizeMessage('user.settings.security.firstName', 'First Name')}
                                             autoFocus={true}
+                                            spellCheck='false'
+                                        />
+
+                                    </div>
+                                </div>
+
+
+                                <div className='margin--extra'>
+                                    <h5 id='password_label'>
+                                        <strong>
+                                            <FormattedMessage
+                                                id='user.settings.security.lastName'
+                                                defaultMessage='Last Name'
+                                            />
+                                        </strong>
+                                    </h5>
+                                    <div className='form-group'>
+                                        <input
+                                            id='lastName'
+                                            className='form-control'
+                                            type='text'
+                                            onChange={this.updateLastName}
+                                            value={this.state.lastName}
+                                            aria-label={Utils.localizeMessage('user.settings.security.lastName', 'Last Name')}
                                             spellCheck='false'
                                         />
                                         {nameError}
@@ -323,41 +322,16 @@ export default class UpdateProfileByAdmin extends React.Component {
                                     </div>
                                 </div>
 
-
-                                <div className='margin--extra'>
-                                    <h5 id='email_label'>
-                                        <strong>
-                                            <FormattedMessage
-                                                id='user.settings.security.email'
-                                                defaultMessage='Email'
-                                            />
-                                        </strong>
-                                    </h5>
-                                    <div className='form-group'>
-                                        <input
-                                            id='email'
-                                            className='form-control'
-                                            type='text'
-                                            onChange={this.updateEmail}
-                                            value={this.state.email}
-                                            aria-label={Utils.localizeMessage('user.settings.security.email', 'Email')}
-                                            spellCheck='false'
-                                        />
-                                        {emailError}
-                                        {emailErrorNull}
-                                    </div>
-                                </div>
-
                                 <div className='margin--extra' style={{marginTop: '5%', textAlign: 'center'}}>
                                     <SaveButton
                                         btnClass='btn-primary'
                                         savingMessage="Saving..."
-                                        saving={this.state.savingProfile}
-                                        onClick={this.updateProfile}
+                                        saving={this.state.savingName}
+                                        onClick={this.submitName}
                                     />
                                     <br/>
                                     <br/>
-                                    {profileUpdated}
+                                    {nameUpdated}
                                 </div>
 
                             </div>

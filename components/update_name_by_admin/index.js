@@ -16,8 +16,10 @@ import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entit
 
 import {addUserToTeam} from 'actions/team_actions';
 import {isGuest} from 'utils/utils';
-import {patchUser, getUser} from 'mattermost-redux/actions/users';
-import UpdateProfileByAdmin from "./update_profile_by_admin";
+import {updateMe, getUser, patchUser} from 'mattermost-redux/actions/users';
+
+
+import UpdateNameByAdmin from './update_name_by_admin.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -45,10 +47,11 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             // getTeams,
             // loadRolesIfNeeded,
+            updateMe,
             patchUser,
             getUser,
         }, dispatch),
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdateProfileByAdmin));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdateNameByAdmin));
