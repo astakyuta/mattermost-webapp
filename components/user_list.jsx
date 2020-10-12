@@ -82,7 +82,7 @@ export default class UserList extends React.Component {
         }
 
         return (
-            <div ref='container'>
+            <div ref='container' style={{overflow: 'visible'}}>
                 {content}
             </div>
         );

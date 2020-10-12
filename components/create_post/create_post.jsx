@@ -37,6 +37,7 @@ import TutorialTip from 'components/tutorial/tutorial_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 import constants from "../gif_picker/utils/constants";
+import {isDesktopApp} from "../../utils/user_agent";
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -389,8 +390,6 @@ export default class CreatePost extends React.Component {
     }
 
     doSubmit = async (e) => { // ***
-        console.log('comes under do submit here');
-        console.log('this props under doSubmit: ', this.props);
         const channelId = this.props.currentChannel.id;
         if (e) {
             console.log("1");
@@ -544,6 +543,15 @@ export default class CreatePost extends React.Component {
             currentChannel: updateChannel,
             userIsOutOfOffice,
         } = this.props;
+
+        const isDesktop = isDesktopApp();
+        const a2wpayload = {
+            type: 'reply-sent',
+            message: {
+                isDesktop: isDesktop
+            }
+        };
+        window.postMessage(a2wpayload, '*');
 
         const currentMembersCount = this.props.currentChannelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;

@@ -19,6 +19,7 @@ export async function showNotification({title, body, channel, teamId, requireInt
 
     console.log('comes under show notification');
     console.log('under show notification props: ', notifyProp);
+
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;
