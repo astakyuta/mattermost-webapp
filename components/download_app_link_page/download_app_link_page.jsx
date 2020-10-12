@@ -139,7 +139,7 @@ export default class SelectTeam extends React.Component {
                             <h3>TeamCom is Available on Mac and Windows</h3>
                             <h4>NOTE: Ignore warnings and continue installation</h4>
                             <p>Please use the link below to download and install the app.</p>
-                            <a href="/static/downloads/TeamCom-5.1.3-mac.dmg" className='download-app-btn' target="_blank">
+                            <a href="/static/downloads/TeamCom-5.1.4-mac.dmg" className='download-app-btn' target="_blank">
                                 <img
                                     alt={'Mac OS'}
                                     className='download-logo'
@@ -147,7 +147,7 @@ export default class SelectTeam extends React.Component {
                                 />
                                 Mac App
                             </a>
-                            <a href="/static/downloads/TeamCom-setup-5.1.3-win.exe" className='download-app-btn' target="_blank">
+                            <a href="/static/downloads/TeamCom-setup-5.1.4-win.exe" className='download-app-btn' target="_blank">
                                 <img
                                     alt={'Windows OS'}
                                     className='download-logo'
