@@ -17,6 +17,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
 import GroupMessageOption from './group_message_option';
+import {getFullName} from "utils/utils";
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -363,7 +364,8 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     renderValue(props) {
-        return props.data.username;
+        // return props.data.username;
+        return getFullName(props.data);
     }
 
     handleSubmitImmediatelyOn = (value) => {

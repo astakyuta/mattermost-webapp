@@ -260,7 +260,6 @@ export default class Post extends React.PureComponent {
 
     render() {
         const {post} = this.props;
-        console.log('post value: ', post);
         if (!post.id) {
             return null;
         }
@@ -270,8 +269,6 @@ export default class Post extends React.PureComponent {
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
         const fromBot = post && post.props && post.props.from_bot === 'true';
-
-        console.log('fromautoresponder is as follows: ', fromAutoResponder);
 
         if(fromAutoResponder) {
             const timer = setTimeout(() => {
@@ -320,36 +317,36 @@ export default class Post extends React.PureComponent {
                 aria-label={this.state.currentAriaLabel}
                 aria-atomic={true}
             >
-                <div
-                    role='application'
-                    id='postContent'
-                    className={'post__content ' + centerClass}
-                    aria-hidden={this.state.ariaHidden}
-                >
-                    <div className='post__img'>
-                        {profilePic}
+                    <div
+                        role='application'
+                        id='postContent'
+                        className={'post__content ' + centerClass}
+                        aria-hidden={this.state.ariaHidden}
+                    >
+                        <div className='post__img'>
+                            {profilePic}
+                        </div>
+                        <div>
+                            <PostHeader
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                handleCardClick={this.handleCardClick}
+                                handleDropdownOpened={this.handleDropdownOpened}
+                                compactDisplay={this.props.compactDisplay}
+                                isFirstReply={this.props.isFirstReply}
+                                replyCount={this.props.replyCount}
+                                showTimeWithoutHover={!hideProfilePicture}
+                                hover={this.state.hover || this.state.a11yActive}
+                            />
+                            <PostBody
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                compactDisplay={this.props.compactDisplay}
+                                isCommentMention={this.props.isCommentMention}
+                                isFirstReply={this.props.isFirstReply}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <PostHeader
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            handleCardClick={this.handleCardClick}
-                            handleDropdownOpened={this.handleDropdownOpened}
-                            compactDisplay={this.props.compactDisplay}
-                            isFirstReply={this.props.isFirstReply}
-                            replyCount={this.props.replyCount}
-                            showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover || this.state.a11yActive}
-                        />
-                        <PostBody
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            compactDisplay={this.props.compactDisplay}
-                            isCommentMention={this.props.isCommentMention}
-                            isFirstReply={this.props.isFirstReply}
-                        />
-                    </div>
-                </div>
             </div>
         );
     }

@@ -54,7 +54,6 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                 <StatusIcon status={teammateStatus}/>
             );
         }
-        console.log('this getChannelTitle', this.getChannelTitle());
 
         return (
             <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}

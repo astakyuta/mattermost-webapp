@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AddIcon from 'components/icon/add_icon';
+import {getFullName} from "../../utils/utils";
 
 export default class GroupMessageOption extends React.Component {
     static propTypes = {
@@ -26,7 +27,7 @@ export default class GroupMessageOption extends React.Component {
     }
 
     displayName() {
-        return this.props.channel.profiles.map((profile) => '@' + profile.username).join(', ');
+        return this.props.channel.profiles.map((profile) => getFullName(profile)).join(', ');
     }
 
     addValue() {

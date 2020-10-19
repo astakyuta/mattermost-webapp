@@ -416,6 +416,7 @@
         }
 
         &.post--system {
+            display: none !important;
             .post__header {
                 .col__reply {
                     min-width: 45px;

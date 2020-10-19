@@ -1439,6 +1439,7 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
+
     let displayName = '@' + user.username;
     const fullName = getFullName(user);
 
@@ -1446,28 +1447,21 @@ export function displayEntireNameForUser(user) {
         displayName = (
             <span>
                 <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
-                {' - '}
-                {'@' + user.username}
             </span>
         );
     } else if (fullName) {
         displayName = (
             <span>
                 <span className='light'>{fullName}</span>
-                {' - '}
-                {'@' + user.username}
             </span>
         );
     } else if (user.nickname) {
         displayName = (
             <span>
                  <span className='light'>{'(' + user.nickname + ')'}</span>
-                {' - '}
-                {'@' + user.username}
             </span>
         );
     }
-
     return displayName;
 }
 
