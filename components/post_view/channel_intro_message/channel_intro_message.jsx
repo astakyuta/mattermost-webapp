@@ -91,18 +91,18 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
                 id={channelIntroId}
                 className={'channel-intro ' + centeredIntro}
             >
-                {/*<div className='post-profile-img__container channel-intro-img'>*/}
-                {/*    {pictures}*/}
-                {/*</div>*/}
-                {/*<p className='channel-intro-text'>*/}
-                {/*    <FormattedMarkdownMessage*/}
-                {/*        id='intro_messages.GM'*/}
-                {/*        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'*/}
-                {/*        values={{*/}
-                {/*            names: channel.display_name,*/}
-                {/*        }}*/}
-                {/*    />*/}
-                {/*</p>*/}
+                <div className='post-profile-img__container channel-intro-img'>
+                    {pictures}
+                </div>
+                <p className='channel-intro-text'>
+                    <FormattedMarkdownMessage
+                        id='intro_messages'
+                        defaultMessage='This is the start of your group message history. Your older messages may got deleted by admin if they set auto cleanup, for more details contact admin'
+                        values={{
+                            names: channel.display_name,
+                        }}
+                    />
+                </p>
                 {/*{createSetHeaderButton(channel)}*/}
             </div>
         );
@@ -115,8 +115,8 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
         >
             <p className='channel-intro-text'>
                 <FormattedMessage
-                    id='intro_messages.group_message'
-                    defaultMessage='This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.'
+                    id='intro_messages'
+                    defaultMessage='This is the start of your group message history. Your older messages may got deleted by admin if they set auto cleanup, for more details contact admin'
                 />
             </p>
         </div>
@@ -138,16 +138,16 @@ function createDMIntroMessage(channel, centeredIntro) {
                 id={channelIntroId}
                 className={'channel-intro ' + centeredIntro}
             >
-                {/*<div className='post-profile-img__container channel-intro-img'>*/}
-                {/*    <ProfilePicture*/}
-                {/*        src={Utils.imageURLForUser(teammate)}*/}
-                {/*        width='50'*/}
-                {/*        height='50'*/}
-                {/*        userId={teammate.id}*/}
-                {/*        username={teammate.username}*/}
-                {/*        hasMention={true}*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div className='post-profile-img__container channel-intro-img'>
+                    <ProfilePicture
+                        src={Utils.imageURLForUser(teammate)}
+                        width='50'
+                        height='50'
+                        userId={teammate.id}
+                        username={teammate.username}
+                        hasMention={true}
+                    />
+                </div>
                 {/*<div className='channel-intro-profile d-flex'>*/}
                 {/*    <UserProfile*/}
                 {/*        userId={teammate.id}*/}
@@ -155,15 +155,12 @@ function createDMIntroMessage(channel, centeredIntro) {
                 {/*        hasMention={true}*/}
                 {/*    />*/}
                 {/*</div>*/}
-                {/*<p className='channel-intro-text'>*/}
-                {/*    <FormattedMarkdownMessage*/}
-                {/*        id='intro_messages.DM'*/}
-                {/*        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'*/}
-                {/*        values={{*/}
-                {/*            teammate: teammateName,*/}
-                {/*        }}*/}
-                {/*    />*/}
-                {/*</p>*/}
+                <p className='channel-intro-text'>
+                    <FormattedMarkdownMessage
+                        id='intro_messages.DM'
+                        defaultMessage='This is the start of your message history. Your older messages may got deleted by admin if they set auto cleanup, for more details contact admin'
+                    />
+                </p>
                 {/*{teammate.is_bot ? null : createSetHeaderButton(channel)}*/}
             </div>
         );

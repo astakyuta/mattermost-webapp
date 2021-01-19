@@ -21,6 +21,7 @@ import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import LeaveTeamModal from 'components/leave_team_modal';
 import UserSettingsModal from 'components/user_settings/modal';
 import TeamMembersModal from 'components/team_members_modal';
+import MessageCleanupModal from "components/message_cleanup_modal";
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
@@ -310,6 +311,19 @@ export default class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.TEAM_MEMBERS}
                             dialogType={AutoResponderModal}
                             text={localizeMessage('navbar_dropdown.manageAutoResponse', 'Manage Auto Response')}
+                            icon={this.props.mobile && <i className='fa fa-users'/>}
+                        />
+                    </TeamPermissionGate>
+
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_TEAM]}
+                    >
+                        <MenuItemToggleModalRedux
+                            id='messageCleanup'
+                            modalId={ModalIdentifiers.TEAM_MEMBERS}
+                            dialogType={MessageCleanupModal}
+                            text={localizeMessage('', 'Manage Message Cleanup')}
                             icon={this.props.mobile && <i className='fa fa-users'/>}
                         />
                     </TeamPermissionGate>

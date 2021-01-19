@@ -538,34 +538,21 @@ export default class CreatePost extends React.Component {
     };
 
     handleSubmit = async (e) => {
-        console.log("comes under handle submit");
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
         } = this.props;
-
-        const isDesktop = isDesktopApp();
-        const a2wpayload = {
-            type: 'reply-sent',
-            message: {
-                isDesktop: isDesktop
-            }
-        };
-        window.postMessage(a2wpayload, '*');
 
         const currentMembersCount = this.props.currentChannelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
         if (notificationsToChannel &&
             currentMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             containsAtChannel(this.state.message)) {
-            console.log("h 1");
             if (this.props.isTimezoneEnabled) {
                 const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
                 if (data) {
-                    console.log("h 2");
                     this.setState({channelTimezoneCount: data.length});
                 } else {
-                    console.log("h 3");
                     this.setState({channelTimezoneCount: 0});
                 }
             }
@@ -575,7 +562,6 @@ export default class CreatePost extends React.Component {
 
         const status = this.getStatusFromSlashCommand();
         if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
-            console.log("h 4");
             const resetStatusModalData = {
                 ModalId: ModalIdentifiers.RESET_STATUS,
                 dialogType: ResetStatusModal,
@@ -589,7 +575,6 @@ export default class CreatePost extends React.Component {
         }
 
         if (trimRight(this.state.message) === '/header') {
-            console.log("h 5");
             const editChannelHeaderModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
                 dialogType: EditChannelHeaderModal,
@@ -602,12 +587,8 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        console.log('constants: ', constants);
-        console.log('update channel: ', updateChannel);
-
         const isDirectOrGroup = ((updateChannel.type === Constants.DM_CHANNEL) || (updateChannel.type === Constants.GM_CHANNEL));
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
-            console.log("h 6");
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
                 dialogType: EditChannelPurposeModal,
@@ -621,7 +602,6 @@ export default class CreatePost extends React.Component {
         }
 
         if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
-            console.log("h 7");
             GlobalActions.showChannelNameUpdateModal(updateChannel);
             this.setState({message: ''});
             return;
@@ -1011,6 +991,14 @@ export default class CreatePost extends React.Component {
     }
 
     handleBlur = () => {
+        const isDesktop = isDesktopApp();
+        const a2wpayload = {
+            type: 'reply-sent',
+            message: {
+                isDesktop: isDesktop
+            }
+        };
+        window.postMessage(a2wpayload, '*');
         this.lastBlurAt = Date.now();
     }
 
@@ -1301,6 +1289,7 @@ export default class CreatePost extends React.Component {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
+                                onFocus={this.handleFocus}
                                 emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
